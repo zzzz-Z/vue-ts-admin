@@ -1,16 +1,21 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
-export default new Vuex.Store({
+interface State {
+  requestMap: string[]
+}
+export default new Vuex.Store<State>({
   state: {
-
+    requestMap: []
   },
   mutations: {
-
-  },
-  actions: {
-
-  },
-});
+    addRequest(state, url: string) {
+      state.requestMap.push(url)
+    },
+    removeRequest(state, num: number) {
+      state.requestMap.splice(num, 1)
+    }
+  }
+})
