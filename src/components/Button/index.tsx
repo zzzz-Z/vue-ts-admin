@@ -23,10 +23,10 @@ export default class Button extends Vue {
     }
     return isShow && (
       this.text ?
-        <a  > {this.text} </a> :
+        <a> {this.text} </a> :
         <a-button
           {...{ props: this.config }} >
-          {this.html}
+          {this.html || this.$slots.default}
         </a-button>
     )
   }

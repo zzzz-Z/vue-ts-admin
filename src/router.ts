@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from '@/components/Layout';
+import home from './views/home';
 
 Vue.use(Router);
 
@@ -9,20 +10,28 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'Layout',
+      path: '/logmanage',
+      name: 'logmanage',
       component: Layout,
-      children: [],
       meta: {
-        name: 'home'
-      }
-    }, {
-      path: '/logmanage/operate',
-      name: 'Layout',
+        name: 'logmanage'
+      },
+      children: [{
+        path: 'operate',
+        name: 'operate',
+        component: home,
+        meta: {
+          name: 'operate'
+        }
+      }]
+    }
+    ,
+    {
+      path: '/monitor',
+      name: 'monitor',
       component: Layout,
-      children: [],
       meta: {
-        name: 'home'
+        name: 'logmanage'
       }
     }
   ],

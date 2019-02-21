@@ -20,21 +20,17 @@ export default class Siderbar extends Vue {
   @Prop() menuList!: itemConfig[]
   @Provide() openkeys: string[] = []
 
-  get defaultSelectedKeys() {
-    return this.$route.matched.map((r) => r.path)
-  }
-
   menuItem(r: itemConfig) {
     return (
       <a-item key={r.path}>
         {r.icon && <a-icon type={r.icon} />}
-        <span class='jumper'>{r.name}</span>
+        <span>{r.name}</span>
       </a-item>
     )
   }
   subItem(r: itemConfig) {
     return (
-      <a-sub-item onTitleClick={(e) => this.openkeys = [e.key]} >
+      <a-sub-item ref='sub' key={r.path} onTitleClick={(e) => this.openkeys = [e.key]} >
         <span slot='title'>
           <a-icon type={r.icon} />
           <span>{r.name}</span>
@@ -43,23 +39,26 @@ export default class Siderbar extends Vue {
       </a-sub-item>
     )
   }
+  menuClick({ keyPath, key }) {
+    keyPath ?
+      this.openkeys = [keyPath[keyPath.length - 1]] :
+      this.openkeys = []
+    this.$router.push(key)
 
+  }
+
+  created() {
+    this.openkeys = [this.$route.matched[0].path]
+  }
   render() {
-    console.log(this.$route);
-    console.log(this.defaultSelectedKeys);
     return (
       <a-menu
-        onClick={({ keyPath }) => {
-          keyPath ?
-            this.openkeys = [keyPath[keyPath.length - 1]] :
-            this.openkeys = []
-        }}
-        selectedKeys={this.defaultSelectedKeys}
-        defaultOpenKeys={['logmanage']}
-        defaultSelectedKeys={this.defaultSelectedKeys}
+        onClick={this.menuClick}
+        defaultSelectedKeys={[this.$route.path]}
         openKeys={this.openkeys}
         mode='inline'
-        style='height:100%;padding-top:60px' >
+        theme='dark'
+        style='padding:16px 0' >
         {this.menuList.map((r: itemConfig) => (
           r.children && r.children.length > 0
             ? this.subItem(r)

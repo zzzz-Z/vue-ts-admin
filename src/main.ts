@@ -9,7 +9,7 @@ import ViserVue from 'viser-vue'
 import request from '@/utils/request'
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
-
+import './r';
 
 Vue.use(antd)
 Vue.use(ViserVue);

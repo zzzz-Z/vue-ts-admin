@@ -5,6 +5,7 @@ import { FormItem } from '../Form/type';
 import ButtonProps from '../Button/type';
 import Ellipsis from '../Ellipsis';
 import { Card, Table, Button } from 'ant-design-vue';
+import Breadcrumb from '../Breadcrumb';
 
 
 interface ActionsType extends ButtonProps {
@@ -21,7 +22,7 @@ interface Props {
 @Component({
   // 大写开头的组件名 ts 会检查Props 的类型 不能使用解构的方式去传递props
   components: {
-    IButton ,
+    IButton,
     ACard: Card,
     ATable: Table,
     AButton: Button
@@ -92,7 +93,7 @@ export default class List extends Vue {
     const searchItems: any[] = this.isUp ? [...items] : [items[0], items[1]]
     const handle = {
       el: (form: any) => (
-        <div style='width:150px'>
+        <div  >
           <a-button
             style='margin-right:10px'
             type='primary'
@@ -103,21 +104,32 @@ export default class List extends Vue {
             type='primary'
             icon='reload'
             onClick={() => this.reload(form.getFieldsValue())} />
-          <a onClick={this.toggleForm} >{this.isUp ? '收起' : '展开'}</a>
+          <a
+            v-show={items.length > 2}
+            onClick={this.toggleForm} >
+            {
+              this.isUp ?
+                <span>收起<a-icon type='up' /></span> :
+                <span>展开<a-icon type='down' /></span>
+            }
+          </a>
         </div>
       )
     }
     return (
       <IForm
-        style='float:right'
+        iStyle='padding:10px 0'
         layout='inline'
+        style={this.isUp || 'position:absolute;right:0;top:1px;z-index:999'}
         formItems={[...searchItems, handle]} />
     )
+
   }
   renderHeader() {
     const bodyStyle = {
-      padding: '32px 24px 16px',
+      padding: '15px 0',
       borderRadius: 0,
+      minHeight: '70px',
       border: 0,
       ...this.bodyStyle,
     }
@@ -125,31 +137,30 @@ export default class List extends Vue {
       <a-card
         bodyStyle={bodyStyle}
         bordered={false} >
-        <div style='float:left;line-height:39.9px'>
-          {
-            (this.actions as any).map((props) =>
-              <i-button nativeOnClick={() => {
-                console.log(111);
-              }} {...{ props }} />
-            )}
+        <div>
+          {(this.actions as any).map((props) =>
+            <i-button nativeOnClick={() => props.click(this)} {...{ props }} />
+          )}
         </div>
         {this.renderSearch}
-      </a-card>
+      </a-card >
     )
   }
 
   render() {
     return (
-      <div style='background:#fff'>
-        {this.renderHeader()}
-        <a-table
-          style='background:#fff'
-          pagination={this.pagination}
-          dataSource={this.dataSource}
-          loading={this.loading}
-          rowSelection={this.rowSelection}
-          columns={this._columns}>
-        </a-table>
+      <div >
+        <Breadcrumb />
+        <div style='background:#fff;margin:10px;padding:10px 10px'>
+          {this.renderHeader()}
+          <a-table
+            pagination={this.pagination}
+            dataSource={this.dataSource}
+            loading={this.loading}
+            rowSelection={this.rowSelection}
+            columns={this._columns}>
+          </a-table>
+        </div>
       </div>
     )
   }
