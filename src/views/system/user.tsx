@@ -2,7 +2,7 @@ import { Component, Vue} from 'vue-property-decorator'
 import List from '@/components/List'
 
 @Component({})
-export default class Home extends Vue {
+export default class User extends Vue {
 
   render() {
     const columns = (t) => [{

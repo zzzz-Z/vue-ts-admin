@@ -8,9 +8,16 @@ import moment from 'moment'
 import ViserVue from 'viser-vue'
 import request from '@/utils/request'
 import 'moment/locale/zh-cn';
+import { setStorage } from './utils/storage';
+import setNewRouteList from './test';
 moment.locale('zh-cn');
-import './r';
 
+request.get('/role.json').then((res: any) => {
+  const routes = setNewRouteList(res)
+  setStorage('menus', routes)
+  router.addRoutes(routes)
+
+})
 Vue.use(antd)
 Vue.use(ViserVue);
 Vue.prototype.$form = Form

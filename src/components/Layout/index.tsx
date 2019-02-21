@@ -7,18 +7,13 @@ interface Props { }
 export default class extends Vue {
   readonly Props!: Props
 
-  @Provide() menuList = []
-  created() {
-    this.Axios.get('/role.json').then((res: any) => {
-      this.menuList = res
-    })
-  }
+
   render() {
     return (
       <a-layout id='components-layout-demo-basic' >
         <a-layout-sider width={220}>
           <div class='logo' ></div>
-          <Siderbar menuList={this.menuList} />
+          <Siderbar />
         </a-layout-sider>
         <a-layout>
           <a-layout-header>

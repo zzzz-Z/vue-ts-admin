@@ -1,11 +1,9 @@
 import { Component, Vue, Prop, Provide } from 'vue-property-decorator'
 import { Menu } from 'ant-design-vue';
 import { RouteConfig } from 'vue-router';
+import { getStorage } from '@/utils/storage';
 
 type itemConfig = RouteConfig & { icon: string }
-interface Props {
-  menuList: itemConfig[]
-}
 
 @Component({
   components: {
@@ -15,25 +13,30 @@ interface Props {
   }
 })
 export default class Siderbar extends Vue {
-  readonly Props!: Props
 
-  @Prop() menuList!: itemConfig[]
   @Provide() openkeys: string[] = []
+  @Provide() menuList: any[] = []
+
+  created() {
+    this.openkeys = [this.$route.matched[0].path]
+    this.menuList = getStorage('menus')
+
+  }
 
   menuItem(r: itemConfig) {
     return (
-      <a-item key={r.path}>
+      <a-item key={r.meta.path}>
         {r.icon && <a-icon type={r.icon} />}
-        <span>{r.name}</span>
+        <span>{r.meta.name}</span>
       </a-item>
     )
   }
   subItem(r: itemConfig) {
     return (
-      <a-sub-item ref='sub' key={r.path} onTitleClick={(e) => this.openkeys = [e.key]} >
+      <a-sub-item ref='sub' key={r.meta.path} onTitleClick={(e) => this.openkeys = [e.key]} >
         <span slot='title'>
           <a-icon type={r.icon} />
-          <span>{r.name}</span>
+          <span>{r.meta.name}</span>
         </span>
         {(r.children as itemConfig[]).map((i) => this.menuItem(i))}
       </a-sub-item>
@@ -47,9 +50,6 @@ export default class Siderbar extends Vue {
 
   }
 
-  created() {
-    this.openkeys = [this.$route.matched[0].path]
-  }
   render() {
     return (
       <a-menu

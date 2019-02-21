@@ -2,37 +2,26 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from '@/components/Layout';
 import home from './views/home';
+import User from './views/system/user';
 
 Vue.use(Router);
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/logmanage',
-      name: 'logmanage',
+  routes: [{
+      path: '/',
+      name: '主页',
       component: Layout,
       meta: {
-        name: 'logmanage'
+        name: '主页'
       },
       children: [{
-        path: 'operate',
-        name: 'operate',
-        component: home,
-        meta: {
-          name: 'operate'
-        }
-      }]
-    }
-    ,
-    {
-      path: '/monitor',
-      name: 'monitor',
-      component: Layout,
-      meta: {
-        name: 'logmanage'
+        path: '',
+        name: '11',
+        component: User
       }
+      ]
     }
   ],
 });
