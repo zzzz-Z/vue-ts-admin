@@ -1,6 +1,5 @@
+import router from '@/router';
 import Axios from 'axios'
-import router from '@/router'
-import store from '@/store'
 import { message } from 'ant-design-vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'

@@ -37,9 +37,9 @@ module.exports = {
     // 设置代理
     proxy: {
       '/rest': {
-        // target: 'http://192.168.7.194:8884/rest',
+        target: 'http://192.168.7.174:8884/rest',
         // target: 'http://192.168.7.174:8884/rest',
-        target: 'http://115.28.223.20:8884/rest',
+        // target: 'http://115.28.223.20:8884/rest',
         changeOrigin: true,
         pathRewrite: {
           '^/rest': ''

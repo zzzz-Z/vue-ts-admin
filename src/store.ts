@@ -1,21 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { setStorage } from './utils/storage';
 
 Vue.use(Vuex)
 
 interface State {
-  requestMap: string[]
+  asyncRoutes: any[]
 }
 export default new Vuex.Store<State>({
   state: {
-    requestMap: []
+    asyncRoutes: []
   },
   mutations: {
-    addRequest(state, url: string) {
-      state.requestMap.push(url)
-    },
-    removeRequest(state, num: number) {
-      state.requestMap.splice(num, 1)
+    saveAsyncRoutes(state, asyncRoutes: any[]) {
+      setStorage('asyncRoutes', asyncRoutes)
+      state.asyncRoutes = asyncRoutes
     }
   }
 })

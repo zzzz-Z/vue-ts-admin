@@ -1,5 +1,5 @@
 import { Component, Vue, Provide } from 'vue-property-decorator'
-import Siderbar from './Siderbar'
+import Siderbar from './siderbar'
 import './index.less'
 
 interface Props { }

@@ -22,39 +22,41 @@ export default class Form extends Vue {
   created() {
     this.form = this.$form.createForm(this)
   }
+  renderItem() {
+    return  this.formItems.map((props) => {
+      const rules = (
+        typeof props.rules === 'function' ?
+          props.rules(this.form) :
+          props.rules
+      )
+      const element = (
+        props.el ?
+          props.el(this.form) :
+          <a-input type={props.type} />
+      )
+      props = {
+        labelCol: this.labelCol,
+        wrapperCol: this.wrapperCol,
+        ...props
+      }
+      return (
+        <a-form-item  {...{ props }} style={props.style || this.iStyle} >
+          {
+            props.field ?
+              this.form.getFieldDecorator(props.field, { rules, initialValue: props.initialValue })(element) :
+              element
+          }
+        </a-form-item>
+      )
+    })
+  }
   render() {
     return (
       <a-row>
         <a-form layout={this.layout} >
-          {this.formItems.map((props) => {
-            const rules = (
-              typeof props.rules === 'function' ?
-                props.rules(this.form) :
-                props.rules
-            )
-            const element = (
-              props.el ?
-                props.el(this.form) :
-                <a-input type={props.type} />
-            )
-            props = {
-              labelCol: this.labelCol,
-              wrapperCol: this.wrapperCol,
-              ...props
-            }
-            return (
-              <a-col style={this.layout !== 'inline' || 'display:inline-block'}>
-                <a-form-item  {...{ props }} style={props.style || this.iStyle} >
-                  {
-                    props.field ?
-                      this.form.getFieldDecorator(props.field, { rules, initialValue: props.initialValue })(element) :
-                      element
-                  }
-                </a-form-item>
-              </a-col>
-            )
-          })
-          }
+          <a-col style={this.layout !== 'inline' || 'display:inline-block'}>
+            {this.renderItem()}
+          </a-col>
         </a-form>
       </a-row>
     )
