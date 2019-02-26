@@ -4,8 +4,7 @@ interface Props extends JSX.FunctionalComponentCtx {
   str?: string
 }
 
-export default (ctx: Props) => {
-  const { props, children } = ctx
+export default ({props, children}: Props) => {
   const innerText = children && children.map((item) => item.text).join('')
   const str = innerText || props.str
   const fullLength = getStrFullLength(str)

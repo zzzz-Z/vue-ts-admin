@@ -2,6 +2,7 @@ import { Component, Vue, Provide, Watch } from 'vue-property-decorator';
 import './style.less'
 import getAsyncRoute, { squeeze } from '@/router/permission';
 import { setStorage } from '@/utils/storage';
+import Trend from '@/components/Trend';
 
 
 @Component({})
@@ -55,6 +56,7 @@ export default class Login extends Vue {
 
     return (
       <div id='login' onKeydown={(e) => e.keyCode === 13 && this.login()} >
+        <Trend flag='down'>111</Trend>
         <p>
           <span class='bold'> Design by </span>Village barber <span style='color:#000' >Tony</span> &
           <a-icon type='heart' theme='twoTone' twoToneColor='#eb2f96' />
