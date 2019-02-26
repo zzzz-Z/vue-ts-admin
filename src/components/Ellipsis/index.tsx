@@ -1,5 +1,23 @@
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import { Tooltip } from 'ant-design-vue';
+interface Props extends JSX.FunctionalComponentCtx {
+  length: number
+  width?: number
+  str?: string
+}
+
+export default (ctx: Props) => {
+  const { props, children } = ctx
+  const innerText = children && children.map((item) => item.text).join('')
+  const str = innerText || props.str
+  const fullLength = getStrFullLength(str)
+  const cutStr = cutStrByFullLength(str, props.length)
+  const title = props.width ? <div style={`width:${props.width}px`}> {str} </div > : str
+  return (
+    <a-tooltip title={title}>
+      {fullLength >= props.length + 3 ? cutStr + '...' : str}
+    </a-tooltip>
+  )
+}
+
 
 export const getStrFullLength = (str = '') =>
   str.split('').reduce((pre, cur) => {
@@ -26,29 +44,3 @@ export const cutStrByFullLength = (str = '', maxLength) => {
   }, '');
 };
 
-interface Props {
-  length: number
-  width?: number
-  str?: string
-
-}
-@Component({ components: { ATooltip: Tooltip } })
-export default class Ellipsis extends Vue {
-  readonly Props!: Props
-  @Prop() str?: string
-  @Prop() length!: number
-  @Prop() width?: number
-
-  render() {
-    const innerText = this.$slots.default && this.$slots.default.map((vNode) => vNode.text).join('')
-    const str = innerText || this.str
-    const fullLength = getStrFullLength(str)
-    const cutStr = cutStrByFullLength(str, this.length)
-    const title = this.width ? <div style={`width:${this.width}px`}> {str} </div > : str
-    return (
-      <a-tooltip title={title}>
-        {fullLength >= this.length + 3 ? cutStr + '...' : str}
-      </a-tooltip>
-    )
-  }
-}
