@@ -1,8 +1,18 @@
-import Vue, { VNode } from 'vue';
+import Vue, { VNode } from 'vue'
 
 declare global {
 
   namespace JSX {
+    interface FunctionalComponentCtx {
+      props?: any
+      children?: any
+      data?: any
+      parent?: any
+      listeners?: any
+      scopedSlots?: any
+      injections?: any
+      slots?: any
+    }
     // tslint:disable no-empty-interface
     interface Element extends VNode { }
     // tslint:disable no-empty-interface
@@ -17,7 +27,7 @@ declare global {
       key?: any
     }
     interface IntrinsicElements {
-      [elem: string]: any;
+      [elem: string]: any
     }
   }
 }
