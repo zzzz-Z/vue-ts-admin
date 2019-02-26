@@ -1,17 +1,24 @@
-#components-layout-demo-basic {
-  height: 100%
+#layout {
+  height: 100%;
+  .ant-layout-header{
+    box-shadow: 0 1px 4px rgba(0,21,41,.08);
+    background: #fff;
+  }
+  .ant-layout-content{
+    overflow: scroll
+  }
+  .logo {
+    position: relative;
+    height: 64px;
+    padding-left: 24px;
+    overflow: hidden;
+    line-height: 64px;
+    background: #002140;
+    transition: all .3s;
+  }
+  .footer{
+    padding: 0 16px;
+    text-align: center;
+  }
 }
 
-.logo {
-  position: relative;
-  height: 64px;
-  padding-left: 24px;
-  overflow: hidden;
-  line-height: 64px;
-  background: #002140;
-  transition: all .3s;
-}
-.footer{
-  padding: 0 16px;
-  text-align: center;
-}

@@ -34,9 +34,10 @@ export function getStorage(key: string) {
       const v = JSON.parse(value)
       if (v.expires && v.expires < Date.now()) {
         removeStorage(key)
+        console.error('已过期字段:' + key);
         return undefined
       }
-      return v
+      return v[key]
     }
   } catch (error) {
     return value

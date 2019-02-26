@@ -3,21 +3,23 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import antd, { Form } from 'ant-design-vue'
+import antd from 'ant-design-vue'
 import moment from 'moment'
 import ViserVue from 'viser-vue'
 import request from '@/utils/request'
 import 'moment/locale/zh-cn'
-import routerMap from './router/router.map';
+import { getStorage } from './utils/storage';
+import getAsyncRoute from './router/permission';
 
 moment.locale('zh-cn')
 
-router.addRoutes(routerMap)
-console.log(router);
+const roleRoutes = getStorage('roleRoutes')
+if (roleRoutes) {
+  router.addRoutes(getAsyncRoute(roleRoutes))
+}
 
 Vue.use(antd)
 Vue.use(ViserVue)
-Vue.prototype.$form = Form
 
 Vue.prototype.Axios = request // 全局请求函数
 // Vue.prototype.validator = validator // 全局表单验证

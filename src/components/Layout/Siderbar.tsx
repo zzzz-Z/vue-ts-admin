@@ -59,7 +59,7 @@ export default class Siderbar extends Vue {
         defaultSelectedKeys={[this.$route.path]}
         openKeys={this.openkeys}
         mode='inline'
-        theme='dark'
+        theme='light'
         style='padding:16px 0' >
         {this.menuList.map((r: itemConfig) => (
           r.children && r.children.length > 0

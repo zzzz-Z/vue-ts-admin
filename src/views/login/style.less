@@ -1,0 +1,58 @@
+#login {
+  width: 300px;
+  padding-top: 200px;
+  margin: 0 auto;
+
+  .bold {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .input {
+    padding-top: 30px;
+    position: relative
+  }
+
+  input {
+    border: none;
+    outline: 0;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    display: block;
+    position: relative;
+    background: transparent;
+    z-index: 1;
+
+    &:focus~.bottom {
+      border: 1px solid #eb2f96;
+      width: 100%
+    }
+
+    &:focus~.label {
+      top: 5px;
+      color: #000
+    }
+  }
+
+  .label {
+    position: absolute;
+    transition: .5s;
+    top: 27px;
+    left: 5px;
+    color: rgba(0, 0, 0, .3)
+  }
+
+  .bottom {
+    transition: 0.7s all;
+    width: 0;
+    border: 1px solid transparent;
+    position: relative;
+    top: -1px;
+
+  }
+
+  .button {
+    margin-top: 10px;
+    transition: 0.5s;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "message": "登录成功",
+  "errorCode": 0,
+  "role": [{
+    "path": "/system",
+    "name": "系统管理",
+    "icon": "user",
+    "children": [{
+      "name": "用户",
+      "path": "/system/user"
+    }]
+  }]
+}

@@ -1,46 +1,12 @@
 import Layout from '@/components/Layout';
 import User from '@/views/system/user';
 
-export default [{
-  path: '/oneItem',
-  component: Layout,
-  meta: {
-    icon: 'user',
-    name: 'home',
-    path: '/home'
-  },
-  children: [{
-    path: '',
-    component: () => import('@/views/home'),
-    meta: {
-      icon: 'user',
-      name: 'home',
-      path: '/oneItem'
-    }
-  }]
-}, {
-  path: '/user',
-  component: Layout,
-  meta: {
-    icon: 'user',
-    name: 'user',
-    path: '/user'
-  },
-  children: [{
-    path: '',
-    component: User,
-    meta: {
-      icon: 'user',
-      name: 'i11111111111',
-      path: '/user'
-    }
-  }]
-}, {
+const routerMap = [{
   path: '/system',
   component: Layout,
   meta: {
     icon: 'user',
-    name: 'system',
+    name: '系统管理',
     path: '/system'
   },
   children: [{
@@ -48,10 +14,10 @@ export default [{
     name: 'user',
     component: User,
     meta: {
-      icon: 'user',
-      name: 'user',
+      name: '用户',
       path: '/system/user'
     }
   }]
 }
 ]
+export default routerMap

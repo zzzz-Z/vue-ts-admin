@@ -35,8 +35,11 @@ interface Props {
 @Component({ components: { ATooltip: Tooltip } })
 export default class Ellipsis extends Vue {
   readonly Props!: Props
+  /** expect text */
   @Prop() str?: string
+  /** 截取长度 */
   @Prop() length!: number
+  /** tooltip width */
   @Prop() width?: number
 
   render() {

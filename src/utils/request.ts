@@ -4,6 +4,7 @@ import { message } from 'ant-design-vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import config from '@/config';
+import { getStorage } from './storage';
 
 
 const request = Axios.create({
@@ -12,12 +13,12 @@ const request = Axios.create({
 })
 
 /**
- * Do somethings before Requests
+ *
  * request全局请求参数设置，请求及返回拦截器
  */
 request.interceptors.request.use((cf) => {
   // store.CancelToken = store.commit('saveRequest', request.CancelToken.source())
-  cf.headers['Authentication-Token'] = window.sessionStorage.getItem('token') || ''
+  cf.headers['Authentication-Token'] = getStorage('token') || ''
   NProgress.start()
   return cf
 })

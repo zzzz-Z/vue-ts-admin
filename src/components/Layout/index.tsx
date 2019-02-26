@@ -10,7 +10,7 @@ export default class extends Vue {
 
   render() {
     return (
-      <a-layout id='components-layout-demo-basic' >
+      <a-layout id='layout' >
         <a-layout-sider width={220}>
           <div class='logo' ></div>
           <Siderbar />
