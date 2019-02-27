@@ -20,6 +20,7 @@ export default ({
     ...props
   }
 }: Props) => {
+
   const renderNode = (arr) => arr.map((r) => (
     <a-tree-node
       props={nodeProps}
