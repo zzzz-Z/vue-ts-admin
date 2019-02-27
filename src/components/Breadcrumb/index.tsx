@@ -6,7 +6,7 @@ export default ({ parent }: any) => {
     }
   }
   return (
-    <a-breadcrumb style='background:#fff;padding:15px 25px;border-bottom:1px solid #F0F0F0;margin-bottom:20px'>
+    <a-breadcrumb style='background:#fff;padding:25px 25px;border-bottom:1px solid #F0F0F0;margin:-24px -24px 20px'>
       {routes.map((r, i) => (
         <a-breadcrumb-item key={i} >
           {

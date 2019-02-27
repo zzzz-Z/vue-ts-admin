@@ -72,4 +72,5 @@ export interface Props {
   labelCol?: any
   wrapperCol?: any
   iStyle?: string
+  col?: any
 }

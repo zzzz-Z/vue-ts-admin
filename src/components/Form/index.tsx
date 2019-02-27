@@ -11,6 +11,8 @@ export default class Form extends Vue {
   @Prop({ required: true }) formItems!: FormItem[]
   /** 所有item的labelCol  会被单项指定值覆盖 */
   @Prop() labelCol?: any
+  /** item col 配置 */
+  @Prop() col?: any
   /** 所有item的wrapperCol 会被单项指定值覆盖 */
   @Prop() wrapperCol?: any
   /** 所有formitem的style 若指定formItems的style属性 则被覆盖 */
@@ -42,13 +44,15 @@ export default class Form extends Vue {
         ...props
       }
       return (
-        <a-form-item  {...{ props }} style={props.style || this.iStyle} >
-          {
-            props.field ?
-              this.form.getFieldDecorator(props.field, { rules, initialValue: props.initialValue })(element) :
-              element
-          }
-        </a-form-item>
+        <a-col {...{props: this.col}} >
+          <a-form-item  {...{ props }} style={props.style || this.iStyle} >
+            {
+              props.field ?
+                this.form.getFieldDecorator(props.field, { rules, initialValue: props.initialValue })(element) :
+                element
+            }
+          </a-form-item>
+        </a-col>
       )
     })
   }
@@ -56,9 +60,7 @@ export default class Form extends Vue {
     return (
       <a-row>
         <a-form layout={this.layout} >
-          <a-col style={this.layout !== 'inline' || 'display:inline-block'}>
-            {this.renderItem()}
-          </a-col>
+          {this.renderItem()}
         </a-form>
       </a-row>
     )

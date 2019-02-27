@@ -61,9 +61,9 @@ export default class Home extends Vue {
           actions={[{
             click: (target: List) => { console.log(target) },
             config: {
-              type: 'danger'
+              type: 'primary'
             },
-            html: 'button',
+            html: '新建',
           }]}
         />
       </div>

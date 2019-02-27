@@ -1,5 +1,7 @@
 import Layout from '@/components/Layout';
+import Video from '@/components/Video/index.vue';
 import User from '@/views/system/user';
+import Home from '@/views/home';
 
 const routerMap = [{
   path: '/system',
@@ -16,6 +18,22 @@ const routerMap = [{
     meta: {
       name: '用户',
       path: '/system/user'
+    }
+  }, {
+    path: 'home',
+    name: 'home',
+    component: Home,
+    meta: {
+      name: 'home',
+      path: '/system/home'
+    }
+  }, {
+    path: 'video',
+    name: 'video',
+    component: Video,
+    meta: {
+      name: 'video',
+      path: '/system/video'
     }
   }]
 }

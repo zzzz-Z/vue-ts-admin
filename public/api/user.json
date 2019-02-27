@@ -8,6 +8,12 @@
     "children": [{
       "name": "用户",
       "path": "/system/user"
+    },{
+      "name": "home",
+      "path": "/system/home"
+    },{
+      "name": "video",
+      "path": "/system/video"
     }]
   }]
 }

@@ -6,7 +6,7 @@ import ButtonProps from '../Button/type';
 import Ellipsis from '../Ellipsis';
 import { Card, Table, Button } from 'ant-design-vue';
 import Breadcrumb from '../Breadcrumb';
-
+import './index.less'
 
 interface ActionsType extends ButtonProps {
   click: (t: any) => any
@@ -42,7 +42,11 @@ export default class List extends Vue {
   @Provide() dataSource = []
   @Provide() totalSize = 0
   @Provide() loading = false
-  @Provide() pagination = {}
+  @Provide() pagination = {
+    showSizeChanger: true,
+    showQuickJumper: true,
+    defaultPageSize: 15
+  }
   @Provide() rowSelection = {}
   @Provide() baseParams = {
     pageSize: 12,
@@ -93,7 +97,7 @@ export default class List extends Vue {
     const searchItems: any[] = this.isUp ? [...items] : [items[0], items[1]]
     const handle = {
       el: (form: any) => (
-        <div  >
+        <div style='margin-left:30px' >
           <a-button
             style='margin-right:10px'
             type='primary'
@@ -118,16 +122,20 @@ export default class List extends Vue {
     }
     return (
       <IForm
-        iStyle='padding:10px 0'
+        iStyle='padding:0 0 10px;'
         layout='inline'
-        style={this.isUp || 'position:absolute;right:0;top:1px;z-index:999'}
+        class='header-search'
+        col={{
+          lg: 5,
+          md: 24
+        }}
         formItems={[...searchItems, handle]} />
     )
 
   }
   renderHeader() {
     const bodyStyle = {
-      padding: '15px 0',
+      padding: '0 0 15px',
       borderRadius: 0,
       minHeight: '70px',
       border: 0,
@@ -137,12 +145,12 @@ export default class List extends Vue {
       <a-card
         bodyStyle={bodyStyle}
         bordered={false} >
+        {this.renderSearch}
         <div>
           {(this.actions as any).map((props) =>
             <i-button nativeOnClick={() => props.click(this)} {...{ props }} />
           )}
         </div>
-        {this.renderSearch}
       </a-card >
     )
   }
@@ -151,7 +159,7 @@ export default class List extends Vue {
     return (
       <div >
         <Breadcrumb />
-        <div style='background:#fff;margin:10px;padding:10px 10px'>
+        <div style='background:#fff;padding:25px'>
           {this.renderHeader()}
           <a-table
             pagination={this.pagination}
