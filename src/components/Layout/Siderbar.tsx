@@ -33,11 +33,11 @@ export default class Siderbar extends Vue {
   }
   subItem(r: itemConfig) {
     return (
-      <a-sub-item
-        key={r.meta.path}
-        onTitleClick={(e) => this.openkeys = this.openkeys[0] === e.key ? [] : [e.key]} >
+      <a-sub-item ref='sub' key={r.meta.path} onTitleClick={(e) => {
+        this.openkeys = [e.key]
+      }} >
         <span slot='title'>
-          <a-icon type={r.meta.icon} />
+          <a-icon type={r.icon} />
           <span>{r.meta.name}</span>
         </span>
         {(r.children as itemConfig[]).map((i) => this.menuItem(i))}

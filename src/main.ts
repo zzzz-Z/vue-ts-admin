@@ -13,7 +13,6 @@ import routerMap from './router/router.map';
 moment.locale('zh-cn')
 
 router.addRoutes(routerMap)
-console.log(router);
 
 Vue.use(antd)
 Vue.use(ViserVue)

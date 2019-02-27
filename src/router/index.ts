@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from '@/components/Layout';
 import User from '../views/system/user';
-import routerMap from './router.map';
+import Login from '@/views/login';
 
 Vue.use(Router);
 
@@ -16,9 +16,9 @@ export default new Router({
       name: '主页'
     },
     children: [{
-      path: '',
-      name: 'user',
-      component: User
+      path: 'login',
+      name: 'login',
+      component: Login
     }
     ]
   },
