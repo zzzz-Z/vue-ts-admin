@@ -1,40 +1,27 @@
 import { Component, Vue, Provide, Prop } from 'vue-property-decorator'
 import IForm from '../Form'
-import IButton from '../Button';
 import { FormItem } from '../Form/type';
-import ButtonProps from '../Button/type';
 import Ellipsis from '../Ellipsis';
-import { Card, Table, Button } from 'ant-design-vue';
 import Breadcrumb from '../Breadcrumb';
 import './index.less'
 
-interface ActionsType extends ButtonProps {
-  click: (t: any) => any
-}
+
 interface Props {
-  columns: (t) => any[]
+  columns: (t: List) => any[]
   url: string
   searchItems?: FormItem[]
-  actions?: ActionsType[]
+  actions?: (t: List) => JSX.Element[]
   bodyStyle?: object
 }
 
-@Component({
-  // 大写开头的组件名 ts 会检查Props 的类型 不能使用解构的方式去传递props
-  components: {
-    IButton,
-    ACard: Card,
-    ATable: Table,
-    AButton: Button
-  }
-})
+@Component({})
 export default class List extends Vue {
 
   readonly Props!: Props
   @Prop() columns
   @Prop() url
   @Prop({ default: () => ([]) }) searchItems?: any[]
-  @Prop({ default: () => ([]) }) actions?: ActionsType[]
+  @Prop({ default: () => ([]) }) actions?: (t: List) => JSX.Element[]
   @Prop() bodyStyle
 
   @Provide() baseUrl = '/'
@@ -146,11 +133,7 @@ export default class List extends Vue {
         bodyStyle={bodyStyle}
         bordered={false} >
         {this.renderSearch}
-        <div>
-          {(this.actions as any).map((props) =>
-            <i-button nativeOnClick={() => props.click(this)} {...{ props }} />
-          )}
-        </div>
+        {this.actions && <div>{this.actions(this)}</div>}
       </a-card >
     )
   }

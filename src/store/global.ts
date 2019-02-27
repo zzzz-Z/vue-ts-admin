@@ -1,6 +1,8 @@
 import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
 import { setStorage } from '../utils/storage';
 import store from './index';
+import router from '@/router';
+import getAsyncRoute from '@/router/permission';
 
 @Module({ dynamic: true, store, name: 'GlobalStore' })
 class Global extends VuexModule {
@@ -8,6 +10,7 @@ class Global extends VuexModule {
 
   @Mutation
   saveAsyncRoutes(asyncRoutes: any) {
+    router.addRoutes(getAsyncRoute(asyncRoutes))
     setStorage('asyncRoutes', asyncRoutes)
     this.asyncRoutes = asyncRoutes
   }

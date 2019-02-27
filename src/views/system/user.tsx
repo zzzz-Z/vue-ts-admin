@@ -1,5 +1,6 @@
 import { Component, Vue} from 'vue-property-decorator'
 import List from '@/components/List'
+import Button from '@/components/Button';
 
 @Component({})
 export default class User extends Vue {
@@ -59,13 +60,11 @@ export default class User extends Vue {
           url='/list.json'
           columns={columns}
           searchItems={searchItems}
-          actions={[{
-            click: (target: List) => { console.log(target) },
-            config: {
-              type: 'primary'
-            },
-            html: 'primary',
-          }]}
+          actions={(t) => {
+            return [
+              <Button config={{type: 'primary'}} html='新建' onClick={() => { console.log(t) }} />
+            ]
+          }}
         />
       </div>
     )

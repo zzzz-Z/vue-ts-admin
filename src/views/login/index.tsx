@@ -1,8 +1,6 @@
 import { Component, Vue, Provide, Watch } from 'vue-property-decorator';
-import getAsyncRoute, { squeeze } from '@/router/permission';
-import { setStorage } from '@/utils/storage';
-import Trend from '@/components/Trend';
 import './style.less'
+import GlobalStore from '@/store/global';
 
 @Component({})
 export default class Login extends Vue {
@@ -40,9 +38,7 @@ export default class Login extends Vue {
     this.Axios.get('/user.json').then((res: any) => {
       if (!res.errorCode) {
         this.$message.success(res.message)
-        const asyncRoute = getAsyncRoute(res.role)
-        setStorage('roleRoutes', res.role)
-        this.$router.addRoutes(asyncRoute)
+        GlobalStore.saveAsyncRoutes(res.role)
         this.$router.push('/system/user')
       } else {
         this.$message.error('登录失败:' + res.message)
@@ -55,8 +51,8 @@ export default class Login extends Vue {
 
     return (
       <a-row type='flex'>
-        <a-col lg={{span: 4}} md={{span: 10}} sm={{span: 20}} id='login'>
-          <div  onKeydown={(e) => e.keyCode === 13 && this.login()} >
+        <a-col lg={{ span: 4 }} md={{ span: 10 }} sm={{ span: 20 }} id='login'>
+          <div onKeydown={(e) => e.keyCode === 13 && this.login()} >
             <p>
               <span class='bold'> Design by </span>Village barber <span style='color:#000' >Tony</span> &
               <a-icon type='heart' theme='twoTone' twoToneColor='#eb2f96' />

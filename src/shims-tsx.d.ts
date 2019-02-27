@@ -1,20 +1,17 @@
-import Vue, { VNode } from 'vue'
+import Vue, { VNode, VNodeData } from 'vue'
 
 declare global {
-
   namespace JSX {
     interface FunctionalComponentCtx {
-      style?: any
-      class?: any
-      ref?: any
       props?: any
-      children?: any
-      data?: any
-      parent?: any
+      children?: VNode[]
+      data?: VNodeData
+      parent?: Vue
       listeners?: any
       scopedSlots?: any
       injections?: any
       slots?: any
+      [key: string]: any
     }
     // tslint:disable no-empty-interface
     interface Element extends VNode { }

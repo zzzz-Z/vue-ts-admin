@@ -2,6 +2,7 @@ import Layout from '@/components/Layout';
 import Video from '@/components/Video/index.vue';
 import User from '@/views/system/user';
 import Home from '@/views/home';
+import Permission from '@/views/system/permission';
 
 const routerMap = [{
   path: '/system',
@@ -28,12 +29,12 @@ const routerMap = [{
       path: '/system/home'
     }
   }, {
-    path: 'video',
-    name: 'video',
-    component: Video,
+    path: 'permission',
+    name: 'permission',
+    component: Permission,
     meta: {
-      name: 'video',
-      path: '/system/video'
+      name: 'permission',
+      path: '/system/permission'
     }
   }]
 }

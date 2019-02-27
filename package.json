@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --report",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e"
@@ -31,11 +31,14 @@
     "@vue/cli-service": "^3.0.0-rc.12",
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-core": "7.0.0-bridge.0",
+    "babel-plugin-import": "^1.11.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "ts-jest": "^24.0.0",
     "typescript": "^3.0.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "compression-webpack-plugin": "^2.0.0",
+    "webpack-bundle-analyzer": "^3.0.4"
   },
   "postcss": {
     "plugins": {

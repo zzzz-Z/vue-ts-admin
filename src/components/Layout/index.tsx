@@ -17,7 +17,7 @@ export default class extends Vue {
         v-model={this.collapsed}
         width={256}>
           <div class='logo' ></div>
-          <Siderbar />
+          <Siderbar collapsed={this.collapsed} />
         </a-layout-sider>
         <a-layout>
           <a-layout-header class={this.collapsed ? 'header-fixed fold' : 'header-fixed unfold'}>

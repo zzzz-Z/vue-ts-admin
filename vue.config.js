@@ -1,8 +1,8 @@
 const path = require('path')
-// const CompressionWebpackPlugin = require('compression-webpack-plugin')
-// const productionGzipExtensions = ['js', 'css']
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const productionGzipExtensions = ['js', 'css']
 const isProduction = process.env.NODE_ENV === 'production'
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   // 基本路径
@@ -18,18 +18,18 @@ module.exports = {
     config.devtool = 'source-map' // 调试 时需要开启
     if (isProduction) {
       config.externals = {
-        'vue': 'Vue',
-        'viser-vue': 'ViserVue',
-        'ant-design-vue': 'antd',
-        'moment': 'moment'
+        // 'vue': 'Vue',
+        // 'viser-vue': 'ViserVue',
+        // 'ant-design-vue': 'antd',
+        // 'moment': 'moment'
       }
       config.plugins.push(new BundleAnalyzerPlugin())// 打包显示模块依赖关系
-      // config.plugins.push(new CompressionWebpackPlugin({
-      //   algorithm: 'gzip',
-      //   test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
-      //   threshold: 10240,
-      //   minRatio: 0.8
-      // }))
+      config.plugins.push(new CompressionWebpackPlugin({
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }))
     }
   },
   devServer: {

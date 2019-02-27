@@ -12,8 +12,8 @@
       "name": "home",
       "path": "/system/home"
     },{
-      "name": "video",
-      "path": "/system/video"
+      "name": "permission",
+      "path": "/system/permission"
     }]
   }]
 }
