@@ -62,9 +62,9 @@ export default class User extends Vue {
           actions={[{
             click: (target: List) => { console.log(target) },
             config: {
-              type: 'danger'
+              type: 'primary'
             },
-            html: 'button',
+            html: 'primary',
           }]}
         />
       </div>

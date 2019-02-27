@@ -1,9 +1,8 @@
 import { Component, Vue, Provide, Watch } from 'vue-property-decorator';
-import './style.less'
 import getAsyncRoute, { squeeze } from '@/router/permission';
 import { setStorage } from '@/utils/storage';
 import Trend from '@/components/Trend';
-
+import './style.less'
 
 @Component({})
 export default class Login extends Vue {
@@ -55,24 +54,27 @@ export default class Login extends Vue {
   render() {
 
     return (
-      <div id='login' onKeydown={(e) => e.keyCode === 13 && this.login()} >
-        <Trend flag='down'>111</Trend>
-        <p>
-          <span class='bold'> Design by </span>Village barber <span style='color:#000' >Tony</span> &
-          <a-icon type='heart' theme='twoTone' twoToneColor='#eb2f96' />
-        </p>
-        <div class='input' >
-          <input autofocus='autofocus' v-model={this.username} ></input>
-          <div class='bottom'></div>
-          <div ref='username' class='label'>Username</div>
-        </div>
-        <div class='input' >
-          <input v-model={this.password} ></input>
-          <div class='bottom'></div>
-          <div ref='pwd' class='label'>Password</div>
-        </div>
-        <a-button onClick={this.login} class='button'>登录</a-button>
-      </div>
+      <a-row type='flex'>
+        <a-col lg={{span: 4}} md={{span: 10}} sm={{span: 20}} id='login'>
+          <div  onKeydown={(e) => e.keyCode === 13 && this.login()} >
+            <p>
+              <span class='bold'> Design by </span>Village barber <span style='color:#000' >Tony</span> &
+              <a-icon type='heart' theme='twoTone' twoToneColor='#eb2f96' />
+            </p>
+            <div class='input' >
+              <input autofocus='autofocus' v-model={this.username} ></input>
+              <div class='bottom'></div>
+              <div ref='username' class='label'>Username</div>
+            </div>
+            <div class='input' >
+              <input v-model={this.password} ></input>
+              <div class='bottom'></div>
+              <div ref='pwd' class='label'>Password</div>
+            </div>
+            <a-button onClick={this.login} class='button'>登录</a-button>
+          </div>
+        </a-col>
+      </a-row>
     )
   }
 }

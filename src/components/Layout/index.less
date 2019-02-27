@@ -1,12 +1,41 @@
 #layout {
   height: 100%;
-  .ant-layout-header{
-    box-shadow: 0 1px 4px rgba(0,21,41,.08);
+
+  .ant-layout-header {
+    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
     background: #fff;
+    padding: 0;
+
+    .trigger {
+      height: 64px;
+      padding: 22px 24px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all .3s, padding 0s;
+    }
+
   }
-  .ant-layout-content{
-    overflow: scroll
+
+  .ant-layout-content {
+    padding-top: 64px;
+    margin: 24px;
+    min-height: auto
   }
+
+  .header-fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9;
+    transition: width .2s;
+  }
+  .unfold{
+    width: calc(100% - 256px);
+  }
+  .fold{
+    width: calc(100% - 80px);
+  }
+
   .logo {
     position: relative;
     height: 64px;
@@ -16,9 +45,9 @@
     background: #002140;
     transition: all .3s;
   }
-  .footer{
+
+  .footer {
     padding: 0 16px;
     text-align: center;
   }
 }
-
