@@ -20,26 +20,21 @@ export default ({
     ...props
   }
 }: Props) => {
-  function renderNode(arr) {
-    return arr.map((r) => {
-      const icon = String(r.type) && <a-icon type={iconList[r[type]]} />
-      return (
-        <a-tree-node
-          props={nodeProps}
-          title={r[title]}
-          icon={icon}
-          key={r[key]}>
-          {r.children && renderNode(r.children)}
-        </a-tree-node>
-      )
-    })
-  }
+  const renderNode = (arr) => arr.map((r) => (
+    <a-tree-node
+      props={nodeProps}
+      title={r[title]}
+      icon={String(r.type) && <a-icon type={iconList[r[type]]} />}
+      key={r[key]}>
+      {r.children && renderNode(r.children)}
+    </a-tree-node>
+  ))
+
   return (
     <a-tree
       on={listeners}
       props={props}
-      showIcon
-    >
+      showIcon >
       {renderNode(treeData)}
     </a-tree>
   )
