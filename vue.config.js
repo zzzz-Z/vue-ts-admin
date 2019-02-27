@@ -38,22 +38,22 @@ module.exports = {
     proxy: {
       '/rest': {
         target: 'http://192.168.7.174:8884/rest',
-        // target: 'http://192.168.7.174:8884/rest',
-        // target: 'http://115.28.223.20:8884/rest',
         changeOrigin: true,
         pathRewrite: {
           '^/rest': ''
         }
-      },
-      '/deviceImg': {
-        // target: 'http://192.168.0.155:8884/rest',
-        target: 'http://192.168.7.194:8884/deviceImg',
-        // target: 'http://192.168.7.174:8884/deviceImg',
-        // target: 'http://115.28.223.20:8884/deviceImg',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/deviceImg': ''
-        }
+      }
+    }
+  },
+  css: {
+    loaderOptions: {
+      less: {
+        modifyVars: {
+          'primary-color': '#1DA57A',
+          'link-color': '#1DA57A',
+          'border-radius-base': '2px',
+        },
+        javascriptEnabled: true
       }
     }
   },

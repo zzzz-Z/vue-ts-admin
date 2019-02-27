@@ -4,6 +4,9 @@ declare global {
 
   namespace JSX {
     interface FunctionalComponentCtx {
+      style?: any
+      class?: any
+      ref?: any
       props?: any
       children?: any
       data?: any

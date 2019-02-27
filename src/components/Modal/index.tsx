@@ -1,6 +1,6 @@
 import Form from '../Form'
 import { Component, Vue, Provide, Prop } from 'vue-property-decorator'
-import { Modal, Button } from 'ant-design-vue';
+import { Modal } from 'ant-design-vue';
 import { FormItem } from '../Form/type';
 
 interface Props {
@@ -23,7 +23,7 @@ export default class ModalGenerator extends Vue {
   @Provide() visible: boolean = false
   @Provide() loading: boolean = false
   /* 表单实例 */
-  get formRef(): JSX.IntrinsicElements {
+  get formRef(): any {
     return this.$refs.form
   }
 

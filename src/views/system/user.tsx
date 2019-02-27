@@ -1,6 +1,5 @@
 import { Component, Vue} from 'vue-property-decorator'
 import List from '@/components/List'
-import { setStorage, getStorage } from '@/utils/storage';
 
 @Component({})
 export default class User extends Vue {
@@ -53,10 +52,6 @@ export default class User extends Vue {
       wrapperCol: { span: 16 },
       initialValue: '111',
     }]
-    setStorage('name', 111, 4)
-    setTimeout(() => {
-        console.log(getStorage('name'));
-    }, 5 * 1000);
 
     return (
       <div>

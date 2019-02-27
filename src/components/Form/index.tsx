@@ -7,23 +7,25 @@ export default class Form extends Vue {
 
   readonly Props!: Props
   @Prop(String) layout
-  @Prop({ required: true }) formItems!: FormItem[] /** formItem 配置  */
-  @Prop() labelCol?: any // 所有item的labelCol
-  @Prop() wrapperCol?: any // 所有item的wrapperCol
+  /** formItems props  */
+  @Prop({ required: true }) formItems!: FormItem[]
+  /** 所有item的labelCol  会被单项指定值覆盖 */
+  @Prop() labelCol?: any
+  /** 所有item的wrapperCol 会被单项指定值覆盖 */
+  @Prop() wrapperCol?: any
+  /** 所有formitem的style 若指定formItems的style属性 则被覆盖 */
   @Prop() iStyle?: string
-  @Provide() form?: any  /** 表单实例 */
+  /**  初始值 ,用于合并修改后的表单数据 */
+  @Prop() initialValues?: object
+  /** 表单实例 */
+  @Provide() form?: any
 
-  /**  每一项的初始值 ,用于合并修改后的表单数据 */
-  get initialValues() {
-    const o: object = {}
-    this.formItems.map((r) => r.field && r.initialValue && (o[r.field] = r.initialValue))
-    return o
-  }
+
   created() {
     this.form = this.$form.createForm(this)
   }
   renderItem() {
-    return  this.formItems.map((props) => {
+    return this.formItems.map((props) => {
       const rules = (
         typeof props.rules === 'function' ?
           props.rules(this.form) :
