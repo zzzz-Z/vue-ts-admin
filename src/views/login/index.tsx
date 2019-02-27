@@ -3,6 +3,7 @@ import './style.less'
 import getAsyncRoute, { squeeze } from '@/router/permission';
 import { setStorage } from '@/utils/storage';
 import Trend from '@/components/Trend';
+import ChartCard from '@/components/ChartCard';
 
 
 @Component({})
@@ -57,6 +58,7 @@ export default class Login extends Vue {
     return (
       <div id='login' onKeydown={(e) => e.keyCode === 13 && this.login()} >
         <Trend flag='down'>111</Trend>
+        <ChartCard title='chart'  action={<a-button>111</a-button>} />
         <p>
           <span class='bold'> Design by </span>Village barber <span style='color:#000' >Tony</span> &
           <a-icon type='heart' theme='twoTone' twoToneColor='#eb2f96' />
