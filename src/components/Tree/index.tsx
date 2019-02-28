@@ -9,7 +9,7 @@ interface Props {
   icon?: JSX.Element
   title?: string
   field?: string
-  type?: string
+  type?: number
   [key: string]: any
 }
 
@@ -29,20 +29,17 @@ export default class Tree extends Vue {
 
   get treeNodes() {
     const { field, title, iconList, type, nodeProps, treeData, icon } = this
-    const renderNode = (arr) => {
-      return arr.map((r) => {
-        return (
-          <a-tree-node
-            key={r[field]}
-            title={r[title]}
-            props={nodeProps}
-            {...r}
-            icon={icon || String(r.type) && <a-icon type={iconList[r[type]]} />} >
-            {r.children && renderNode(r.children)}
-          </a-tree-node>
-        )
-      })
-    }
+    const renderNode = (arr) =>
+      arr.map((r) => (
+        <a-tree-node
+          key={r[field]}
+          title={r[title]}
+          props={nodeProps}
+          {...r}
+          icon={icon || r.type && <a-icon type={iconList[r[type]]} />} >
+          {r.children && renderNode(r.children)}
+        </a-tree-node>
+      ))
     return renderNode(treeData)
   }
 
