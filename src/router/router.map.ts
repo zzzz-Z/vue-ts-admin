@@ -1,8 +1,8 @@
-import Layout from '@/components/Layout';
 import Video from '@/components/Video/index.vue';
 import User from '@/views/system/user';
 import Home from '@/views/home';
 import Permission from '@/views/system/permission';
+import Layout from '@/components/Layout';
 
 const routerMap = [{
   path: '/system',

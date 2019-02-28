@@ -68,12 +68,12 @@ export default class User extends Vue {
           searchItems={searchItems}
           actions={(t) => {
             return [
-              <ModalGenerator
-                layout='inline'
-                btn={<Button type='primary' html='new' />}
-                formItems={form}
-                modal={{ title: '新建' }}
-              />
+              // <ModalGenerator
+              //   layout='inline'
+              //   btn={<Button type='primary' html='new' />}
+              //   formItems={form}
+              //   modal={{ title: '新建' }}
+              // />
             ]
           }}
         />
