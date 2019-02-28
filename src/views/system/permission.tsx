@@ -20,7 +20,7 @@ export default class Permission extends Vue {
         treeData={treeData}
         title='name'
         defaultExpandAll
-        onSelect={() => console.log(1)}
+        onSelect={(key, e) => console.log(e)}
       />
     )
   }

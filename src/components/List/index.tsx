@@ -65,8 +65,12 @@ export default class List extends Vue {
   }
 
   getDataSouce() {
+    this.loading = true
     this.Axios.get(this.url, { params: this.baseParams })
-      .then((r: any) => this.dataSource = r.data)
+      .then((r: any) => {
+        this.dataSource = r.data
+        this.loading = false
+      })
   }
   get _columns() {
     return this.columns(this).map((r) => {

@@ -4,9 +4,11 @@ import { Modal } from 'ant-design-vue';
 import { FormItem } from '../Form/type';
 
 interface Props {
+  layout?: 'horizontal' | 'inline' | 'vertical'
   btn?: JSX.Element | string
   formItems?: FormItem[]
   fetch?: (params: object) => Promise<any>
+  modal?: Modal
 }
 
 

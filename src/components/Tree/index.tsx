@@ -23,20 +23,32 @@ export default ({
 
   const renderNode = (arr) => arr.map((r) => (
     <a-tree-node
-      props={nodeProps}
-      title={r[title]}
-      icon={String(r.type) && <a-icon type={iconList[r[type]]} />}
-      key={r[key]}>
+      props={{
+        key: r[key],
+        title: r[title],
+        icon: String(r.type) && <a-icon type={iconList[r[type]]} />
+      }}>
       {r.children && renderNode(r.children)}
     </a-tree-node>
   ))
-
+  const treeNode = renderNode(treeData)
+  const getCurrentNode = (key) => {
+     return treeNode.find(vNOde => {
+      const child = vNOde.componentOptions.children
+      if (vNOde.data.props.key === key) {
+        return true
+      } else if (child) {
+        getCurrentNode(child.data.props.key)
+      }
+    })
+  }
+  console.log(treeNode);
   return (
     <a-tree
       on={listeners}
       props={props}
       showIcon >
-      {renderNode(treeData)}
+      {treeNode}
     </a-tree>
   )
 }

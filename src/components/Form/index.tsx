@@ -16,7 +16,7 @@ export default class Form extends Vue {
   /** 所有item的wrapperCol 会被单项指定值覆盖 */
   @Prop() wrapperCol?: any
   /** 所有formitem的style 若指定formItems的style属性 则被覆盖 */
-  @Prop() iStyle?: string
+  @Prop() itemStyle?: string
   /**  初始值 ,用于合并修改后的表单数据 */
   @Prop() initialValues?: object
   /** 表单实例 */
@@ -45,7 +45,7 @@ export default class Form extends Vue {
       }
       return (
         <a-col {...{props: this.col}} >
-          <a-form-item  {...{ props }} style={props.style || this.iStyle} >
+          <a-form-item  {...{ props }} style={props.style || this.itemStyle} >
             {
               props.field ?
                 this.form.getFieldDecorator(props.field, { rules, initialValue: props.initialValue })(element) :

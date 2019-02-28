@@ -1,6 +1,7 @@
-import { Component, Vue} from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import List from '@/components/List'
 import Button from '@/components/Button';
+import ModalGenerator from '@/components/Modal';
 
 @Component({})
 export default class User extends Vue {
@@ -53,7 +54,12 @@ export default class User extends Vue {
       wrapperCol: { span: 16 },
       initialValue: '111',
     }]
-
+    const form = searchItems.map((r: any) => {
+      r.labelCol = { span: 6 }
+      r.wrapperCol = { span: 14 }
+      r.style = 'width:100%'
+      return r
+    })
     return (
       <div>
         <List
@@ -62,7 +68,12 @@ export default class User extends Vue {
           searchItems={searchItems}
           actions={(t) => {
             return [
-              <Button config={{type: 'primary'}} html='新建' onClick={() => { console.log(t) }} />
+              <ModalGenerator
+                layout='inline'
+                btn={<Button type='primary' html='new' />}
+                formItems={form}
+                modal={{ title: '新建' }}
+              />
             ]
           }}
         />

@@ -1,5 +1,4 @@
 import { Component, Vue, Provide, Prop, Watch } from 'vue-property-decorator'
-import { Menu } from 'ant-design-vue'
 import { RouteConfig } from 'vue-router'
 import GlobalStore from '@/store/global';
 
