@@ -3,12 +3,19 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 interface Props {
   /** type 和 icon的对应关系  */
   iconList?: string[]
+  /** 树 数组 */
   treeData: any[]
+  /** 传递给tree的props 与原组件相同 */
   treeProps?: object
+  /** 传递给treeNode的props 与原组件相同 */
   nodeProps?: object
+  /** 所有节点统一设置icon */
   icon?: JSX.Element
+  /** 替换 原组件传入的title 为自己想要的字段 */
   title?: string
+  /** 替换 原组件传入的key 为自己想要的字段 */
   field?: string
+  /**  */
   type?: number
   [key: string]: any
 }
