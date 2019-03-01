@@ -1,4 +1,4 @@
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch, Provide } from 'vue-property-decorator'
 
 interface Props {
   /** type 和 icon的对应关系  */
@@ -34,7 +34,9 @@ export default class Tree extends Vue {
   @Prop({ default: 'type' }) type !: string
   @Prop({ default: () => ['folder-open', 'folder', 'file'] }) iconList!: string[]
 
-  get treeNodes() {
+  @Provide() treeNodes: any[] = []
+
+  initTreeNodes() {
     const { field, title, iconList, type, nodeProps, treeData, icon } = this
     const renderNode = (arr) =>
       arr.map((r) => (
@@ -43,13 +45,12 @@ export default class Tree extends Vue {
           title={r[title]}
           props={nodeProps}
           {...r}
-          icon={icon || r.type && <a-icon type={iconList[r[type]]} />} >
+          icon={icon || r.icon || String(r.type) && <a-icon type={iconList[r[type]]} />} >
           {r.children && renderNode(r.children)}
         </a-tree-node>
       ))
-    return renderNode(treeData)
+    this.treeNodes = renderNode(treeData)
   }
-
 
   @Watch('$props.treeProps.selectedKeys', { deep: true })
   selectedChange([key]) {
@@ -65,6 +66,10 @@ export default class Tree extends Vue {
     }
     findNode(this.treeNodes)
     this.$emit('selectedChange', { node, nextKey })
+  }
+
+  created() {
+    this.initTreeNodes()
   }
 
   render() {
