@@ -1,11 +1,10 @@
 import { Component, Vue, Provide, Prop } from 'vue-property-decorator'
-import { Props, FormItem } from './type';
 
 
 @Component({})
 export default class Form extends Vue {
 
-  readonly Props!: Props
+  readonly Props!: IFormProps
   @Prop(String) layout
   /** formItems props  */
   @Prop({ required: true }) formItems!: FormItem[]
@@ -27,30 +26,21 @@ export default class Form extends Vue {
     this.form = this.$form.createForm(this)
   }
   renderItem() {
+    const { labelCol, wrapperCol } = this
     return this.formItems.map((props) => {
-      const rules = (
-        typeof props.rules === 'function' ?
-          props.rules(this.form) :
-          props.rules
-      )
-      const element = (
-        props.el ?
-          props.el(this.form) :
-          <a-input type={props.type} />
-      )
-      props = {
-        labelCol: this.labelCol,
-        wrapperCol: this.wrapperCol,
-        ...props
-      }
+
+      const rules = typeof props.rules === 'function' ? props.rules(this.form) : props.rules
+      const element = props.el ? props.el(this.form) : <a-input type={props.type} />
+      const ItemElement = !props.field ? element :
+        this.form.getFieldDecorator(props.field, { rules, initialValue: props.initialValue })(element)
+      props = { labelCol, wrapperCol, ...props }
+
       return (
-        <a-col {...{props: this.col}} >
-          <a-form-item  {...{ props }} style={props.style || this.itemStyle} >
-            {
-              props.field ?
-                this.form.getFieldDecorator(props.field, { rules, initialValue: props.initialValue })(element) :
-                element
-            }
+        <a-col {...{ props: this.col }} >
+          <a-form-item
+            {...{ props }}
+            style={props.style || this.itemStyle} >
+            {ItemElement}
           </a-form-item>
         </a-col>
       )

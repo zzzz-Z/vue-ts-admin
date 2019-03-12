@@ -1,5 +1,3 @@
-import Button from './type';
-
 export default ({ props, children, data }: Button) => {
   return (
     <span {...data} >

@@ -1,6 +1,5 @@
 import { Component, Vue, Provide, Prop } from 'vue-property-decorator'
 import IForm from '../Form'
-import { FormItem } from '../Form/type';
 import Ellipsis from '../Ellipsis';
 import Breadcrumb from '../Breadcrumb';
 import './index.less'

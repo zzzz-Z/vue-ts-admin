@@ -1,0 +1,128 @@
+#layout {
+  height: 100%;
+  .ant-menu.ant-menu-dark .ant-menu-item-selected,
+  .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+    background: rgba(255, 255, 255, .05);
+
+    &::after {
+      border-right: 5px solid #03A253
+    }
+  }
+
+  .padding-left {
+    padding-left: 17px;
+  }
+
+  .ant-menu {
+    background: #1D2B36
+  }
+
+  .ant-layout-sider {
+    background: #1D2B36
+  }
+
+  .ant-layout-header {
+    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+    background: #fff;
+    padding: 0;
+
+    .right {
+      float: right;
+      height: 64px;
+      overflow: hidden;
+
+      .ant-dropdown-menu-item {
+        .anticon {
+          padding: 0 10px
+        }
+      }
+
+      .avatar {
+        margin: 20px 8px 20px 0;
+        color: #1890ff;
+        font-size: 25px;
+        vertical-align: top;
+        background: hsla(0, 0%, 100%, .85);
+      }
+
+      .username {
+        vertical-align: middle;
+      }
+
+      .user {
+        display: inline-block;
+        height: 100%;
+        padding: 0 30px 0 12px;
+        cursor: pointer;
+        transition: all .3s;
+
+        &:hover {
+          background: rgba(0, 0, 0, .04)
+        }
+      }
+    }
+
+    .trigger {
+      height: 64px;
+      padding: 22px 24px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all .3s, padding 0s;
+    }
+
+  }
+
+  .ant-layout-content {
+    padding-top: 64px;
+    margin: 24px;
+    min-height: auto
+  }
+
+  .header-fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9;
+    transition: width .2s;
+  }
+
+  .unfold {
+    width: calc(100% - 256px);
+  }
+
+  .fold {
+    width: calc(100% - 80px);
+  }
+
+  .logo {
+    position: relative;
+    height: 64px;
+    padding-left: 24px;
+    overflow: hidden;
+    line-height: 64px;
+    background: #006835;
+    transition: all .3s;
+
+    img {
+      width: 50px;
+      height: 50px;
+      vertical-align: middle;
+      margin-left: -10px
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 0 0 12px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 20px;
+      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+      vertical-align: middle;
+    }
+  }
+
+  .footer {
+    padding: 20px 0;
+    text-align: center;
+  }
+}

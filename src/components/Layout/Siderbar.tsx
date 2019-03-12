@@ -11,6 +11,7 @@ export default class Siderbar extends Vue {
   readonly Props!: {
     /** menu是否收起状态 */
     collapsed: boolean
+    onShouldReload: () => void
   }
   @Prop() collapsed
   @Provide() openkeys: string[] = []
@@ -29,37 +30,36 @@ export default class Siderbar extends Vue {
     this.openkeys = this.currnetRoute
   }
   titleClick({ key }) {
-    this.openkeys[0] !== key
-      ? this.openkeys = [key]
-      : this.openkeys = []
+    this.openkeys = this.openkeys[0] !== key ? [key] : []
   }
   menuClick({ keyPath, key }) {
+    if (this.$route.path === key) {
+      this.$emit('shouldReload')
+    }
     if (this.collapsed) {
       this.openkeys = []
     } else {
-      keyPath
-        ? this.openkeys = [keyPath[keyPath.length - 1]]
-        : this.openkeys = []
+      this.openkeys = keyPath ? [keyPath[keyPath.length - 1]] : []
     }
     this.$router.push(key)
   }
   menuItem(r: itemConfig) {
     return (
-      <a-menu-item  key={r.path}>
-        {r.icon && <a-icon type={r.icon} />}
-        <span>{r.name}</span>
+      <a-menu-item key={r.meta.path}>
+        {r.meta.icon && <a-icon type={r.meta.icon} />}
+        <span class='padding-left'>{r.meta.name}</span>
       </a-menu-item >
     )
   }
   subItem(r: itemConfig) {
     return (
       <a-sub-menu
-        key={r.path}
+        key={r.meta.path}
         onTitleClick={this.titleClick}
       >
         <span slot='title'>
-          <a-icon type={r.icon} />
-          <span>{r.name}</span>
+          <a-icon type={r.meta.icon} />
+          <span class='padding-left'>{r.meta.name}</span>
         </span>
         {(r.children as itemConfig[]).map((i) => this.menuItem(i))}
       </a-sub-menu>
@@ -68,6 +68,7 @@ export default class Siderbar extends Vue {
 
 
   render() {
+
     return (
       <a-menu
         onClick={this.menuClick}

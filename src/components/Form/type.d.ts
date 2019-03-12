@@ -1,4 +1,4 @@
-export interface FormItem {
+interface FormItem {
   style?: string
   field?: string,
   initialValue?: any,
@@ -66,7 +66,7 @@ export interface FormItem {
   wrapperCol?: any;
 }
 
-export interface Props {
+interface IFormProps {
   layout?: 'horizontal' | 'inline' | 'vertical'
   formItems?: FormItem[]
   labelCol?: any

@@ -1,7 +1,5 @@
 import Form from '../Form'
 import { Component, Vue, Provide, Prop } from 'vue-property-decorator'
-import { Modal } from 'ant-design-vue';
-import { FormItem } from '../Form/type';
 
 interface Props {
   layout?: 'horizontal' | 'inline' | 'vertical'
@@ -73,7 +71,9 @@ export default class ModalGenerator extends Vue {
           onClick={() => this.visible = true} >
           {this.btn}
         </span>
-        <a-modal {...{ props: modalProps }} onCancel={modalProps.cancel} >
+        <a-modal
+          {...{ props: modalProps }}
+          onCancel={modalProps.cancel} >
           {
             this.content ||
             <Form
