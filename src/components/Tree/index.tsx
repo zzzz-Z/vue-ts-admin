@@ -34,23 +34,22 @@ export default class Tree extends Vue {
   @Prop({ default: 'type' }) type !: string
   @Prop({ default: () => ['folder-open', 'folder', 'file'] }) iconList!: string[]
 
-  @Provide() treeNodes: any[] = []
-
-  initTreeNodes() {
+  get treeNodes() {
     const { field, title, iconList, type, nodeProps, treeData, icon } = this
     const renderNode = (arr) =>
       arr.map((r) => (
         <a-tree-node
+          {...r}
           key={r[field]}
           title={r[title]}
           props={nodeProps}
-          {...r}
-          icon={icon || r.icon || String(r.type) && <a-icon type={iconList[r[type]]} />} >
+          icon={icon || (r.type || r.type === 0) ? <a-icon type={iconList[r[type]]} /> : ''} >
           {r.children && renderNode(r.children)}
         </a-tree-node>
       ))
-    this.treeNodes = renderNode(treeData)
+    return renderNode(treeData)
   }
+
 
   @Watch('$props.treeProps.selectedKeys', { deep: true })
   selectedChange([key]) {
@@ -65,17 +64,12 @@ export default class Tree extends Vue {
       })
     }
     findNode(this.treeNodes)
-    this.$emit('selectedChange', { node, nextKey })
-  }
-
-  created() {
-    this.initTreeNodes()
+    this.$emit('selectedChange', node)
   }
 
   render() {
     return (
       <a-tree
-        showIcon
         props={this.treeProps}
         on={this.$listeners}>
         {this.treeNodes}

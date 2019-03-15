@@ -1,35 +1,30 @@
 import { Component, Vue, Provide } from 'vue-property-decorator'
 import Tree from '@/components/Tree';
+import { getStorage } from '@/utils/storage';
 
 
 @Component({})
 export default class Permission extends Vue {
 
   @Provide() selectedKeys: string[] = []
+  @Provide() treeData: any[] = []
+  @Provide() ss = 1
+
+  created() {
+    this.Axios.get('/role?id=1').then((r) => {
+      this.treeData = r.data
+    })
+  }
 
   render() {
-    const treeData = [{
-      name: 'parent 1',
-      key: '0',
-      type: 0,
-      children: [
-        { name: '1-1', key: '1', type: 1, a: 22 },
-        {
-          name: '1-2', key: '2', type: 2, children: [
-            { name: '2-1', key: '3', type: 1 },
-            { name: '2-2', key: '4', type: 2 }
-          ]
-        }
-      ]
-    }]
-
     return (
       <div>
         <button onClick={() => this.selectedKeys = ['3']} >click</button>
         <Tree
           ref='tree'
-          treeData={treeData}
+          treeData={this.treeData}
           title='name'
+          field='path'
           treeProps={{
             draggable: true,
             defaultExpandAll: true,
@@ -66,38 +61,12 @@ export default class Permission extends Vue {
             }
             removeOldNode((this.$refs.tree as Tree).treeNodes)
 
-
-            // const { treeNodes } = (this.$refs.tree as Tree)
-
-            // function loop(arr, key) {
-            //   return new Promise((r) => {
-            //     arr.find((i, index) => {
-            //       const child = i.componentOptions.children
-            //       if (i.key === key) {
-            //         r({arr, child, index})
-            //         console.log(2);
-            //         return true
-            //       }
-            //       child.length > 0 && loop(child, key)
-            //     })
-            //   })
-            // }
-            // loop(treeNodes, dragKey).then((r: any) => {
-            //   console.log(1);
-            //   r.data.splice(r.index, 1)
-            //   loop(treeNodes, dropKey).then((v: any) => {
-            //     v.child > 0 ?
-            //     v.data.push(dragNode) :
-            //     v.data.splice(v.index, 0, dragNode)
-            //   })
-            // })
-
-
-          }}
+          }
+          }
           onSelectedChange={(r) => {
             console.log(r)
           }}
-          onSelect={(key, e) => console.log(e)}
+          onSelect={(e) => console.log(e)}
         />
       </div>
     )

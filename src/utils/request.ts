@@ -1,5 +1,5 @@
 import router from '@/router';
-import Axios from 'axios'
+import Axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 import { message } from 'ant-design-vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -8,16 +8,12 @@ import { getStorage } from './storage';
 
 
 const request = Axios.create({
-  baseURL: config.isProd ? '/' + config.baseUrl + '/rest' : '/api',
+  baseURL: config.isProd ? '/' + config.baseUrl + '/api' : '/api',
   timeout: 15000
 })
 
-/**
- *
- * request全局请求参数设置，请求及返回拦截器
- */
+
 request.interceptors.request.use((cf) => {
-  // store.CancelToken = store.commit('saveRequest', request.CancelToken.source())
   cf.headers['Authentication-Token'] = getStorage('token') || ''
   NProgress.start()
   return cf
@@ -26,10 +22,7 @@ request.interceptors.request.use((cf) => {
  * do something after Response
  */
 request.interceptors.response.use((res) => {
-  if (res.data.code === '202') {
-    router.push('/')
-    return
-  }
+
   NProgress.done()
   if (res.config.responseType === 'blob') {
     return res

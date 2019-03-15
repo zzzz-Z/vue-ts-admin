@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import { AxiosStatic } from 'axios';
+import { AxiosInstance } from 'axios';
 import moment = require('moment');
 
 
 declare module 'vue/types/vue' {
   interface Vue {
-    Axios: AxiosStatic
+    Axios: AxiosInstance
     moment: moment.Moment
   }
 }

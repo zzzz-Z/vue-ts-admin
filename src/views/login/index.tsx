@@ -31,20 +31,17 @@ export default class Login extends Vue {
   }
 
   login() {
-    if (this.username !== 'tony') {
-      this.$message.error('用户名错误！')
-      return
-    }
-    this.Axios.get('/user.json').then((res: any) => {
-      if (!res.errorCode) {
-        this.$message.success(res.message)
-        GlobalStore.saveAsyncRoutes(res.role)
-        this.$router.push('/system/user')
-      } else {
-        this.$message.error('登录失败:' + res.message)
-      }
-    })
-
+    const { username, password } = this
+    this.Axios.get('/login', { params: { username, password } }).then(
+      ({ message, errorCode, data }: any) => {
+        if (!errorCode) {
+          this.$message.success(message)
+          GlobalStore.saveAsyncRoutes(data.role)
+          this.$router.push('/system/user')
+        } else {
+          this.$message.error(message)
+        }
+      })
   }
 
   render() {
