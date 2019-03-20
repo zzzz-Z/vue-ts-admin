@@ -37,7 +37,7 @@ module.exports = {
     // 设置代理
     proxy: {
       '/rest': {
-        target: 'http://192.168.7.174:8884/rest',
+        target: 'https://www.easy-mock.com/mock/5c7a5a02dc9d506d00c573b5/api',
         changeOrigin: true,
         pathRewrite: {
           '^/rest': ''

@@ -63,8 +63,8 @@ export default class Tree extends Vue {
       arr.map((r) => {
         let t = cloneDeep(r)
         let f = cloneDeep(r)
-        titleKeys.forEach(k => t = t[k])
-        fieldKeys.forEach(k => f = f[k])
+        titleKeys.forEach((k) => t = t[k])
+        fieldKeys.forEach((k) => f = f[k])
         return (
           <a-tree-node
             {...r}
