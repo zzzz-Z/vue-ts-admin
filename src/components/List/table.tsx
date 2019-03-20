@@ -7,6 +7,7 @@ import './style.less'
 export interface Props {
   columns: (t: ITable) => any[]
   url: string
+  algin?: string
   searchItems?: IFormItem[]
   actions?: (t: ITable) => JSX.Element[]
   customRow?: (...arg: any) => ({})
@@ -18,7 +19,8 @@ export default class ITable extends Vue {
 
   readonly Props!: Props
   @Prop() columns
-  @Prop() url
+  @Prop() url!: string
+  @Prop({ default: 'center' }) algin?: string
   @Prop() customRow?: () => ({})
   @Prop({ default: () => ([]) }) searchItems?: any[]
   @Prop({ default: () => ([]) }) actions?: (t: ITable) => JSX.Element[]
@@ -78,7 +80,11 @@ export default class ITable extends Vue {
   }
   get _columns() {
     return this.columns(this).map((r) => {
-      // r.align='center'
+
+      if (!r.algin) {
+        r.align = this.algin
+      }
+
       if (!r.customRender) {
         r.customRender = (text) => (
           typeof text === 'string' ? <Ellipsis length={15} str={text} /> : text
