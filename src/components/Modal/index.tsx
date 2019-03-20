@@ -30,7 +30,7 @@ export default class ModalGenerator extends Vue {
   get IForm() {
     return (
       <IForm
-        wrappedComponentRef={form => this.formRef = form}
+        wrappedComponentRef={(form) => this.formRef = form}
         layout={this.layout}
         initialValues={this.initialValues}
         formItems={this.formItems} />
@@ -53,7 +53,7 @@ export default class ModalGenerator extends Vue {
     </a-button>
     ]
     const { footer } = this.modal
-    footer && footer.length && footerBtns.unshift(...footer as [])
+    Array.isArray(footer) && footerBtns.unshift(...footer)
     return footer === 'no' ? null : footerBtns
   }
 
