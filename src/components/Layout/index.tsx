@@ -1,4 +1,4 @@
-import { Component, Vue, Provide } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import Siderbar from './siderbar'
 import Header from './header';
 import GlobalStore from '@/store/global';
@@ -7,7 +7,7 @@ import './style.less'
 @Component({})
 export default class Layout extends Vue {
 
-  @Provide() showView = true
+  showView = true
 
   reloadView() {
     this.showView = false

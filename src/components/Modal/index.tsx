@@ -1,42 +1,99 @@
-import Form from '../Form'
-import { Component, Vue, Provide, Prop } from 'vue-property-decorator'
-
+import IForm from '../Form'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 interface Props {
   layout?: 'horizontal' | 'inline' | 'vertical'
   btn?: JSX.Element | string
-  formItems?: FormItem[]
-  fetch?: (params: object) => Promise<any>
-  modal?: Modal
+  formItems?: IFormItem[]
+  initialValues?: {}
+  fetch?: (...arg: any[]) => Promise<any>
+  afterCancel?: (visible: ModalGenerator['visible']) => void
+  modal?: IModal
+  content?: JSX.Element
 }
-
-
 @Component({})
 export default class ModalGenerator extends Vue {
 
   readonly Props!: Props
   @Prop(Object) content!: JSX.Element
-  @Prop(String) layout
-  @Prop({ default: () => ({}) }) modal!: Modal
-  @Prop(Array) formItems!: FormItem[]
-  @Prop([Object, String]) btn!: JSX.Element | string
-  @Prop(Function) fetch!: (params: object) => Promise<any>
-  @Provide() visible: boolean = false
-  @Provide() loading: boolean = false
-  /* 表单实例 */
-  get formRef(): any {
-    return this.$refs.form
+  @Prop(String) layout?: 'horizontal' | 'inline' | 'vertical'
+  @Prop({ default: () => ({}) }) modal!: IModal
+  @Prop(Array) formItems!: IFormItem[]
+  @Prop(Object) initialValues?: {}
+  @Prop([Object, String]) btn!: JSX.Element
+  @Prop(Function) fetch!: (...arg: any[]) => Promise<any>
+  @Prop(Function) afterCancel?: (visible: ModalGenerator['visible']) => void
+
+  visible: boolean = false
+  loading: boolean = false
+  formRef: any;
+
+  get IForm() {
+    return (
+      <IForm
+        wrappedComponentRef={form => this.formRef = form}
+        layout={this.layout}
+        initialValues={this.initialValues}
+        formItems={this.formItems} />
+    )
+  }
+
+  get Footer() {
+    const footerBtns = [
+      <a-button
+        key='back'
+        onClick={this.cancel} >
+        取消
+      </a-button>,
+      <a-button
+        key='submit'
+        type='primary'
+        loading={this.loading}
+        onClick={this.submit}>
+        提交
+    </a-button>
+    ]
+    const { footer } = this.modal
+    footer && footer.length && footerBtns.unshift(...footer as [])
+    return footer === 'no' ? null : footerBtns
+  }
+
+
+  render() {
+    const { visible, modal } = this
+    const props = {
+      visible,
+      wrapClassName: 'scoped-modal',
+      destroyOnClose: true,
+      ...modal,
+      footer: this.Footer,
+    }
+    return (
+      <span>
+        <span
+          style='cursor: pointer'
+          onClick={() => this.visible = true} >
+          {this.btn}
+        </span>
+        <a-modal
+          {...{ props }}
+          onOk={this.submit}
+          onCancel={this.cancel} >
+          {this.content || this.IForm}
+        </a-modal>
+      </span>
+    )
   }
 
   async submit() {
     if (this.formRef) {
       // 如果组件是表单组件 则先进行表单验证 否则 直接执行传入的方法
-      const { form, initialValues } = this.formRef
-      form.validateFields((err: Error, params: object) => {
+      const { form } = this.formRef
+      form.validateFields((err: Error, params: {}) => {
         if (err) { return }
         // 合并传进表单的参数 与修改后的参数
-        params = { ...initialValues, ...params }
+        params = { ...this.initialValues, ...params }
         this.loading = true
-        const promise = this.fetch({ params, formRef: this.formRef })
+        const promise = this.fetch(params, this.formRef)
         if (promise.then) {
           promise.then(() => {
             form.resetFields()
@@ -48,53 +105,11 @@ export default class ModalGenerator extends Vue {
       this.fetch({ close: this.cancel })
     }
   }
-  /**
-   * 关闭 弹窗model
-   */
+
+  /**  关闭 弹窗model  */
   cancel() {
+    this.afterCancel && this.afterCancel(this.visible)
     this.loading = false
     this.visible = false
-  }
-  render() {
-    const { visible, cancel, modal } = this
-    const modalProps = {
-      visible,
-      cancel,
-      footer: undefined,
-      destroyOnClose: true,
-      ...modal,
-    }
-    return (
-      <span>
-        <span
-          style='cursor: pointer;font-weight:bolde;rmargin-right:10px'
-          onClick={() => this.visible = true} >
-          {this.btn}
-        </span>
-        <a-modal
-          {...{ props: modalProps }}
-          onCancel={modalProps.cancel} >
-          {
-            this.content ||
-            <Form
-              ref='form'
-              layout={this.layout}
-              formItems={this.formItems} />
-          }
-          <div slot='footer' >
-            <a-button key='back' onClick={this.cancel} >
-              取消
-            </a-button>
-            <a-button
-              key='submit'
-              type='primary'
-              loading={this.loading}
-              onClick={this.submit}>
-              提交
-            </a-button>
-          </div>
-        </a-modal>
-      </span>
-    )
   }
 }

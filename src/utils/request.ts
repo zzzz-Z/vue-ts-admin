@@ -1,14 +1,14 @@
 import router from '@/router';
 import Axios from 'axios'
 import { message } from 'ant-design-vue'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+// import NProgress from 'nprogress'
+// import 'nprogress/nprogress.css'
 import config from '@/config';
 import { getStorage } from './storage';
 
 
 const request = Axios.create({
-  baseURL: config.isProd ? '/' + config.baseUrl + '/rest' : '/api',
+  baseURL: config.baseUrl,
   timeout: 15000
 })
 
@@ -18,8 +18,8 @@ const request = Axios.create({
  */
 request.interceptors.request.use((cf) => {
   // store.CancelToken = store.commit('saveRequest', request.CancelToken.source())
-  cf.headers['Authentication-Token'] = getStorage('token') || ''
-  NProgress.start()
+  cf.headers['Authentication-Token'] = getStorage('Token') || ''
+  // NProgress.start()
   return cf
 })
 /**
@@ -30,7 +30,7 @@ request.interceptors.response.use((res) => {
     router.push('/')
     return
   }
-  NProgress.done()
+  // NProgress.done()
   if (res.config.responseType === 'blob') {
     return res
   }
@@ -41,7 +41,7 @@ request.interceptors.response.use((res) => {
       ? message.error('错误码：' + err.response.status)
       : message.error('请求超时...')
   }
-  NProgress.done()
+  // NProgress.done()
   return Promise.reject(err)
 })
 

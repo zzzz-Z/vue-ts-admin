@@ -10,7 +10,7 @@ const passwordForm = [{
 }, {
   label: '新密码',
   field: 'passsword'
-}].map((r: FormItem) => {
+}].map((r: IFormItem) => {
   r.labelCol = { span: 5 }
   r.wrapperCol = { span: 15 }
   return r

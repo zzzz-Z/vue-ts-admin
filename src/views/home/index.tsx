@@ -59,10 +59,6 @@ export default class Home extends Vue {
         url='/list.json'
         columns={columns}
         searchItems={searchItems}
-        actions={(t) => [
-          <Button style='margin-right:20px' type='primary' html='新建' onClick={() => { console.log(t) }} />,
-          <Button type='primary' html='新建' onClick={() => { console.log(t) }} />
-        ]}
       />
     )
   }

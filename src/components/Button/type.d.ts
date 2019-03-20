@@ -1,4 +1,4 @@
-interface Button extends JSX.FunctionalComponentCtx {
+interface IButton extends JSX.FunctionalComponentCtx {
   /**
    * can be set to primary ghost dashed danger(added in 2.7) or omitted (meaning default)
    * @default 'default'

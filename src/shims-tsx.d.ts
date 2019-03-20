@@ -22,6 +22,7 @@ declare global {
     }
     interface IntrinsicClassAttributes {
       ref?: string
+      id?: string
       class?: any
       style?: any
       key?: any

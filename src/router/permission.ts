@@ -1,39 +1,44 @@
-import { RouteConfig } from 'vue-router';
-import routerMaps from '@/router/router.map';
+import { RouteConfig } from 'vue-router'
+import routerMaps from '@/router/router.map'
+import config from '@/config'
+
+const _config = {
+  squeezeKey: 'sonResourceList',
+  filterKey: 'content'
+}
 /**
- *
  * @param roleRoutes 权限路由集合
  * @param routerMap   待挂载的路由集合
  * @returns 通过权限过滤后的路由
  */
-export default function getAsyncRoute(roleRoutes, routerMap = routerMaps) {
+export function getAsyncRoute(roleRoutes, routerMap = routerMaps) {
+
+  // 不需要权限验证时  直接返回完整路由
+  if (!config.validationRole) {
+    return routerMaps
+  }
+
+  // 传来的权限路由不存在 则返回空[]
+  if (!roleRoutes) {
+    return []
+  }
 
   try {
     roleRoutes = JSON.parse(roleRoutes)
   } catch (error) {
 
   }
-  //  对数组进行降维处理
-  const afterSqueeze = squeeze(roleRoutes, 'children')
-  // 所有权限路由path集合
-  const pathList: string[] = afterSqueeze.map((r) => r.path)
-  // 过滤权限路由
-  const asyncRoute = filterRouter(routerMap)
-  // 递归排序
-  sortRoute(asyncRoute)
-
-  return asyncRoute
-
 
   /**
-   *
+   * @default key =>'path'
+   * @param key 服务端传来的路由的路径 通过此字段进行过滤
    * @param routes 待挂载的路由集合
    * @returns 过滤后的路由集合
    */
-  function filterRouter(routes: RouteConfig[]) {
+  function filterRouter(routes: RouteConfig[], key = 'path') {
     return routes.filter((r) => {
       if (pathList.includes(r.meta.path)) {
-        const meta = afterSqueeze.find((j) => j.path === r.meta.path)
+        const meta = afterSqueeze.find((j) => j[key] === r.meta.path)
         r.meta = {
           ...r.meta,
           ...meta
@@ -58,6 +63,21 @@ export default function getAsyncRoute(roleRoutes, routerMap = routerMaps) {
       return a.meta.sortOrder - b.meta.sortOrder
     })
   }
+
+
+  //  对数组进行降维处理
+  const afterSqueeze = squeeze(roleRoutes, _config.squeezeKey)
+  // 所有权限路由path集合
+  const pathList: string[] = afterSqueeze.map((r) => r[_config.filterKey])
+  // 过滤权限路由
+  const asyncRoute = filterRouter(routerMap, _config.filterKey)
+  // 递归排序
+  sortRoute(asyncRoute)
+
+  return asyncRoute
+
+
+
 }
 
 /**

@@ -1,12 +1,13 @@
-import { Component, Vue, Provide, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import './style.less'
 import GlobalStore from '@/store/global';
+import { setStorage } from '@/utils/storage';
 
 @Component({})
 export default class Login extends Vue {
 
-  @Provide() username: string = ''
-  @Provide() password: string = ''
+  username: string = ''
+  password: string = ''
 
   @Watch('username')
   wusername(v) {
@@ -32,18 +33,20 @@ export default class Login extends Vue {
 
   login() {
     if (this.username !== 'tony') {
-      this.$message.error('用户名错误！')
-      return
+      // this.$message.error('用户名错误！')
+      // return
     }
-    this.Axios.get('/user.json').then((res: any) => {
-      if (!res.errorCode) {
-        this.$message.success(res.message)
-        GlobalStore.saveAsyncRoutes(res.role)
-        this.$router.push('/system/user')
-      } else {
-        this.$message.error('登录失败:' + res.message)
-      }
-    })
+    this.Axios.get('/home/login?qt=1&username=admin&password=admin123').
+      then((res: any) => {
+        if (!res.errorCode) {
+          this.$message.success(res.message)
+          GlobalStore.saveAsyncRoutes(res.menus)
+          setStorage('Token', res.token)
+          this.$router.push('/system/user')
+        } else {
+          this.$message.error('登录失败:' + res.message)
+        }
+      })
 
   }
 
@@ -51,7 +54,7 @@ export default class Login extends Vue {
 
     return (
       <a-row type='flex'>
-        <a-col lg={{ span: 4 }} md={{ span: 10 }} sm={{ span: 20 }} id='login'>
+        <a-col lg={{ span: 4 }} md={{ span: 13 }} sm={{ span: 22 }} id='login'>
           <div onKeydown={(e) => e.keyCode === 13 && this.login()} >
             <p>
               <span class='bold'> Design by </span>Village barber <span style='color:#000' >Tony</span> &

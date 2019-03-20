@@ -1,12 +1,7 @@
-export default ({ props, children, data }: Button) => {
+export default ({ props, children, data }: IButton) => {
   return (
-    <span {...data} >
-      {props.text
-        ? <a> {props.text} </a>
-        : <a-button
-          {...{ props }} >
-          {props.html || children}
-        </a-button>}
-    </span>
+    props.text
+      ? <a {...data} > {props.text} </a>
+      : <a-button {...data} > {props.html || children} </a-button>
   )
 }

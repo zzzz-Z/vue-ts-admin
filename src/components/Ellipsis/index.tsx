@@ -10,9 +10,10 @@ export default ({props, children}: Props) => {
   const fullLength = getStrFullLength(str)
   const cutStr = cutStrByFullLength(str, props.length)
   const title = props.width ? <div style={`width:${props.width}px`}> {str} </div > : str
+  const text = fullLength >= props.length + 3 ? cutStr + '...' : str;
   return (
     <a-tooltip title={title}>
-      {fullLength >= props.length + 3 ? cutStr + '...' : str}
+      {text}
     </a-tooltip>
   )
 }

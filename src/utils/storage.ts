@@ -46,12 +46,17 @@ export function getStorage(key: string) {
 }
 
 /**
- *
- * @param key 要删除的字段,为空时删除全部
+ * @param key 要删除的字段,
+ * @description key 为数组时 删除数组中的每一项 为空时删除全部
  */
-export function removeStorage(key?: string) {
+export function removeStorage(key?: string | string[]) {
 
-  key ?
-    localStorage.removeItem(tag + key) :
-    localStorage.clear()
+  if (!key) {
+    return localStorage.clear()
+
+  }
+
+  Array.isArray(key) ?
+    key.forEach(k => localStorage.removeItem(tag + k)) :
+    localStorage.removeItem(tag + key)
 }

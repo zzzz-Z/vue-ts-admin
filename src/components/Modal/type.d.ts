@@ -1,4 +1,4 @@
-interface Modal {
+interface IModal {
   /**
    * Specify a function that will be called when modal is closed completely.
    * @type Function
@@ -52,7 +52,7 @@ interface Modal {
    * @default OK and Cancel buttons
    * @type any (string | slot)
    */
-  footer?: any;
+  footer?: JSX.Element[] | 'no'
 
   /**
    * Return the mount node for Modal

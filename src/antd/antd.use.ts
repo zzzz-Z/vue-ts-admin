@@ -6,7 +6,7 @@ const {
   Anchor,
   // AutoComplete,
   // Alert,
-  // Avatar,
+  Avatar,
   // BackTop,
   // Badge,
   Breadcrumb,
@@ -19,8 +19,8 @@ const {
   Checkbox,
   Col,
   DatePicker,
-  // Divider,
-  // Dropdown,
+  Divider,
+  Dropdown,
   Form,
   Icon,
   Input,
@@ -42,7 +42,7 @@ const {
   Select,
   Slider,
   Spin,
-  // Steps,
+  Steps,
   // Switch,
   Table,
   // Transfer,
@@ -75,7 +75,7 @@ Vue.prototype.$confirm = Modal.confirm;
 Vue.use(Anchor);
 // Vue.use(AutoComplete);
 // Vue.use(Alert);
-// Vue.use(Avatar);
+Vue.use(Avatar);
 // Vue.use(BackTop);
 // Vue.use(Badge);
 Vue.use(Breadcrumb);
@@ -88,9 +88,9 @@ Vue.use(Collapse);
 Vue.use(Checkbox);
 Vue.use(Col);
 Vue.use(DatePicker);
-// Vue.use(Divider);
+Vue.use(Divider);
 // Vue.use(Drawer);
-// Vue.use(Dropdown);
+Vue.use(Dropdown);
 Vue.use(Form);
 Vue.use(Icon);
 Vue.use(Input);
@@ -110,7 +110,7 @@ Vue.use(Row);
 Vue.use(Select);
 Vue.use(Slider);
 Vue.use(Spin);
-// Vue.use(Steps);
+Vue.use(Steps);
 // Vue.use(Switch);
 Vue.use(Table);
 // Vue.use(Transfer);

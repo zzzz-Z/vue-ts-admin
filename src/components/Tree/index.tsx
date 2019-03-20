@@ -1,5 +1,5 @@
-import { Component, Vue, Prop, Watch, Provide } from 'vue-property-decorator'
-
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import cloneDeep from 'lodash/cloneDeep';
 interface Props {
   /** type 和 icon的对应关系  */
   iconList?: string[]
@@ -11,9 +11,9 @@ interface Props {
   nodeProps?: object
   /** 所有节点统一设置icon */
   icon?: JSX.Element
-  /** 替换 原组件传入的title 为自己想要的字段 */
+  /** 支持 a.b 多级字段 替换 原组件传入的title 为自己想要的字段 */
   title?: string
-  /** 替换 原组件传入的key 为自己想要的字段 */
+  /** 替换 原组件传入的key 为自己想要的字段 支持 a.b 多级字段 */
   field?: string
   /**  */
   type?: number
@@ -34,51 +34,57 @@ export default class Tree extends Vue {
   @Prop({ default: 'type' }) type !: string
   @Prop({ default: () => ['folder-open', 'folder', 'file'] }) iconList!: string[]
 
-  @Provide() treeNodes: any[] = []
+  treeNodes: any[] = []
 
-  initTreeNodes() {
+  dropDowm(r) {
+    return (
+      <a-dropdown style='margin-left:10px;font-size:10px'>
+        <a-icon type='down' />
+        <a-menu slot='overlay'>
+          <a-menu-item>
+            <a >1st menu item</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href='javascript:;'>2nd menu item</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href='javascript:;'>3rd menu item</a>
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
+    )
+  }
+
+  get TreeNodes() {
     const { field, title, iconList, type, nodeProps, treeData, icon } = this
-    const renderNode = (arr) =>
-      arr.map((r) => (
-        <a-tree-node
-          key={r[field]}
-          title={r[title]}
-          props={nodeProps}
-          {...r}
-          icon={icon || r.icon || String(r.type) && <a-icon type={iconList[r[type]]} />} >
-          {r.children && renderNode(r.children)}
-        </a-tree-node>
-      ))
-    this.treeNodes = renderNode(treeData)
-  }
-
-  @Watch('$props.treeProps.selectedKeys', { deep: true })
-  selectedChange([key]) {
-    let node = null
-    let nextKey = null
-    const findNode = (arr) => {
-      arr.find((vNode, i) => {
-        const child = vNode.componentOptions.children
-        return vNode.key === key
-          ? (node = vNode, nextKey = i >= 1 ? arr[i - 1].key : '')
-          : child && findNode(child)
+    const titleKeys = title.split('.')
+    const fieldKeys = field.split('.')
+    const renderNode = (arr: any[]) =>
+      arr.map((r) => {
+        let t = cloneDeep(r)
+        let f = cloneDeep(r)
+        titleKeys.forEach(k => t = t[k])
+        fieldKeys.forEach(k => f = f[k])
+        return (
+          <a-tree-node
+            {...r}
+            key={f}
+            title={<span>{t}{this.dropDowm(r)}</span>}
+            props={nodeProps}
+            icon={icon || r.icon || String(r.type) && <a-icon type={iconList[r[type]]} />} >
+            {r.children && renderNode(r.children)}
+          </a-tree-node>
+        )
       })
-    }
-    findNode(this.treeNodes)
-    this.$emit('selectedChange', { node, nextKey })
-  }
-
-  created() {
-    this.initTreeNodes()
+    return renderNode(treeData)
   }
 
   render() {
     return (
       <a-tree
-        showIcon
         props={this.treeProps}
         on={this.$listeners}>
-        {this.treeNodes}
+        {this.TreeNodes}
       </a-tree>
     )
   }

@@ -14,8 +14,8 @@ export default class Siderbar extends Vue {
     onShouldReload: () => void
   }
   @Prop() collapsed
-  @Provide() openkeys: string[] = []
-  @Provide() menuList: any[] = []
+  openkeys: string[] = []
+  menuList: any[] = []
 
   get currnetRoute() {
     return [this.$route.matched[0].path]
