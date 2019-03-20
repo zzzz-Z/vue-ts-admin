@@ -5,23 +5,23 @@ import './style.less'
 
 
 export interface Props {
-  columns: (t: Table) => any[]
+  columns: (t: ITable) => any[]
   url: string
   searchItems?: IFormItem[]
-  actions?: (t: Table) => JSX.Element[]
+  actions?: (t: ITable) => JSX.Element[]
   customRow?: (...arg: any) => ({})
   bodyStyle?: object
 }
 
 @Component({})
-export default class Table extends Vue {
+export default class ITable extends Vue {
 
   readonly Props!: Props
   @Prop() columns
   @Prop() url
   @Prop() customRow?: () => ({})
   @Prop({ default: () => ([]) }) searchItems?: any[]
-  @Prop({ default: () => ([]) }) actions?: (t: Table) => JSX.Element[]
+  @Prop({ default: () => ([]) }) actions?: (t: ITable) => JSX.Element[]
   @Prop() bodyStyle
 
   baseUrl = '/'

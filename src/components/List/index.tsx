@@ -2,7 +2,7 @@ import Breadcrumb from '../Breadcrumb';
 import Table from './table';
 
 
-const List = ({ data }: any) => {
+const IList = ({ data }: any) => {
   return (
     <div id='list-content'>
       <Breadcrumb />
@@ -10,4 +10,4 @@ const List = ({ data }: any) => {
     </div>
   )
 }
-export default List
+export default IList
