@@ -1,5 +1,6 @@
 #layout {
   height: 100%;
+
   .ant-menu.ant-menu-dark .ant-menu-item-selected,
   .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
     background: rgba(255, 255, 255, .05);
@@ -37,11 +38,17 @@
         }
       }
 
+      .svgmap {
+        font-size: 25px;
+        vertical-align: middle;
+        cursor: pointer;
+      }
+
       .avatar {
-        margin: 20px 8px 20px 0;
+        vertical-align: middle;
+        margin-right: 10px;
         color: #1890ff;
         font-size: 25px;
-        vertical-align: top;
         background: hsla(0, 0%, 100%, .85);
       }
 
@@ -103,21 +110,25 @@
     background: #006835;
     transition: all .3s;
 
-    img {
-      width: 50px;
-      height: 50px;
+    .anticon {
+      font-size: 35px;
       vertical-align: middle;
-      margin-left: -10px
     }
 
     h1 {
       display: inline-block;
-      margin: 0 0 0 12px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 20px;
+      margin-left:12px;
+      position: relative;
+      top: 5px;
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
-      vertical-align: middle;
+      span {
+        color: rgb(2, 136, 209);
+        font-weight: 400;
+        font-size: 20px;
+        position: relative;
+        top: 2px;
+        left: -5px;
+      }
     }
   }
 

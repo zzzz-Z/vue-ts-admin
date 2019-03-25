@@ -1,9 +1,10 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Form } from 'ant-design-vue';
+import { FormRef, IFormProps, IFormItem } from './type';
 
 
 @Component({})
-class IForm extends Vue {
+class Iform extends Vue {
 
   readonly Props!: IFormProps
   @Prop(String) layout
@@ -20,14 +21,18 @@ class IForm extends Vue {
   /**  初始值 ,设置所有表单项的初始值 && 合并修改后的表单数据 */
   @Prop() initialValues?: object
   /** 表单实例 */
-  @Prop() form?: any
+  @Prop() form!: FormRef & JSX.Element
 
   get renderItem() {
     const { labelCol, wrapperCol, initialValues, form, itemStyle, col } = this
+
     return this.formItems.map((props) => {
       // tslint:disable-next-line:prefer-const
       let { field, rules, initialValue, el } = props
-      let element = el ? el(form) : <a-input {...{ attr: props }} />
+      let element = <a-input />
+      if (el) {
+        element = typeof el === 'function' ? el(form) : el
+      }
       typeof rules === 'function' && (rules = rules(form))
       if (field) {
         if (initialValues && Object.keys(initialValues).includes(field)) {
@@ -35,12 +40,13 @@ class IForm extends Vue {
         }
         element = form.getFieldDecorator(field, { rules, initialValue })(element)
       }
-      props = { labelCol, wrapperCol, ...props }
+      const formItemProps = { props: { labelCol, wrapperCol, ...props } }
+      const colProps = { props: col }
       const style = props.style || itemStyle
 
       return (
-        <a-col {...{ props: col }} style={style} >
-          <a-form-item   {...{ props }}  >
+        <a-col {...colProps} style={style} >
+          <a-form-item   {...formItemProps}  >
             {element}
           </a-form-item>
         </a-col>
@@ -69,4 +75,7 @@ const props = [
   'initialValues'
 ]
 
-export default Form.create({ props })(IForm)
+const MForm = Form.create({ props })(Iform)
+const IForm = ({ data }: IFormProps & JSX.FunctionalComponentCtx) => <MForm {...data} />
+
+export default IForm

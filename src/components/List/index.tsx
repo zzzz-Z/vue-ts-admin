@@ -1,13 +1,13 @@
 import Breadcrumb from '../Breadcrumb';
-import Table from './table';
+import ITable from './table';
 
 
-const IList = ({ data }: any) => {
+const List = ({ data }: any) => {
   return (
     <div id='list-content'>
       <Breadcrumb />
-      <Table {...data} />
+      <ITable {...data} />
     </div>
   )
 }
-export default IList
+export default List

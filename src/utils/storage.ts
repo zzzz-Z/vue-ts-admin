@@ -57,6 +57,6 @@ export function removeStorage(key?: string | string[]) {
   }
 
   Array.isArray(key) ?
-    key.forEach(k => localStorage.removeItem(tag + k)) :
+    key.forEach((k) => localStorage.removeItem(tag + k)) :
     localStorage.removeItem(tag + key)
 }

@@ -19,7 +19,7 @@ export default class Resource extends Vue {
   }
   click(e) {
     if (e.target.className !== 'itree-title') {
-      ResourceStore.setDropDown(false)
+      ResourceStore.setDropdown(false)
       ResourceStore.setSelectedKeys([])
     }
   }

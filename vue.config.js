@@ -14,7 +14,7 @@ module.exports = {
   productionSourceMap: false,
 
   // 是否生成.map文件
-  configureWebpack: config => { 
+  configureWebpack: config => {
     config.devtool = 'source-map' // 调试 时需要开启
     if (isProduction) {
       config.externals = {
@@ -23,7 +23,7 @@ module.exports = {
         // 'ant-design-vue': 'antd',
         // 'moment': 'moment'
       }
-      config.plugins.push(new BundleAnalyzerPlugin())// 打包显示模块依赖关系
+      config.plugins.push(new BundleAnalyzerPlugin()) // 打包显示模块依赖关系
       config.plugins.push(new CompressionWebpackPlugin({
         algorithm: 'gzip',
         test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
@@ -58,6 +58,10 @@ module.exports = {
     }
   },
   chainWebpack: (config) => {
+    const svgRule = config.module.rule('svg')
+    svgRule.uses.clear()
+    svgRule.use('vue-svg-loader').loader('vue-svg-loader')
+
     config.resolve.alias
       .set('@', resolve('src'))
       .set('assets', resolve('src/assets'))
@@ -67,6 +71,6 @@ module.exports = {
   }
 }
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }

@@ -7,30 +7,21 @@ import Table from '@/components/List/table';
 @Component({})
 export default class User extends Vue {
 
-  created() {
-    this.Axios.post('/system/role/list/1/', {
-      pageCurrent: 1,
-      searchParams: {},
-      pageSize: 12
-    })
-  }
   render() {
     const columns = (t: Table) => [{
-      title: 'Name',
+      title: '项目名称',
       dataIndex: 'name'
     }, {
-      title: 'Age',
-      dataIndex: 'age',
-    }, {
-      title: 'Home phone',
+      title: '属性01',
       dataIndex: 'tel',
     }, {
-      title: 'Phone',
+      title: '属性02',
       dataIndex: 'phone',
     }, {
-      title: 'Address',
+      title: '状态',
       dataIndex: 'address',
     }]
+
     const searchItems = [{
       label: '用户名',
       field: 'name',
@@ -48,16 +39,17 @@ export default class User extends Vue {
       <ModalGenerator
         modal={{ title: '新建' }}
         btn={<Button type='primary' html='新建' />}
-        formItems={searchItems.map((r: any) => {
-          r.labelCol = { span: 5 };
-          r.wrapperCol = { span: 16 };
-          return r
-        })}/>
+        formProps={{
+          formItems: searchItems.map((r: any) => {
+            r.labelCol = { span: 5 };
+            r.wrapperCol = { span: 16 };
+            return r
+          })
+        }} />
     ]
     return (
       <div>
         <List
-          url='/list.json'
           columns={columns}
           searchItems={searchItems}
           actions={actions}

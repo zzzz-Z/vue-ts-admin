@@ -39,13 +39,8 @@ export function getAsyncRoute(roleRoutes, routerMap = routerMaps) {
     return routes.filter((r) => {
       if (pathList.includes(r.meta.path)) {
         const meta = afterSqueeze.find((j) => j[key] === r.meta.path)
-        r.meta = {
-          ...r.meta,
-          ...meta
-        }
-        if (r.children) {
-          r.children = filterRouter(r.children)
-        }
+        r.meta = { ...r.meta, ...meta }
+        r.children && (r.children = filterRouter(r.children))
         return true
       }
     })
@@ -65,7 +60,7 @@ export function getAsyncRoute(roleRoutes, routerMap = routerMaps) {
   }
 
 
-  //  对数组进行降维处理
+  //  对数组进行降维打击
   const afterSqueeze = squeeze(roleRoutes, _config.squeezeKey)
   // 所有权限路由path集合
   const pathList: string[] = afterSqueeze.map((r) => r[_config.filterKey])

@@ -7,29 +7,31 @@ class Resource extends VuexModule {
 
   treeData: any[] = []
   checkable = false
-  showDropDown = false
+  showDropdown = false
   currentRowInfo = {}
   selectedKeys: string[] = []
 
+  /** 设置tree是否显示节点的Checkbox 复选框	 */
   @Mutation
   setCheckable(expect: boolean) {
     this.checkable = expect
   }
-
+  /** 设置dropdwon isShow */
   @Mutation
-  setDropDown(expect: boolean) {
-    this.showDropDown = expect
+  setDropdown(expect: boolean) {
+    this.showDropdown = expect
   }
+  /** 设置tree数据 */
   @Mutation
   setTreeData(treeData: any[]) {
     this.treeData = treeData
   }
-
+  /** 保存列表当前行信息 */
   @Mutation
   saveCurrentRowInfo(info: {}) {
     this.currentRowInfo = info
   }
-
+  /** 设置tree的当前选中项 */
   @Mutation
   setSelectedKeys(selectedKeys: string[]) {
     this.selectedKeys = selectedKeys

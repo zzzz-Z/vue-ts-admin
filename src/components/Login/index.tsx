@@ -1,74 +1,76 @@
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import './style.less'
 import GlobalStore from '@/store/global';
-import { setStorage } from '@/utils/storage';
+import { removeStorage } from '@/utils/storage';
+import { FormRef } from '../Form/type';
 
 @Component({})
 export default class Login extends Vue {
 
-  username: string = ''
-  password: string = ''
 
-  @Watch('username')
-  wusername(v) {
-    this.styleChange(v, 'username')
-  }
-
-  @Watch('password')
-  wpwd(v) {
-    this.styleChange(v, 'pwd')
-  }
-
-  styleChange(v, ref: string) {
-    const style = (this.$refs[ref] as any).style
-    if (v === '') {
-      style.top = '27px'
-      style.color = '#ccc'
-
-    } else {
-      style.top = '5px'
-      style.color = '#000'
+  formItemLayout = {
+    labelCol: {
+      span: 1
+    },
+    wrapperCol: {
+      span: 23
     }
+  }
+  form!: FormRef
+  loading: any = false
+
+  onEnter(e) {
+    if (e.keyCode !== 13) {
+      return
+    }
+    this.login()
   }
 
   login() {
-    const { username, password } = this
-    this.Axios.get('/login', { params: { username, password } }).then(
-      ({ message, errorCode, data }: any) => {
-        if (!errorCode) {
-          this.$message.success(message)
-          GlobalStore.saveAsyncRoutes(data.role)
-          this.$router.push('/system/user')
-        } else {
-          this.$message.error(message)
-        }
-      })
+    this.loading = true
+    this.form.validateFields((err, params) => {
+      GlobalStore.login(params)
+        .finally(() => this.loading = false)
+    })
+  }
+
+  beforeCreate() {
+    removeStorage()
+    this.form = this.$form.createForm(this)
   }
 
   render() {
 
     return (
-      <a-row type='flex'>
-        <a-col lg={{ span: 4 }} md={{ span: 13 }} sm={{ span: 22 }} id='login'>
-          <div onKeydown={(e) => e.keyCode === 13 && this.login()} >
-            <p>
-              <span class='bold'> Design by </span>Village barber <span style='color:#000' >Tony</span> &
-              <a-icon type='heart' theme='twoTone' twoToneColor='#eb2f96' />
-            </p>
-            <div class='input' >
-              <input autofocus='autofocus' v-model={this.username} ></input>
-              <div class='bottom'></div>
-              <div ref='username' class='label'>Username</div>
-            </div>
-            <div class='input' >
-              <input v-model={this.password} ></input>
-              <div class='bottom'></div>
-              <div ref='pwd' class='label'>Password</div>
-            </div>
-            <a-button onClick={this.login} class='button'>登录</a-button>
-          </div>
-        </a-col>
-      </a-row>
+      <div onKeydown={this.onEnter} id='login' >
+        <a-row class='content'>
+          <a-col span={12} > <img src={require('@/assets/images/longin1.png')} /></a-col>
+          <a-col span={12} >
+            <a-form class='form' style='width:300px' >
+              <img src={require('@/assets/images/longin2.png')} />
+              <a-form-item  {...{ props: this.formItemLayout }} >
+                {this.form.getFieldDecorator('username', {})(
+                  <a-input placeholder='请输入用户名' prefix={<a-icon type='user' />} />
+                )}
+              </a-form-item>
+              <a-form-item {...{ props: this.formItemLayout }} >
+                {this.form.getFieldDecorator('password', {})(
+                  <a-input placeholder='请输入密码' type='password' prefix={<a-icon type='key' />} />
+                )}
+              </a-form-item>
+              <a-form-item {...{ props: this.formItemLayout }} >
+                <a-button
+                  loading={this.loading}
+                  size='large'
+                  style='width:100%'
+                  type='primary'
+                  onClick={this.login}
+                >登录</a-button>
+              </a-form-item>
+            </a-form>
+          </a-col >
+        </a-row >
+      </div >
     )
   }
 }

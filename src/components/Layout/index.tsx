@@ -3,6 +3,7 @@ import Siderbar from './siderbar'
 import Header from './header';
 import GlobalStore from '@/store/global';
 import './style.less'
+import Svg from '../Svg';
 
 @Component({})
 export default class Layout extends Vue {
@@ -16,7 +17,6 @@ export default class Layout extends Vue {
 
   render() {
     const headerStyle = GlobalStore.collapsed ? 'header-fixed fold' : 'header-fixed unfold'
-    const logoImg = require('@/assets/img/logo.png')
     return (
       <a-layout id='layout' >
         <a-layout-sider
@@ -25,8 +25,8 @@ export default class Layout extends Vue {
           v-model={GlobalStore.collapsed}
           width={256}>
           <div class='logo'>
-            <img src={logoImg} />
-            <h1 ></h1>
+            <Svg name='tiger' />
+            <h1 ><Svg name='a_typescript' /> <span>admin</span> </h1>
           </div>
           <Siderbar
             onShouldReload={this.reloadView}

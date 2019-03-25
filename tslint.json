@@ -12,6 +12,7 @@
     "no-unused-expression":false,
     "no-empty-interface":false,
     "no-empty":false,
+    "variable-name":false,
     "no-console": false,
     "no-shadowed-variable":false,
     "trailing-comma": false,

@@ -1,90 +1,75 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import IForm from '../Form'
 import Ellipsis from '../Ellipsis';
+import { ITableProps, ITableData, Column } from './type';
+import { FormRef } from '../Form/type';
 import './style.less'
 
-
-export interface Props {
-  columns: (t: ITable) => any[]
-  url: string
-  algin?: string
-  searchItems?: IFormItem[]
-  actions?: (t: ITable) => JSX.Element[]
-  customRow?: (...arg: any) => ({})
-  bodyStyle?: object
-}
 
 @Component({})
 export default class ITable extends Vue {
 
-  readonly Props!: Props
-  @Prop() columns
-  @Prop() url!: string
-  @Prop({ default: 'center' }) algin?: string
+  readonly Props!: ITableProps
+  @Prop() columns!: (t: ITable) => Column[]
+  @Prop() data!: Promise<ITableData>
+  @Prop() query?: (params: {}) => Promise<[]>
+  @Prop() algin?: 'left' | 'right' | 'center'
   @Prop() customRow?: () => ({})
   @Prop({ default: () => ([]) }) searchItems?: any[]
   @Prop({ default: () => ([]) }) actions?: (t: ITable) => JSX.Element[]
-  @Prop() bodyStyle
+  @Prop() bodyStyle?: {}
 
-  baseUrl = '/'
   isUp = false
-  dataSource = []
   totalSize = 0
   loading = false
   pagination = {
-    showTotal: (n) => {
-      return n + '条'
-    },
+    showTotal: (n) => '共' + n + '条',
     showSizeChanger: true,
     showQuickJumper: true,
     defaultPageSize: 10
   }
   rowSelection = {}
-  baseParams = {
-    pageSize: 12,
-    pageCurrent: 1,
-    searchParams: {}
-  }
+  dataSource: any;
 
   created() {
-    this.getDataSouce()
-  }
-  RESET() {
-    this.dataSource = []
-    this.totalSize = 0
-    this.baseParams = {
-      pageSize: 12,
-      pageCurrent: 1,
-      searchParams: {}
-    }
+    this.init()
   }
 
-  query(queryParams: any) {
-    console.log(1);
+  init() {
+    this.loading = true;
+    setTimeout(() => {
+      this.data
+        .then((res: ITableData) => {
+          this.dataSource = res.dataSource
+        })
+        .catch((e) => this.$message.error('获取数据失败'))
+        .finally(() => this.loading = false)
+    }, 1000);
+
   }
 
-  reload(queryParams: any) {
-    console.log(1);
+  /** 按条件查询 */
+  _query(form: FormRef) {
+    const params = form.getFieldsValue()
+    this.query && this.query(params).then((v) => {
+      this.dataSource = v
+    })
   }
+  /** 重置列表数据 & 搜索条件 */
+  reload(form: FormRef) {
+    form.resetFields()
+    this.init()
+  }
+  /** 切换查询项展开收起 */
   toggleForm() {
     this.isUp = !this.isUp
   }
 
-  getDataSouce() {
-    this.loading = true
-    this.Axios.get(this.url, { params: this.baseParams })
-      .then((r: any) => {
-        this.dataSource = r.data
-        this.loading = false
-      })
-  }
   get _columns() {
     return this.columns(this).map((r) => {
-
-      if (!r.algin) {
+      if (this.algin) {
         r.align = this.algin
       }
-
       if (!r.customRender) {
         r.customRender = (text) => (
           typeof text === 'string' ? <Ellipsis length={15} str={text} /> : text
@@ -93,24 +78,25 @@ export default class ITable extends Vue {
       return r
     })
   }
+
   get renderSearch() {
     const items = this.searchItems
     if (!items) { return }
     items.map((r: any) => r.style = 'margin-right:20px')
     const searchItems: any[] = this.isUp ? items : [items[0], items[1]]
     const handle = {
-      el: (form: any) => (
+      el: (form: FormRef) => (
         <div style='margin-left:30px' >
           <a-button
             style='margin-right:10px'
             type='primary'
             icon='search'
-            onClick={() => this.query(form.getFieldsValue())} />
+            onClick={() => this._query(form)} />
           <a-button
             style='margin-right:10px'
             type='primary'
             icon='reload'
-            onClick={() => this.reload(form.getFieldsValue())} />
+            onClick={() => this.reload(form)} />
           <a
             v-show={items.length > 2}
             onClick={this.toggleForm} >

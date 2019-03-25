@@ -42,13 +42,8 @@ request.interceptors.response.use((res) => {
   return Promise.reject(err)
 })
 
-export const exportFile = (url: string, params = { count: 1000 }) =>
-  Axios({
-    url,
-    params,
-    method: 'get',
-    responseType: 'blob',
-  }).then((res) => {
+export const exportFile = (url: string, params?: {}) =>
+  Axios({ url, params, method: 'get', responseType: 'blob' }).then((res) => {
     const name = res.headers['content-disposition']
     const fileName = name.substring(name.indexOf('=') + 1, name.length)
     const blob = new Blob([res.data])

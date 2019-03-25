@@ -1,9 +1,10 @@
 import '../style.less'
 import { Component, Vue } from 'vue-property-decorator'
 import ModalGenerator from '@/components/Modal';
-import Table from '@/components/List/table';
+import ITable from '@/components/List/table';
 import Button from '@/components/Button';
 import ResourceStore from './store';
+import { projectData } from '@/mock';
 @Component({})
 export default class List extends Vue {
 
@@ -51,9 +52,9 @@ export default class List extends Vue {
   render() {
     return (
       <a-col span={20}>
-        <Table
+        <ITable
+          data={projectData}
           customRow={this.customRow}
-          url='/list.json'
           columns={this.columns}
           searchItems={this.searchItems}
           actions={this.actions} />
@@ -65,9 +66,9 @@ export default class List extends Vue {
     return {
       on: {
         click: (e) => {
-          e.path.forEach(r => {
+          e.path.forEach((r) => {
             if (r.nodeName === 'TR') {
-              r.parentNode.childNodes.forEach(el => {
+              r.parentNode.childNodes.forEach((el) => {
                 el.style.backgroundColor = 'transparent'
               })
               r.style.backgroundColor = '#d8e6df'
@@ -80,10 +81,11 @@ export default class List extends Vue {
     }
   }
 
-  columns(t: Table) {
+  columns(_t: ITable) {
     return [{
       title: '角色',
-      dataIndex: 'name'
+      dataIndex: 'name',
+      onFilter: (value, record) => record.name.includes(value),
     }, {
       title: '权限',
       dataIndex: 'role',
@@ -100,19 +102,22 @@ export default class List extends Vue {
               btn={<a-icon type='edit' />}
               modal={{
                 title: '修改',
+                afterClose: () => { this.isNext = true },
                 footer: [
                   <a-button onClick={() => { this.isNext = !this.isNext }} >
                     {this.btnText}
                   </a-button>
                 ],
               }}
-              afterCancel={() => this.isNext = true}
-              initialValues={arg[1]}
-              fetch={(params, form) => {
+              fetch={(params, _form) => {
                 console.log(params);
                 return this.Axios.get('')
               }}
-              formItems={this.editForm} />
+              formProps={{
+                formItems: this.editForm,
+                initialValues: arg[1]
+              }}
+            />
             <a-divider type='vertical' />
             <a-icon type='delete' />
           </a>
@@ -122,17 +127,16 @@ export default class List extends Vue {
 
   }
 
-  actions(t: Table) {
+  actions(_t: ITable) {
     return [
       <ModalGenerator
         modal={{ title: '新建' }}
-        fetch={(params, form) => {
-          console.log(params);
-          console.log(form.form.isFieldsTouched(['zzzz']));
+        formProps={{ formItems: this.searchItems }}
+        btn={<Button type='primary' html='新建' />}
+        fetch={(_params, _form) => {
           return this.Axios.get('')
         }}
-        btn={<Button type='primary' html='新建' />}
-        formItems={this.searchItems} />
+      />
     ]
   }
 }
