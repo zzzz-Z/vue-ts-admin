@@ -1,9 +1,25 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import IForm from '../Form'
 import Ellipsis from '../Ellipsis';
-import { ITableProps, ITableData, Column } from './type';
-import { FormRef } from '../Form/type';
 import './style.less'
+import { Column } from '@/types/column';
+import { FormRef } from '@/types/form-ref';
+
+export interface ITableData {
+  dataSource: Array<{}>
+  totalSize?: number
+  totalPageCount?: number
+}
+
+export interface ITableProps {
+  columns: (t: ITable) => Column[]
+  data: Promise<ITableData> | []
+  algin?: string
+  searchItems?: IFormItem[]
+  actions?: (t: ITable) => JSX.Element[]
+  customRow?: (...arg: any) => ({})
+  bodyStyle?: {}
+}
 
 
 @Component({})
@@ -11,12 +27,12 @@ export default class ITable extends Vue {
 
   readonly Props!: ITableProps
   @Prop() columns!: (t: ITable) => Column[]
-  @Prop() data!: Promise<ITableData>
+  @Prop() data!: Promise<ITableData> | []
   @Prop() query?: (params: {}) => Promise<[]>
   @Prop() algin?: 'left' | 'right' | 'center'
   @Prop() customRow?: () => ({})
-  @Prop({ default: () => ([]) }) searchItems?: any[]
-  @Prop({ default: () => ([]) }) actions?: (t: ITable) => JSX.Element[]
+  @Prop() searchItems?: any[]
+  @Prop() actions?: (t: ITable) => JSX.Element[]
   @Prop() bodyStyle?: {}
 
   isUp = false
@@ -37,14 +53,18 @@ export default class ITable extends Vue {
 
   init() {
     this.loading = true;
-    setTimeout(() => {
-      this.data
+    try {
+      (this.data as Promise<ITableData> )
+        .catch((e) => this.$message.error('获取数据失败'))
+        .finally(() => this.loading = false)
         .then((res: ITableData) => {
           this.dataSource = res.dataSource
         })
-        .catch((e) => this.$message.error('获取数据失败'))
-        .finally(() => this.loading = false)
-    }, 1000);
+    } catch (error) {
+      this.dataSource = this.data
+      this.loading = false
+    }
+
 
   }
 
@@ -122,6 +142,7 @@ export default class ITable extends Vue {
       border: 0,
       ...this.bodyStyle,
     }
+
     return (
       <a-card
         bodyStyle={bodyStyle}

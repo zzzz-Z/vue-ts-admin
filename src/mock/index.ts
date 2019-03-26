@@ -1,6 +1,6 @@
-import { ITableData } from '@/components/List/type';
+import { ITableData } from '@/components/List/table';
 
-export const projectData: Promise<ITableData> = new Promise(r => r({
+export const projectData: Promise<ITableData> = new Promise((r) => r({
   dataSource: [{
     key: 1,
     name: '项目名1',

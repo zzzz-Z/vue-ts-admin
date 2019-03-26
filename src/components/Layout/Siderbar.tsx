@@ -68,6 +68,16 @@ export default class Siderbar extends Vue {
 
 
   render() {
+    const routerMaps = JSON.parse(JSON.stringify(GlobalStore.asyncRoutes))
+    const loop = (arr) => arr.map((r) => {
+      if (r.children) {
+        // 当子路由同父路由的path相同时,隐藏子路由菜单title
+        r.children[0].meta.path === r.meta.path ?
+          r.children = undefined :
+          loop(r.children)
+      }
+    })
+    loop(routerMaps)
 
     return (
       <a-menu
@@ -77,7 +87,7 @@ export default class Siderbar extends Vue {
         mode='inline'
         theme='dark'
         style='padding:16px 0' >
-        {GlobalStore.asyncRoutes.map((r: itemConfig) => (
+        {routerMaps.map((r: itemConfig) => (
           r.children && r.children.length > 0
             ? this.subItem(r)
             : this.menuItem(r)

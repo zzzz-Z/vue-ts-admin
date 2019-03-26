@@ -1,36 +1,8 @@
 // tslint:disable-next-line:max-line-length
 import { FieldDecoratorOptions, Field, FieldValue, ValidateFieldOptions, ValidateCallback } from 'ant-design-vue/types/form/form';
 
-interface IFormItem {
-  style?: string;
-  field?: string;
-  initialValue?: any;
-  rules?: any;
-  type?: string;
-  el?: JSX.Element | ((form: JSX.Element) => JSX.Element)
-  colon?: boolean;
-  extra?: any;
-  hasFeedback?: boolean;
-  help?: any;
-  label?: any;
-  labelCol?: any;
-  required?: boolean;
-  validateStatus?: '' | 'success' | 'warning' | 'error' | 'validating';
-  wrapperCol?: any;
-  placeholder?: string
-}
 
-interface IFormProps {
-  layout?: 'horizontal' | 'inline' | 'vertical'
-  formItems?: IFormItem[]
-  initialValues?: {}
-  labelCol?: any
-  wrapperCol?: any
-  itemStyle?: string
-  col?: any
-}
-
-interface FormRef {
+interface FormRef extends JSX.Element {
 
   /**
    * Check whether a field is touched by getFieldDecorator's options.trigger event

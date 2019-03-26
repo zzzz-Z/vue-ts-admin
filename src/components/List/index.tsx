@@ -2,7 +2,7 @@ import Breadcrumb from '../Breadcrumb';
 import ITable from './table';
 
 
-const List = ({ data }: any) => {
+const List = ({ data, props }: any) => {
   return (
     <div id='list-content'>
       <Breadcrumb />

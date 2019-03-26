@@ -1,8 +1,8 @@
 import { Component, Vue } from 'vue-property-decorator';
-import './style.less'
 import GlobalStore from '@/store/global';
 import { removeStorage } from '@/utils/storage';
-import { FormRef } from '../Form/type';
+import { FormRef } from '@/types/form-ref';
+import './style.less'
 
 @Component({})
 export default class Login extends Vue {

@@ -42,11 +42,7 @@ export default class List extends Vue {
       label: 'bb',
       field: 'bb',
       style: stepTwo
-    }].map((r: any) => {
-      r.labelCol = { span: 5 };
-      r.wrapperCol = { span: 16 };
-      return r
-    })
+    }]
   }
 
   render() {
@@ -109,11 +105,10 @@ export default class List extends Vue {
                   </a-button>
                 ],
               }}
-              fetch={(params, _form) => {
-                console.log(params);
-                return this.Axios.get('')
-              }}
+              fetch={(params, _form) => this.Axios.get('')}
               formProps={{
+                labelCol: { span: 5 },
+                wrapperCol: { span: 15 },
                 formItems: this.editForm,
                 initialValues: arg[1]
               }}

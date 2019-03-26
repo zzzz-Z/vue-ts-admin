@@ -1,8 +1,5 @@
-import ITable from './table';
 import { ColumnFilterItem, SortOrder } from 'ant-design-vue/types/table/column';
 import { ScopedSlot } from 'vue/types/vnode';
-import { IFormItem } from '../Form/type';
-
 
 interface Column {
   /**
@@ -177,20 +174,4 @@ interface Column {
    * @type object
    */
   scopedSlots?: object;
-}
-
-interface ITableData {
-  dataSource: Array<{}>
-  totalSize?: number
-  totalPageCount?: number
-}
-
-interface ITableProps {
-  columns: (t: ITable) => Column[]
-  data: Promise<ITableData>
-  algin?: string
-  searchItems?: IFormItem[]
-  actions?: (t: ITable) => JSX.Element[]
-  customRow?: (...arg: any) => ({})
-  bodyStyle?: {}
 }

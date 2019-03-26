@@ -3,7 +3,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import GlobalStore from '@/store/global';
 import ModalGenerator from '@/components/Modal';
 import ResourceStore from './store';
-import { IFormItem } from '@/components/Form/type';
 
 @Component({})
 export default class Permission extends Vue {
@@ -219,7 +218,7 @@ export default class Permission extends Vue {
                 { id: 2, name: 'delete' },
                 { id: 3, name: 'update' },
                 { id: 4, name: 'check' }]
-                  .map(r => (
+                  .map((r) => (
                     <a-select-option key={r.id}>
                       {r.name}
                     </a-select-option>))

@@ -11,7 +11,7 @@ const ChangePassWord = () => (
       modal={{ title: '修改密码' }}
       btn={<Button text='修改密码' />}
       formProps={{
-        labelCol: { sapn: 5 },
+        labelCol: { span: 5 },
         wrapperCol: { span: 15 },
         formItems: [{
           label: '密码',

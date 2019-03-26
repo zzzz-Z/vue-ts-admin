@@ -1,15 +1,10 @@
-/**
- * 全局变量
- */
-
 import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
 import { setStorage, removeStorage } from '../utils/storage';
 import store from './index';
 import router from '@/router';
 import { getAsyncRoute } from '@/router/permission';
-import request from '@/utils/request';
-import { RouteConfig } from 'vue-router';
 import { message } from 'ant-design-vue';
+import { login } from '@/api/user';
 
 
 @Module({ dynamic: true, store, name: 'GlobalStore' })
@@ -37,27 +32,23 @@ class Global extends VuexModule {
     this.collapsed = !this.collapsed
   }
 
-
-  @Action
-  login(payload) {
-    return request.get('/home/login', { params: { ...payload, qt: 1 } })
-      .then((res: any) => {
-        if (Number(res.code)) {
-          setStorage('Token', res.token)
-          this.saveAsyncRoutes(res.menus)
-          router.push('/system/user')
-        } else {
-          message.error(res.msg)
-        }
-      })
-
-  }
-
-  @Action
+  @Mutation
   logout() {
     removeStorage()
     window.location.href = '/'
   }
+
+
+  @Action
+  async login(payload) {
+    const res = await login(payload)
+    Number(res.code)
+    ? ( setStorage('Token', res.token),
+      this.saveAsyncRoutes(res.menus),
+      router.push('/system/user') )
+    : message.error(res.msg)
+  }
+
 }
 /**
  * 全局变量 Vuex

@@ -5,13 +5,21 @@ import Resource from '@/views/system/resource';
 import Examination from '@/views/project/examination';
 
 const routerMap = [{
-  path: '/manage',
+  path: '/form',
   component: Layout,
   meta: {
-    name: '项目管理',
-    icon: 'schedule',
-    path: '/manage'
-  }
+    name: '表单页',
+    icon: 'form',
+    path: '/form'
+  },
+  children: [{
+    path: '',
+    component: () => import('@/views/form'),
+    meta: {
+      name: '表单页',
+      path: '/form'
+    }
+  }]
 }, {
   path: '/gisDataManager',
   component: Layout,

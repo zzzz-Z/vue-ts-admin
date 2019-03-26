@@ -1,5 +1,5 @@
 import router from '@/router';
-import Axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import Axios from 'axios'
 import { message } from 'ant-design-vue'
 // import NProgress from 'nprogress'
 // import 'nprogress/nprogress.css'
@@ -12,12 +12,9 @@ const request = Axios.create({
   timeout: 15000
 })
 
-
-request.interceptors.request.use((cf) => {
-  // store.CancelToken = store.commit('saveRequest', request.CancelToken.source())
-  cf.headers['Authentication-Token'] = getStorage('Token') || ''
-  // NProgress.start()
-  return cf
+request.interceptors.request.use((cfg) => {
+  cfg.headers['Authentication-Token'] = getStorage('Token') || ''
+  return cfg
 })
 /**
  * do something after Response
@@ -27,18 +24,13 @@ request.interceptors.response.use((res) => {
     router.push('/')
     return
   }
-  // NProgress.done()
-  if (res.config.responseType === 'blob') {
-    return res
-  }
-  return res.data
+  return res as any
 }, (err) => {
   if (!config.isProd) {
     err.response
       ? message.error('错误码：' + err.response.status)
       : message.error('请求超时...')
   }
-  // NProgress.done()
   return Promise.reject(err)
 })
 
@@ -60,6 +52,7 @@ export const exportFile = (url: string, params?: {}) =>
       navigator.msSaveBlob(blob, fileName)
     }
   })
+
 
 export default request
 

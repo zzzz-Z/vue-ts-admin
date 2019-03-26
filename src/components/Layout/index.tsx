@@ -25,8 +25,7 @@ export default class Layout extends Vue {
           v-model={GlobalStore.collapsed}
           width={256}>
           <div class='logo'>
-            <Svg name='tiger' />
-            <h1 ><Svg name='a_typescript' /> <span>admin</span> </h1>
+            <Svg name='sunny' />
           </div>
           <Siderbar
             onShouldReload={this.reloadView}
