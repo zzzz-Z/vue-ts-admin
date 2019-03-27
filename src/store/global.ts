@@ -1,18 +1,21 @@
 import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
-import { setStorage, removeStorage } from '../utils/storage';
-import store from './index';
-import router from '@/router';
-import { getAsyncRoute } from '@/router/permission';
-import { message } from 'ant-design-vue';
-import { login } from '@/api/user';
+import { setStorage, removeStorage } from '../utils/storage'
+import { getAsyncRoute } from '@/router/permission'
+import { message } from 'ant-design-vue'
+import { login } from '@/api/user'
+import store from './index'
+import router from '@/router'
 
-
+interface UserInfo {
+  name?: string
+}
 @Module({ dynamic: true, store, name: 'GlobalStore' })
 class Global extends VuexModule {
   /** 路由表 */
   asyncRoutes: any[] = []
-  userInfo = {}
-  collapsed = false
+  userInfo: UserInfo = {
+    name: 'admin'
+  }
 
   @Mutation
   saveAsyncRoutes(asyncRoutes: any) {
@@ -28,11 +31,6 @@ class Global extends VuexModule {
   }
 
   @Mutation
-  changeCollapsed() {
-    this.collapsed = !this.collapsed
-  }
-
-  @Mutation
   logout() {
     removeStorage()
     window.location.href = '/'
@@ -40,18 +38,16 @@ class Global extends VuexModule {
 
 
   @Action
-  async login(payload) {
+  async login(payload = {}) {
     const res = await login(payload)
-    Number(res.code)
-    ? ( setStorage('Token', res.token),
-      this.saveAsyncRoutes(res.menus),
-      router.push('/system/user') )
-    : message.error(res.msg)
+    Number(res.code) ?
+      (setStorage('Token', res.token),
+        this.saveAsyncRoutes(res.menus),
+        router.push('/system/user'))
+      : message.error(res.msg)
   }
 
 }
-/**
- * 全局变量 Vuex
- */
+/**  Global Vuex */
 const GlobalStore = getModule(Global)
 export default GlobalStore

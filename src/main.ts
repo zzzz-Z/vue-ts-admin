@@ -7,14 +7,14 @@ import ViserVue from 'viser-vue'
 import request from '@/utils/request'
 import { getStorage } from './utils/storage';
 import GlobalStore from './store/global';
-
+import '@/directive'
 import './antd/antd.use';
+import 'highlight.js/styles/github.css';
 
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 
 moment.locale('zh-cn')
-
 
 
 GlobalStore.saveAsyncRoutes(getStorage('asyncRoutes'))
@@ -27,7 +27,6 @@ Vue.prototype.Axios = request // 全局请求函数
 // Vue.prototype.moment = moment
 
 Vue.config.productionTip = false
-
 
 
 

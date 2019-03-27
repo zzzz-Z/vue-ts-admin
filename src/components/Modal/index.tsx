@@ -12,7 +12,7 @@ interface Props {
 export default class ModalGenerator extends Vue {
 
   readonly Props!: Props
-  @Prop(Object) content!: JSX.Element
+  @Prop() content!: JSX.Element
   @Prop() tooltip?: string
   @Prop({ default: () => ({}) }) modal!: IModal
   @Prop() formProps?: IFormProps
@@ -23,32 +23,41 @@ export default class ModalGenerator extends Vue {
   loading: boolean = false
   formRef: any
 
-  get Footer() {
-    const { footer, okText, cancelText, okButtonProps, cancelButtonProps } = this.modal
-    const footerBtns = [
-      <a-button onClick={this.cancel} {...cancelButtonProps} >
-        {cancelText || '取消'}
-      </a-button>,
-      <a-button
-        type='primary'
-        loading={this.loading}
-        onClick={this.submit}
-        {...okButtonProps}>
-        {okText || '提交'}
-      </a-button>
-    ]
-    Array.isArray(footer) && footerBtns.unshift(...footer)
-    return footer === 'no' ? null : footerBtns
-  }
+  // get Footer() {
+  //   const { footer, okText, cancelText, okButtonProps, cancelButtonProps } = this.modal
+  //   const okClcik = (okButtonProps || {on: {}}).on.click
+  //   const cancalClcik = (cancelButtonProps || {on: {}}).on.click
+  //   const footerBtns = [
+  //     <a-button
+  //       {...cancelButtonProps} >
+  //       {cancelText || '取消'}
+  //     </a-button>,
+  //     <a-button
+  //       type='primary'
+  //       loading={this.loading}
+  //       {...okButtonProps}>
+  //       {okText || '提交'}
+  //     </a-button>
+  //   ]
+  //   Array.isArray(footer) && footerBtns.unshift(...footer)
+  //   return footer === 'no' ? null : footerBtns
+  // }
 
   render() {
+    // const {okButtonProps, cancelButtonProps, ...rest} = this.modal
+    // console.log(rest);
     const modalProps = {
+      on: {
+        cancel: this.cancel,
+        ok: this.submit
+      },
       props: {
         visible: this.visible,
+        confirmLoading: this.loading,
         wrapClassName: 'scoped-modal',
         destroyOnClose: true,
         ... this.modal,
-        footer: this.Footer,
+        // footer: this.Footer,
       }
     }
     const formProps = {
@@ -66,7 +75,7 @@ export default class ModalGenerator extends Vue {
             {this.btn}
           </a-tooltip>
         </span>
-        <a-modal {...modalProps} onCancel={this.cancel} >
+        <a-modal {...modalProps}>
           {this.content || <IForm  {...formProps} />}
         </a-modal>
       </span>

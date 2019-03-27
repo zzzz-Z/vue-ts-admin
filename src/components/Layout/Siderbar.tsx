@@ -1,4 +1,4 @@
-import { Component, Vue, Provide, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch, Inject } from 'vue-property-decorator'
 import { RouteConfig } from 'vue-router'
 import GlobalStore from '@/store/global';
 
@@ -8,12 +8,10 @@ type itemConfig = RouteConfig & { icon: string }
 @Component({})
 export default class Siderbar extends Vue {
 
-  readonly Props!: {
-    /** menu是否收起状态 */
-    collapsed: boolean
-    onShouldReload: () => void
-  }
-  @Prop() collapsed
+  readonly Props!: { onShouldReload: () => void }
+
+  /** menu是否收起状态 */
+  @Inject() collapsed!: boolean
   openkeys: string[] = []
   menuList: any[] = []
 

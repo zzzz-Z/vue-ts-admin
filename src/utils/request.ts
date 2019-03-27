@@ -24,6 +24,7 @@ request.interceptors.response.use((res) => {
     router.push('/')
     return
   }
+  // 为避免使用axios[method]返回值类型丢失,故不直接返回res.data
   return res as any
 }, (err) => {
   if (!config.isProd) {

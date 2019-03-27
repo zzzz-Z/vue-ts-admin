@@ -1,35 +1,38 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Provide } from 'vue-property-decorator'
 import Siderbar from './siderbar'
-import Header from './header';
-import GlobalStore from '@/store/global';
+import Header from './header'
+import Svg from '../Svg'
 import './style.less'
-import Svg from '../Svg';
+
 
 @Component({})
 export default class Layout extends Vue {
 
   showView = true
-
+  @Provide() collapsed = false
+  @Provide()
+  changeCollapsed() {
+    this.collapsed = !this.collapsed
+  }
   reloadView() {
     this.showView = false
     this.$nextTick(() => this.showView = true)
   }
 
   render() {
-    const headerStyle = GlobalStore.collapsed ? 'header-fixed fold' : 'header-fixed unfold'
+    const { collapsed } = this
+    const headerStyle = collapsed ? 'header-fixed fold' : 'header-fixed unfold'
     return (
       <a-layout id='layout' >
         <a-layout-sider
           collapsible
           trigger={null}
-          v-model={GlobalStore.collapsed}
+          v-model={collapsed}
           width={256}>
           <div class='logo'>
             <Svg name='sunny' />
           </div>
-          <Siderbar
-            onShouldReload={this.reloadView}
-            collapsed={GlobalStore.collapsed} />
+          <Siderbar onShouldReload={this.reloadView} />
         </a-layout-sider>
         <a-layout>
           <a-layout-header class={headerStyle}>

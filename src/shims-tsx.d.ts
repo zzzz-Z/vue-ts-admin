@@ -26,6 +26,9 @@ declare global {
       class?: any
       style?: any
       key?: any
+      props?: any
+      vPermission?: 'add' | 'dele' | 'edit' | 'check'
+
     }
     interface IntrinsicElements {
       [elem: string]: any

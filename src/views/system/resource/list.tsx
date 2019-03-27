@@ -20,7 +20,12 @@ export default class List extends Vue {
   isNext = true
 
   get btnText() {
-    return this.isNext ? '下一步' : '上一步'
+    return this.isNext ? '下一步' : '提交'
+  }
+  get fn() {
+    return (e) => {
+      console.log(e);
+    }
   }
 
   get editForm() {
@@ -46,6 +51,7 @@ export default class List extends Vue {
   }
 
   render() {
+    this.fn('1')
     return (
       <a-col span={20}>
         <ITable
@@ -97,13 +103,21 @@ export default class List extends Vue {
             <ModalGenerator
               btn={<a-icon type='edit' />}
               modal={{
+                okButtonProps: {
+                  on: {
+                    click: () => {
+                      this.isNext = !this.isNext
+                    }
+                  },
+                },
+                okText: this.btnText,
                 title: '修改',
                 afterClose: () => { this.isNext = true },
-                footer: [
-                  <a-button onClick={() => { this.isNext = !this.isNext }} >
-                    {this.btnText}
-                  </a-button>
-                ],
+                // footer: [
+                //   <a-button onClick={() => { this.isNext = !this.isNext }} >
+                //     {this.btnText}
+                //   </a-button>
+                // ],
               }}
               fetch={(params, _form) => this.Axios.get('')}
               formProps={{
@@ -113,7 +127,7 @@ export default class List extends Vue {
                 initialValues: arg[1]
               }}
             />
-            <a-divider type='vertical' />
+            <a-divider  type='vertical' />
             <a-icon type='delete' />
           </a>
         )

@@ -13,12 +13,13 @@ export interface ITableData {
 
 export interface ITableProps {
   columns: (t: ITable) => Column[]
-  data: Promise<ITableData> | []
+  data: Promise<ITableData> | Array<{}>
   algin?: string
   searchItems?: IFormItem[]
   actions?: (t: ITable) => JSX.Element[]
   customRow?: (...arg: any) => ({})
-  bodyStyle?: {}
+  tableProps?: Table
+  tooptip?: boolean
 }
 
 
@@ -27,13 +28,14 @@ export default class ITable extends Vue {
 
   readonly Props!: ITableProps
   @Prop() columns!: (t: ITable) => Column[]
-  @Prop() data!: Promise<ITableData> | []
+  @Prop() data!: Promise<ITableData> | Array<{}>
   @Prop() query?: (params: {}) => Promise<[]>
   @Prop() algin?: 'left' | 'right' | 'center'
   @Prop() customRow?: () => ({})
   @Prop() searchItems?: any[]
   @Prop() actions?: (t: ITable) => JSX.Element[]
-  @Prop() bodyStyle?: {}
+  @Prop() tableProps?: Table
+  @Prop() tooptip?: boolean
 
   isUp = false
   totalSize = 0
@@ -45,7 +47,7 @@ export default class ITable extends Vue {
     defaultPageSize: 10
   }
   rowSelection = {}
-  dataSource: any;
+  dataSource: any[] = []
 
   created() {
     this.init()
@@ -54,18 +56,16 @@ export default class ITable extends Vue {
   init() {
     this.loading = true;
     try {
-      (this.data as Promise<ITableData> )
+      (this.data as Promise<ITableData>)
         .catch((e) => this.$message.error('获取数据失败'))
         .finally(() => this.loading = false)
         .then((res: ITableData) => {
           this.dataSource = res.dataSource
         })
     } catch (error) {
-      this.dataSource = this.data
+      this.dataSource = this.data as []
       this.loading = false
     }
-
-
   }
 
   /** 按条件查询 */
@@ -90,7 +90,7 @@ export default class ITable extends Vue {
       if (this.algin) {
         r.align = this.algin
       }
-      if (!r.customRender) {
+      if (!r.customRender && this.tooptip) {
         r.customRender = (text) => (
           typeof text === 'string' ? <Ellipsis length={15} str={text} /> : text
         )
@@ -99,7 +99,7 @@ export default class ITable extends Vue {
     })
   }
 
-  get renderSearch() {
+  get Search() {
     const items = this.searchItems
     if (!items) { return }
     items.map((r: any) => r.style = 'margin-right:20px')
@@ -134,20 +134,19 @@ export default class ITable extends Vue {
     )
 
   }
-  renderHeader() {
+  get Header() {
     const bodyStyle = {
       padding: '0 0 15px',
       borderRadius: 0,
       minHeight: '70px',
       border: 0,
-      ...this.bodyStyle,
     }
 
     return (
       <a-card
         bodyStyle={bodyStyle}
         bordered={false} >
-        {this.renderSearch}
+        {this.Search}
         {this.actions && <div>{this.actions(this)}</div>}
       </a-card >
     )
@@ -156,8 +155,9 @@ export default class ITable extends Vue {
   render() {
     return (
       <div style='background:#fff;padding:25px;'>
-        {this.renderHeader()}
+        {this.Header}
         <a-table
+          {...{ props: { size: 'middle', ... this.tableProps } }}
           customRow={this.customRow}
           pagination={this.pagination}
           dataSource={this.dataSource}

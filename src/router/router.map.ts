@@ -14,7 +14,7 @@ const routerMap = [{
   },
   children: [{
     path: '',
-    component: () => import('@/views/form'),
+    component: () => import('@/views/form/baseForm'),
     meta: {
       name: '表单页',
       path: '/form'
