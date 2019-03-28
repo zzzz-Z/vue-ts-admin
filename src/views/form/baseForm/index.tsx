@@ -2,10 +2,16 @@ import { Component, Vue } from 'vue-property-decorator'
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
 import { getMdStr } from '@/api/md';
+import { CodeContent } from '@/components/BaseContent';
 
 @Component({})
-export default class User extends Vue {
-  code: any = ''
+export default class IBaseForm extends Vue {
+  codeHtml: any = ''
+
+  created() {
+    getMdStr('baseForm').then((html) => this.codeHtml = html)
+    console.log('cccc');
+  }
 
   render() {
     const columns = [{
@@ -30,20 +36,22 @@ export default class User extends Vue {
       dataIndex: 'default',
     }]
 
-    getMdStr('baseForm').then((html) => this.code = html)
 
     return (
       <div style='background:#fff;padding:20px'>
         <h1 style='text-aglin:center' >基础表单</h1>
         <BaseForm />
-        <div v-html={this.code} />
-        <a-table
-          columns={columns}
-          rowKey={(r, i) => i}
-          size='middle'
-          pagination={false}
-          dataSource={formDoc}
-        />
+        <div style='margin:10px auto;width:80vw;'>
+          <CodeContent html={this.codeHtml} />
+          <a-table
+            header='文档说明'
+            columns={columns}
+            rowKey={(r, i) => i}
+            size='middle'
+            pagination={false}
+            dataSource={formDoc}
+          />
+        </div>
       </div>
     )
   }

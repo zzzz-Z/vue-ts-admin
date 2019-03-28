@@ -14,7 +14,6 @@ Vue.directive('if', {
   }
 })
 Vue.directive('html', {
-  update(el, { value }) {
-    el.innerHTML = value
-  }
+  bind(el, { value }) { el.innerHTML = value },
+  update(el, { value }) { el.innerHTML = value }
 })

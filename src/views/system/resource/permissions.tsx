@@ -3,6 +3,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import GlobalStore from '@/store/global';
 import ModalGenerator from '@/components/Modal';
 import ResourceStore from './store';
+import { IFormItem } from '@/types/form-item';
 
 @Component({})
 export default class Permission extends Vue {
@@ -13,6 +14,10 @@ export default class Permission extends Vue {
   showSearchClose = false
   checkable = false
   expandedKeys: string[] = []
+
+  created() {
+    console.log(GlobalStore.asyncRoutes);
+  }
 
   render() {
     return (
@@ -68,8 +73,8 @@ export default class Permission extends Vue {
     )
   }
 
-  Dropdown(r: { meta: { path: string; }; }) {
-    if (this.currentKey === r.meta.path && ResourceStore.showDropdown) {
+  Dropdown(r) {
+    if (this.currentKey === r.path && ResourceStore.showDropdown) {
       return (
         <a-dropdown
           visible={ResourceStore.showDropdown}
@@ -123,10 +128,10 @@ export default class Permission extends Vue {
 
   TreeNodeTitle(r) {
     const { searchValue, Dropdown } = this
-    const name = r.meta.name
+    const name = r.meta.title
 
-    let title = <span class='itree-title' >{r.meta.name}{Dropdown(r)}</span>
-    if (r.meta.name.indexOf(this.searchValue) > -1) {
+    let title = <span class='itree-title' >{name}{Dropdown(r)}</span>
+    if (name.indexOf(this.searchValue) > -1) {
       const startText = name.substr(0, name.indexOf(searchValue))
       const endText = name.substr(name.indexOf(searchValue) + searchValue.length)
       title = <span class='itree-title'>
@@ -141,7 +146,7 @@ export default class Permission extends Vue {
       arr.map((r) => (
         <a-tree-node
           {...r}
-          key={r.meta.path}
+          key={r.path}
           title={this.TreeNodeTitle(r)}
           icon={<a-icon type='folder' />} >
           {r.children && renderNode(r.children)}
@@ -175,7 +180,7 @@ export default class Permission extends Vue {
     }
     arr.forEach((r: JSX.Element) => {
       const { data, componentOptions }: any = r
-      if (data.meta.name.indexOf(title) > -1) {
+      if (data.meta.title.indexOf(title) > -1) {
         if (father) {
           (expandedKeys.push((father as any).key), this.expandedKeys = expandedKeys)
         }

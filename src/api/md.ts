@@ -1,5 +1,6 @@
 import axios from 'axios'
 import marked from 'marked'
+// tslint:disable-next-line:import-spacing
 import hljs  from 'highlight.js'
 
 marked.setOptions({

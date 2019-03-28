@@ -43,21 +43,21 @@ export default class Siderbar extends Vue {
   }
   menuItem(r: itemConfig) {
     return (
-      <a-menu-item key={r.meta.path}>
+      <a-menu-item key={r.path}>
         {r.meta.icon && <a-icon type={r.meta.icon} />}
-        <span class='padding-left'>{r.meta.name}</span>
+        <span class='padding-left'>{r.meta.title}</span>
       </a-menu-item >
     )
   }
   subItem(r: itemConfig) {
     return (
       <a-sub-menu
-        key={r.meta.path}
+        key={r.path}
         onTitleClick={this.titleClick}
       >
         <span slot='title'>
           <a-icon type={r.meta.icon} />
-          <span class='padding-left'>{r.meta.name}</span>
+          <span class='padding-left'>{r.meta.title}</span>
         </span>
         {(r.children as itemConfig[]).map((i) => this.menuItem(i))}
       </a-sub-menu>
@@ -69,8 +69,8 @@ export default class Siderbar extends Vue {
     const routerMaps = JSON.parse(JSON.stringify(GlobalStore.asyncRoutes))
     const loop = (arr) => arr.map((r) => {
       if (r.children) {
-        // 当子路由同父路由的path相同时,隐藏子路由菜单title
-        r.children[0].meta.path === r.meta.path ?
+        // 当子路由同父路由的path相同时,隐藏子路由菜单
+        r.children[0].path === r.path ?
           r.children = undefined :
           loop(r.children)
       }

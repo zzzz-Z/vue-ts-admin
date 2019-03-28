@@ -1,10 +1,12 @@
+import { FormRef } from './form-ref';
+
 interface IFormItem {
   style?: string;
   field?: string;
   initialValue?: any;
   rules?: any;
   type?: string;
-  el?: JSX.Element | ((form: JSX.Element) => JSX.Element)
+  el?: JSX.Element | ((form: FormRef) => JSX.Element)
   colon?: boolean;
   extra?: any;
   hasFeedback?: boolean;

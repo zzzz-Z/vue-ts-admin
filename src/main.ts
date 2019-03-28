@@ -24,7 +24,7 @@ Vue.use(ViserVue)
 
 Vue.prototype.Axios = request // 全局请求函数
 // Vue.prototype.validator = validator // 全局表单验证
-// Vue.prototype.moment = moment
+Vue.prototype.moment = moment
 
 Vue.config.productionTip = false
 

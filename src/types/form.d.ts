@@ -1,3 +1,5 @@
+import { IFormItem } from './form-item';
+
 interface IFormProps {
   layout?: 'horizontal' | 'inline' | 'vertical'
   formItems?: IFormItem[]

@@ -4,6 +4,7 @@ import Ellipsis from '../Ellipsis';
 import './style.less'
 import { Column } from '@/types/column';
 import { FormRef } from '@/types/form-ref';
+import { IFormItem } from '@/types/form-item';
 
 export interface ITableData {
   dataSource: Array<{}>

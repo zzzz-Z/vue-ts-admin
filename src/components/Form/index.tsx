@@ -1,6 +1,8 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Form } from 'ant-design-vue';
 import { FormRef } from '@/types/form-ref';
+import { IFormItem } from '@/types/form-item';
+import { IFormProps } from '@/types/form';
 
 @Component({})
 class Iform extends Vue {
@@ -28,7 +30,7 @@ class Iform extends Vue {
     return this.formItems.map((props) => {
       // tslint:disable-next-line:prefer-const
       let { field, rules, initialValue, el } = props
-      let element = <a-input />
+      let element = <a-input type={props.type} placeholder={props.placeholder} />
       if (el) {
         element = typeof el === 'function' ? el(form) : el
       }

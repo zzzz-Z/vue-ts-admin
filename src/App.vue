@@ -1,25 +1,24 @@
 <template>
   <a-locale-provider :locale="locale">
-      <router-view></router-view>
+    <router-view v-if="$route.meta.keepalive" />
   </a-locale-provider>
-</template> 
+</template>
 
 <script>
-import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-// import moment from 'moment';
-// import 'moment/locale/zh-cn';
+  import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 
-// moment.locale('zh-cn');
-export default {
-  data () {
-    return {
-      locale: zhCN
+  export default {
+    data() {
+      return {
+        locale: zhCN
+      }
     }
   }
-}
 </script>
 <style lang="less">
-  html,body,#app {
+  html,
+  body,
+  #app {
     height: 100%;
   }
 

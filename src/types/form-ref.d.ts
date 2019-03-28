@@ -8,7 +8,7 @@ interface FormRef extends JSX.Element {
    * Check whether a field is touched by getFieldDecorator's options.trigger event
    * @type Function ((name: string) => boolean)
    */
-  isFieldTouched: () => any;
+  isFieldTouched: (name: string) => boolean;
   /**
    * Two-way binding for form, single file template can be bound using the directive v-decorator.
    * @type Function
