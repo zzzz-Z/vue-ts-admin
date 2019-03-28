@@ -6,11 +6,10 @@ import { CodeContent } from '@/components/BaseContent';
 
 @Component({})
 export default class IBaseForm extends Vue {
-  codeHtml: any = ''
+  codeHtml: any = null
 
   created() {
     getMdStr('baseForm').then((html) => this.codeHtml = html)
-    console.log('cccc');
   }
 
   render() {
@@ -41,8 +40,8 @@ export default class IBaseForm extends Vue {
       <div style='background:#fff;padding:20px'>
         <h1 style='text-aglin:center' >基础表单</h1>
         <BaseForm />
-        <div style='margin:10px auto;width:80vw;'>
-          <CodeContent html={this.codeHtml} />
+        <div style='margin:10px auto;width:90%;'>
+          <CodeContent html={this.codeHtml} hide  />
           <a-table
             header='文档说明'
             columns={columns}

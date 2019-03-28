@@ -9,11 +9,8 @@ import './style.less'
 export default class Layout extends Vue {
 
   showView = true
-  @Provide() collapsed = false
-  @Provide()
-  changeCollapsed() {
-    this.collapsed = !this.collapsed
-  }
+  collapsed = false
+
   reloadView() {
     this.showView = false
     this.$nextTick(() => this.showView = true)
@@ -32,11 +29,15 @@ export default class Layout extends Vue {
           <div class='logo'>
             <Svg name='sunny' />
           </div>
-          <Siderbar onShouldReload={this.reloadView} />
+          <Siderbar
+            reload={this.reloadView}
+            collapsed={collapsed} />
         </a-layout-sider>
         <a-layout>
           <a-layout-header class={headerStyle}>
-            <Header />
+            <Header
+              collapsed={collapsed}
+              change={() => this.collapsed = !this.collapsed} />
           </a-layout-header>
           <a-layout-content>
             {this.showView && <router-view />}

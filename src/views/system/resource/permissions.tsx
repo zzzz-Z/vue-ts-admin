@@ -15,10 +15,6 @@ export default class Permission extends Vue {
   checkable = false
   expandedKeys: string[] = []
 
-  created() {
-    console.log(GlobalStore.asyncRoutes);
-  }
-
   render() {
     return (
       <a-col span={4} >

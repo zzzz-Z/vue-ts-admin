@@ -8,10 +8,14 @@ type itemConfig = RouteConfig & { icon: string }
 @Component({})
 export default class Siderbar extends Vue {
 
-  readonly Props!: { onShouldReload: () => void }
+  readonly Props!: {
+    reload: () => void
+    collapsed: boolean
+  }
 
   /** menu是否收起状态 */
-  @Inject() collapsed!: boolean
+  @Prop() collapsed!: boolean
+  @Prop() reload!: () => void
   openkeys: string[] = []
   menuList: any[] = []
 
@@ -20,7 +24,7 @@ export default class Siderbar extends Vue {
   }
 
   @Watch('collapsed')
-  collapsedChange(v) {
+  w_collapsed(v) {
     this.openkeys = v ? [] : this.currnetRoute
   }
 
@@ -32,7 +36,7 @@ export default class Siderbar extends Vue {
   }
   menuClick({ keyPath, key }) {
     if (this.$route.path === key) {
-      this.$emit('shouldReload')
+      this.reload()
     }
     if (this.collapsed) {
       this.openkeys = []

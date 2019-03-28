@@ -19,14 +19,17 @@ export default class StepForm extends Vue {
 
     return (
       <div>
-        <a-steps current={this.currentStep} size='small' style='width:70%;margin:50px auto;'>
+        <a-steps
+          current={this.currentStep}
+          size='small'
+          style='width:70%;margin:50px auto;'>
           <a-step title='Finished' />
           <a-step title='In Progress' />
           <a-step title='Waiting' />
         </a-steps>
         <IForm
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 10 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 13 }}
           formItems={[{
             field: 'title',
             label: '标题',
@@ -47,7 +50,7 @@ export default class StepForm extends Vue {
             label: '衡量标准',
             el: () => <a-textarea placeholder='请输入衡量标准' rows={4} />
           }, {
-            wrapperCol: { offset: 5 },
+            wrapperCol: { offset: 6 },
             el: (form) => (
               <div>
                 <a-button
@@ -55,9 +58,7 @@ export default class StepForm extends Vue {
                   onClick={() => {
                     this.currentStep = 2
                     this.loading = true
-                    setTimeout(() => {
-                      this.loading = false
-                    }, 2000);
+                    setTimeout(() => { this.loading = false }, 2000);
                   }}
                   style='margin-right:20px'
                   type='primary'

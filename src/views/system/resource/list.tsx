@@ -22,11 +22,6 @@ export default class List extends Vue {
   get btnText() {
     return this.isNext ? '下一步' : '提交'
   }
-  get fn() {
-    return (e) => {
-      console.log(e);
-    }
-  }
 
   get editForm() {
     const stepOne = this.isNext ? 'display:block' : 'display:none'
@@ -51,7 +46,6 @@ export default class List extends Vue {
   }
 
   render() {
-    this.fn('1')
     return (
       <a-col span={20}>
         <ITable

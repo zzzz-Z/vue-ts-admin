@@ -4,15 +4,19 @@ import ModalGenerator from '../Modal'
 import Button from '../Button'
 import Svg from '../Svg';
 import router from '@/router';
-import { Vue, Inject, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
 
 @Component({})
 export default class Header extends Vue {
 
+  readonly Props!: {
+    collapsed: boolean
+    change?: () => any
+  }
   /** menu是否收起状态 */
-  @Inject() collapsed!: boolean
-  @Inject() changeCollapsed!: () => void
+  @Prop() collapsed!: boolean
+  @Prop() change!: () => any
 
   get ChangePassWord() {
     return (
@@ -42,7 +46,7 @@ export default class Header extends Vue {
         <a-icon
           class='trigger'
           type={this.collapsed ? 'menu-unfold' : 'menu-fold'}
-          onClick={this.changeCollapsed} />
+          onClick={this.change} />
         <div class='right'>
           <a-tooltip title='专题图'>
             <Svg name='map' class='svgmap' onClick={() => router.push('/overView')} />

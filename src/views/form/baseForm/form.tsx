@@ -11,8 +11,8 @@ export const BaseForm = ({ props, parent }: any) => {
   return (
     <IForm
       initialValues={props.initialValues || {}}
-      labelCol={{ span: 5 }}
-      wrapperCol={{ span: 10 }}
+      labelCol={{ span: 6}}
+      wrapperCol={{ span: 13 }}
       formItems={[{
         field: 'title',
         label: '标题',
@@ -59,7 +59,7 @@ export const BaseForm = ({ props, parent }: any) => {
           </a-radio-group>
         )
       }, {
-        wrapperCol: { offset: 5 },
+        wrapperCol: { offset: 6 },
         el: (form) => (
           <div>
             <a-button
