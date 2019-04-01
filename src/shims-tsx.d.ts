@@ -1,6 +1,19 @@
 import Vue, { VNode, VNodeData } from 'vue'
 
 declare global {
+  interface VFCCpt<P= any> {
+    props?: any
+    children?: VNode[]
+    data?: VNodeData
+    parent?: Vue
+    listeners?: any
+    scopedSlots?: any
+    injections?: any
+    slots?: any
+    vPermission?: 'add' | 'dele' | 'edit' | 'check'
+    [key: string]: any
+  }
+  type VFC<P>= VFCCpt<P> & P
   namespace JSX {
     interface FunctionalComponentCtx {
       props?: any

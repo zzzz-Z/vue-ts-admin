@@ -77,6 +77,6 @@ const props = [
 ]
 
 const MForm = Form.create({ props })(Iform)
-const IForm = ({ data }: IFormProps & JSX.FunctionalComponentCtx) => <MForm {...data} />
+const IForm = ({ data }: VFC<IFormProps>) => <MForm {...data} />
 
 export default IForm

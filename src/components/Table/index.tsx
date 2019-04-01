@@ -3,7 +3,7 @@ import Ellipsis from '../Ellipsis';
 import { Table } from '@/types/table';
 import { Component, Vue } from 'vue-property-decorator';
 
-export const ITable = ({ data, props }: JSX.FunctionalComponentCtx & Table) => {
+export const ITable = ({ data, props }: VFC<Table>) => {
 
   const defalutProps = { size: 'middle', rowKey: (r: any, i: any) => i }
   props = { ...defalutProps, ...props }
@@ -26,11 +26,11 @@ export const ITable = ({ data, props }: JSX.FunctionalComponentCtx & Table) => {
 
     render() {
       return (
-        <a-table {...data}/>
+        <a-table {...data} />
       )
     }
 
   }
 
-  return <ITable/>
+  return <ITable />
 }

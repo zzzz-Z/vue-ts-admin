@@ -1,10 +1,10 @@
-interface Props extends JSX.FunctionalComponentCtx {
+interface Props  {
   length: number
   width?: number
   str?: string
 }
 
-export default ({props, children}: Props) => {
+export default ({props, children}: VFC<Props>) => {
   const innerText = children && children.map((item) => item.text).join('')
   const str = innerText || props.str
   const fullLength = getStrFullLength(str)
