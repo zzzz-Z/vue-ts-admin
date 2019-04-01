@@ -1,8 +1,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import List from '@/components/List'
-import Button from '@/components/Button';
 import ModalGenerator from '@/components/Modal';
-import Table from '@/components/List/table';
+import Table from '@/components/List/';
+import Breadcrumb from '@/components/Breadcrumb';
 
 @Component({})
 export default class User extends Vue {
@@ -38,7 +38,7 @@ export default class User extends Vue {
     const actions = (t: Table) => [
       <ModalGenerator
         modal={{ title: '新建' }}
-        btn={<Button type='primary' html='新建' />}
+        btn={<a-button type='primary' v-text='新建' />}
         formProps={{
           formItems: searchItems.map((r: any) => {
             r.labelCol = { span: 5 };
@@ -49,7 +49,9 @@ export default class User extends Vue {
     ]
     return (
       <div>
+        <Breadcrumb />
         <List
+          data={[]}
           columns={columns}
           searchItems={searchItems}
           actions={actions}

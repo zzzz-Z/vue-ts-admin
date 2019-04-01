@@ -1,4 +1,4 @@
-import { Component, Vue, Provide } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import Siderbar from './siderbar'
 import Header from './header'
 import Svg from '../Svg'
@@ -29,9 +29,7 @@ export default class Layout extends Vue {
           <div class='logo'>
             <Svg name='sunny' />
           </div>
-          <Siderbar
-            reload={this.reloadView}
-            collapsed={collapsed} />
+          <Siderbar reload={this.reloadView} collapsed={collapsed} />
         </a-layout-sider>
         <a-layout>
           <a-layout-header class={headerStyle}>

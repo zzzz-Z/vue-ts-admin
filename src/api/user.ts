@@ -8,8 +8,8 @@ export interface LoginRes {
 }
 
 
-export function login(payload: {}) {
-  return request.get<LoginRes>('/home/login', { params: { ...payload, qt: 1 } })
-    .then(({ data }) => data);
+export const login = async (params: {}) => {
+  const { data } = await request.get('/login', { params })
+  return data as LoginRes
 }
 

@@ -1,16 +1,10 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
-import { getMdStr } from '@/api/md';
-import { CodeContent } from '@/components/BaseContent';
+import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
 
 @Component({})
 export default class IBaseForm extends Vue {
-  codeHtml: any = null
-
-  created() {
-    getMdStr('baseForm').then((html) => this.codeHtml = html)
-  }
 
   render() {
     const columns = [{
@@ -37,11 +31,13 @@ export default class IBaseForm extends Vue {
 
 
     return (
-      <div style='background:#fff;padding:20px'>
-        <h1 style='text-aglin:center' >基础表单</h1>
+      <BaseLayout breadcrumb>
+        <Title >
+          基础表单
+         </Title>
         <BaseForm />
         <div style='margin:10px auto;width:90%;'>
-          <CodeContent html={this.codeHtml} hide  />
+          <CodeWrapper name='baseForm' hid />
           <a-table
             header='文档说明'
             columns={columns}
@@ -51,7 +47,7 @@ export default class IBaseForm extends Vue {
             dataSource={formDoc}
           />
         </div>
-      </div>
+      </BaseLayout>
     )
   }
 }

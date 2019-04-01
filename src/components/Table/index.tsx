@@ -1,6 +1,7 @@
 import { Column } from '@/types/column';
 import Ellipsis from '../Ellipsis';
 import { Table } from '@/types/table';
+import { Component, Vue } from 'vue-property-decorator';
 
 export const ITable = ({ data, props }: JSX.FunctionalComponentCtx & Table) => {
 
@@ -20,5 +21,16 @@ export const ITable = ({ data, props }: JSX.FunctionalComponentCtx & Table) => {
 
   data = { ...data, props }
 
-  return <a-table {...data} />
+  @Component({})
+  class ITable extends Vue {
+
+    render() {
+      return (
+        <a-table {...data}/>
+      )
+    }
+
+  }
+
+  return <ITable/>
 }

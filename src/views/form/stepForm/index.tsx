@@ -1,5 +1,5 @@
 import { Component, Vue } from 'vue-property-decorator'
-import { Content, CodeContent } from '@/components/BaseContent';
+import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
 import StepForm from './form';
 import { getMdStr } from '@/api/md';
 
@@ -13,11 +13,13 @@ export default class IStepForm extends Vue {
   }
   render() {
     return (
-      <Content>
-        <h1 style='text-aglin:center' >分步表单</h1>
+      <BaseLayout breadcrumb>
+        <Title >
+          分步表单
+        </Title>
         <StepForm />
-        <CodeContent html={this.codeHtml} />
-      </Content>
+        <CodeWrapper name='stepForm' hid />
+      </BaseLayout>
     )
   }
 }

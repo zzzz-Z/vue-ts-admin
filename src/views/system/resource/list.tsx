@@ -1,28 +1,14 @@
 import '../style.less'
 import { Component, Vue } from 'vue-property-decorator'
 import ModalGenerator from '@/components/Modal';
-import ITable from '@/components/List/table';
-import Button from '@/components/Button';
 import ResourceStore from './store';
 import { projectData } from '@/mock';
+import List from '@/components/List';
 @Component({})
-export default class List extends Vue {
-
-
-  searchItems = [{
-    label: '角色',
-    field: 'zzzz',
-  }, {
-    label: 'role',
-    field: 'cccccc',
-  }]
+export default class RList extends Vue {
 
   isNext = true
-
-  get btnText() {
-    return this.isNext ? '下一步' : '提交'
-  }
-
+  get btnText() { return this.isNext ? '下一步' : '提交' }
   get editForm() {
     const stepOne = this.isNext ? 'display:block' : 'display:none'
     const stepTwo = !this.isNext ? 'display:block' : 'display:none'
@@ -48,12 +34,19 @@ export default class List extends Vue {
   render() {
     return (
       <a-col span={20}>
-        <ITable
+        <List
           data={projectData}
           customRow={this.customRow}
           columns={this.columns}
-          searchItems={this.searchItems}
-          actions={this.actions} />
+          actions={this.actions}
+          searchItems={[{
+            label: '角色',
+            field: 'zzzz',
+          }, {
+            label: 'role',
+            field: 'cccccc',
+          }]}
+        />
       </a-col>
     )
   }
@@ -77,7 +70,7 @@ export default class List extends Vue {
     }
   }
 
-  columns(_t: ITable) {
+  columns(_t: List) {
     return [{
       title: '角色',
       dataIndex: 'name',
@@ -97,13 +90,7 @@ export default class List extends Vue {
             <ModalGenerator
               btn={<a-icon type='edit' />}
               modal={{
-                okButtonProps: {
-                  on: {
-                    click: () => {
-                      this.isNext = !this.isNext
-                    }
-                  },
-                },
+                okButtonProps: { on: { click: () => { this.isNext = !this.isNext } } },
                 okText: this.btnText,
                 title: '修改',
                 afterClose: () => { this.isNext = true },
@@ -121,7 +108,7 @@ export default class List extends Vue {
                 initialValues: arg[1]
               }}
             />
-            <a-divider  type='vertical' />
+            <a-divider type='vertical' />
             <a-icon type='delete' />
           </a>
         )
@@ -130,12 +117,20 @@ export default class List extends Vue {
 
   }
 
-  actions(_t: ITable) {
+  actions() {
     return [
       <ModalGenerator
         modal={{ title: '新建' }}
-        formProps={{ formItems: this.searchItems }}
-        btn={<Button type='primary' html='新建' />}
+        formProps={{
+          formItems: [{
+            label: '角色',
+            field: 'zzzz',
+          }, {
+            label: 'role',
+            field: 'cccccc',
+          }]
+        }}
+        btn={<a-button type='primary' v-html='新建' />}
         fetch={(_params, _form) => {
           return this.Axios.get('')
         }}

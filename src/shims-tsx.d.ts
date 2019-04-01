@@ -11,6 +11,7 @@ declare global {
       scopedSlots?: any
       injections?: any
       slots?: any
+      vPermission?: 'add' | 'dele' | 'edit' | 'check'
       [key: string]: any
     }
     // tslint:disable no-empty-interface

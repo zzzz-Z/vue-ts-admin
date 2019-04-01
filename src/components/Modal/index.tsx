@@ -1,4 +1,4 @@
-import IForm from '../Form'
+import IForm from '@/components/Form';
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { IFormProps } from '@/types/form';
 interface Props {
@@ -64,6 +64,7 @@ export default class ModalGenerator extends Vue {
     const formProps = {
       props: {
         wrappedComponentRef: (formRef: any) => this.formRef = formRef,
+        formItems: [],
         ...this.formProps
       }
     }

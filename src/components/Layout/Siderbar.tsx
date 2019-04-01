@@ -1,4 +1,4 @@
-import { Component, Vue, Prop, Watch, Inject } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { RouteConfig } from 'vue-router'
 import GlobalStore from '@/store/global';
 

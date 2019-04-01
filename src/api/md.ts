@@ -1,7 +1,7 @@
 import axios from 'axios'
 import marked from 'marked'
 // tslint:disable-next-line:import-spacing
-import hljs  from 'highlight.js'
+import hljs from 'highlight.js'
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -18,12 +18,9 @@ marked.setOptions({
   xhtml: false
 })
 
-export function getMdStr(name: string) {
-  return axios.get(`/md/${name}.md`).then(({ data }) => {
-    return new Promise((resolve) => {
-      marked(data, (err, codeString) => {
-        resolve(codeString)
-      })
-    })
+export async function getMdStr(name: string): Promise<string> {
+  const { data } = await axios.get(`/md/${name}.md`)
+  return new Promise((resolve) => {
+    marked(data, (err, codeString) => resolve(codeString))
   })
 }

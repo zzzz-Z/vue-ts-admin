@@ -1,7 +1,6 @@
 import { Panda } from './logo'
 import GlobalStore from '@/store/global'
 import ModalGenerator from '../Modal'
-import Button from '../Button'
 import Svg from '../Svg';
 import router from '@/router';
 import { Vue, Component, Prop } from 'vue-property-decorator';
@@ -23,7 +22,7 @@ export default class Header extends Vue {
       <span>
         <ModalGenerator
           modal={{ title: '修改密码' }}
-          btn={<Button text='修改密码' />}
+          btn={<a v-text='修改密码' />}
           formProps={{
             labelCol: { span: 5 },
             wrapperCol: { span: 15 },

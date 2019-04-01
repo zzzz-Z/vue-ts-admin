@@ -13,7 +13,7 @@ Vue.directive('if', {
     !value && (el.parentNode as Node).removeChild(el)
   }
 })
-Vue.directive('html', {
-  bind(el, { value }) { el.innerHTML = value },
-  update(el, { value }) { el.innerHTML = value }
-})
+
+Vue.directive('html', (el, { value }) => { el.innerHTML = value })
+
+Vue.directive('text', (el, { value }) => { el.innerText = value })

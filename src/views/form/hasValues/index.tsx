@@ -1,6 +1,6 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { BaseForm } from '../baseForm/form';
-import { Content, CodeContent } from '@/components/BaseContent';
+import { Title, BaseLayout, CodeWrapper } from '@/components/Container';
 import { getMdStr } from '@/api/md';
 
 @Component({})
@@ -13,8 +13,8 @@ export default class HasValues extends Vue {
 
   render() {
     return (
-      <Content>
-        <h1 style='text-aglin:center' >有初始值的表单</h1>
+      <BaseLayout breadcrumb>
+        <Title > 有初始值的表单 </Title>
         <BaseForm
           initialValues={{
             title: '标题',
@@ -25,8 +25,8 @@ export default class HasValues extends Vue {
             qz: '权重',
             time: this.moment('2015/01/01', 'YYYY/MM/DD')
           }} />
-        <CodeContent html={this.codeHtml} />
-      </Content>
+        <CodeWrapper name='hasValues' hid />
+      </BaseLayout>
     )
   }
 }

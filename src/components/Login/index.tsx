@@ -44,10 +44,8 @@ export default class Login extends Vue {
     return (
       <div onKeydown={this.onEnter} id='login' >
         <a-row class='content'>
-          <a-col span={12} > <img src={require('@/assets/images/longin1.png')} /></a-col>
           <a-col span={12} >
             <a-form class='form' style='width:300px' >
-              <img src={require('@/assets/images/longin2.png')} />
               <a-form-item  {...{ props: this.formItemLayout }} >
                 {this.form.getFieldDecorator('username', {})(
                   <a-input placeholder='请输入用户名' prefix={<a-icon type='user' />} />

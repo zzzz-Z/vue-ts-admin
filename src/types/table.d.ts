@@ -1,5 +1,21 @@
+import { Column } from './column';
+
 interface Table {
 
+  /**
+   * Data record array to be displayed
+   * @type any
+   */
+  dataSource: any[];
+
+  /**  统一设置对齐方式 */
+  align?: 'left' | 'right' | 'center'
+
+  /**
+   * 是否对超出长度的文字进行隐藏 用tooptip显示
+   *  参数接收一个数字 表示临界数字
+   */
+  tooptip?: number
 
   /**
    * Whether to show all table borders
@@ -15,11 +31,11 @@ interface Table {
    */
   childrenColumnName?: string | string[];
 
-  // /**
-  //  * Columns of table
-  //  * @type any
-  //  */
-  // columns: any;
+  /**
+   * Columns of table
+   * @type any
+   */
+  columns: Column[];
 
   /**
    * Override default table elements
