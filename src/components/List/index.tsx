@@ -21,7 +21,7 @@ export interface ITableProps {
   searchItems?: IFormItem[]
   actions?: (t: List) => JSX.Element[]
   customRow?: (...arg: any) => ({})
-  tableProps?: Table
+  tableProps?: any
   /** 是否含有面包屑 */
   breadcrumb?: boolean
 }
@@ -33,10 +33,9 @@ export default class List extends VC<ITableProps> {
   @Prop() columns!: ((t: List) => Column[]) | Column[]
   @Prop() data!: Promise<ITableData> | Array<{}>
   @Prop() query?: (params: {}) => Promise<[]>
-  @Prop() customRow?: () => ({})
   @Prop() searchItems?: any[]
   @Prop() actions?: (t: List) => JSX.Element[]
-  @Prop() tableProps?: Table
+  @Prop() tableProps?: any
   @Prop({ default: true }) breadcrumb?: boolean
 
   isUp = false
@@ -141,17 +140,20 @@ export default class List extends VC<ITableProps> {
   }
 
   render() {
-    const columns = this.columns
+    const { columns, pagination, dataSource, rowSelection, loading } = this
+    const props = {
+      pagination,
+      rowSelection,
+      loading,
+      ...this.tableProps,
+    }
     return (
       <div style='background:#fff;padding:25px;'>
         {this.Header}
         <ITable
-          {...{ props: this.tableProps }}
-          pagination={this.pagination}
-          dataSource={this.dataSource}
-          loading={this.loading}
-          rowSelection={this.rowSelection}
-          columns={typeof columns === 'function' ? columns(this) : columns}
+          {...{ props}}
+          dataSource={dataSource}
+          columns={ typeof columns === 'function' ? columns(this) : columns}
         />
       </div>
     )

@@ -37,7 +37,9 @@ export default class RList extends VC {
       <a-col span={20}>
         <List
           data={projectData}
-          customRow={this.customRow}
+          tableProps={{
+            customRow: this.customRow,
+          }}
           columns={this.columns}
           actions={this.actions}
           searchItems={[{
@@ -56,6 +58,7 @@ export default class RList extends VC {
     return {
       on: {
         click: (e) => {
+          console.log(e);
           e.path.forEach((r) => {
             if (r.nodeName === 'TR') {
               r.parentNode.childNodes.forEach((el) => {
@@ -75,9 +78,11 @@ export default class RList extends VC {
     return [{
       title: '角色',
       dataIndex: 'name',
+      width: 100,
       onFilter: (value, record) => record.name.includes(value),
     }, {
       title: '权限',
+      width: 200,
       dataIndex: 'role',
     }, {
       title: '描述',
