@@ -16,7 +16,5 @@ interface IFormProps {
   itemStyle?: string
   /** item col 配置 */
   col?: ICol
-  /** 表单实例 用于调用表单的内置方法 */
-  form?: FormRef
 }
 

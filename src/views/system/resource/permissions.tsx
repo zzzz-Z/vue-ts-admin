@@ -4,9 +4,10 @@ import GlobalStore from '@/store/global';
 import ModalGenerator from '@/components/Modal';
 import ResourceStore from './store';
 import { IFormItem } from '@/types/form-item';
+import VC from '@/VC-vue';
 
 @Component({})
-export default class Permission extends Vue {
+export default class Permission extends VC {
 
   checkedKeys: string[] = []
   currentKey = ''

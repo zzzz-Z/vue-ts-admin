@@ -1,46 +1,46 @@
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import { Form } from 'ant-design-vue';
-import { FormRef } from '@/types/form-ref';
 import { IFormItem } from '@/types/form-item';
 import { IFormProps } from '@/types/form';
+import VC from '@/VC-vue';
+import { FormRef } from '@/types/form-ref';
 
-@Component({})
-class Iform extends Vue {
+const props = [
+  'layout',
+  'formItems',
+  'labelCol',
+  'col',
+  'form',
+  'wrapperCol',
+  'itemStyle',
+  'initialValues'
+]
 
-  readonly Props!: IFormProps
-  @Prop(String) layout
-  /** formItems props  */
-  @Prop({ required: true }) formItems!: IFormItem[]
-  /** 所有item的labelCol  会被单项指定值覆盖 */
-  @Prop() labelCol?: ICol
-  /** item col 配置 */
-  @Prop() col?: ICol
-  /** 所有item的wrapperCol 会被单项指定值覆盖 */
-  @Prop() wrapperCol?: ICol
-  /** 所有formitem的style 若指定formItems的style属性 则被覆盖 */
-  @Prop() itemStyle?: string
-  /**  初始值 ,设置所有表单项的初始值 && 合并修改后的表单数据 */
-  @Prop() initialValues?: object
-  /** 表单实例 */
+
+@Component({ props })
+class Iform extends VC<IFormProps> {
+
   @Prop() form!: FormRef
 
   get renderItem() {
-    const { labelCol, wrapperCol, initialValues, form, itemStyle, col } = this
+    const { labelCol, wrapperCol, initialValues, itemStyle, col, formItems } = this.$props
+    const form = this.form
 
-    return this.formItems.map((props) => {
+    return (formItems as IFormItem[]).map((props) => {
       // tslint:disable-next-line:prefer-const
       let { field, rules, initialValue, el } = props
+
       let element = <a-input type={props.type} placeholder={props.placeholder} />
-      if (el) {
-        element = typeof el === 'function' ? el(form) : el
-      }
+
+      el && (element = typeof el === 'function' ? el(form) : el)
+
       typeof rules === 'function' && (rules = rules(form))
+
       if (field) {
-        if (initialValues && Object.keys(initialValues).includes(field)) {
-          initialValue = initialValues[field]
-        }
+        initialValues && Object.keys(initialValues).includes(field) && (initialValue = initialValues[field])
         element = form.getFieldDecorator(field, { rules, initialValue })(element)
       }
+
       const formItemProps = { props: { labelCol, wrapperCol, ...props } }
       const colProps = { props: col }
       const style = props.style || itemStyle
@@ -58,7 +58,7 @@ class Iform extends Vue {
   render() {
     return (
       <a-row>
-        <a-form layout={this.layout} >
+        <a-form layout={this.$props.layout} >
           {this.renderItem}
         </a-form>
       </a-row>
@@ -66,17 +66,8 @@ class Iform extends Vue {
   }
 }
 
-const props = [
-  'layout',
-  'formItems',
-  'labelCol',
-  'col',
-  'wrapperCol',
-  'itemStyle',
-  'initialValues'
-]
 
 const MForm = Form.create({ props })(Iform)
-const IForm = ({ data }: IFormProps & JSX.FunctionalComponentCtx) => <MForm {...data} />
+const IForm = ({ data }: FC<IFormProps>) => <MForm {...data} />
 
 export default IForm

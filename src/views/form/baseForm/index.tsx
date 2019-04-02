@@ -1,10 +1,11 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
 import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
+import VC from '@/VC-vue';
 
 @Component({})
-export default class IBaseForm extends Vue {
+export default class IBaseForm extends VC {
 
   render() {
     const columns = [{

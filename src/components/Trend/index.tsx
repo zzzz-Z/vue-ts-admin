@@ -1,6 +1,6 @@
 import './index.less';
 
-export interface TrendProps extends JSX.FunctionalComponentCtx {
+export interface TrendProps {
   colorful?: boolean;
   flag: 'up' | 'down';
   reverseColor?: boolean;
@@ -14,7 +14,7 @@ const Trend = ({
     flag,
     reverseColor
   }
-}: TrendProps) => {
+}: FC<TrendProps>) => {
   const class1 = !colorful ? 'trendItemGrey' : ''
   const class2 = colorful && reverseColor ? 'reverseColor' : ''
   return (

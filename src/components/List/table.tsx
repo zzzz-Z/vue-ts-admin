@@ -2,7 +2,7 @@ import { Column } from '@/types/column';
 import Ellipsis from '../Ellipsis';
 import { Table } from '@/types/table';
 
-export const ITable = ({ data, props }: JSX.FunctionalComponentCtx & Table) => {
+export const ITable = ({ data, props }: FC<Table>) => {
 
   const defalutProps = { size: 'middle', rowKey: (r: any, i: any) => i }
   props = { ...defalutProps, ...props }

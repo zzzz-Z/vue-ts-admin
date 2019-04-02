@@ -1,6 +1,7 @@
 import IForm from '@/components/Form';
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { IFormProps } from '@/types/form';
+import { IModal } from '@/types/modal';
 interface Props {
   formProps?: IFormProps
   btn?: JSX.Element | string

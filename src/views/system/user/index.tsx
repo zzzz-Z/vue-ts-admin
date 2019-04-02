@@ -1,11 +1,12 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import List from '@/components/List'
 import ModalGenerator from '@/components/Modal';
 import Table from '@/components/List/';
 import Breadcrumb from '@/components/Breadcrumb';
+import VC from '@/VC-vue';
 
 @Component({})
-export default class User extends Vue {
+export default class User extends VC {
 
   render() {
     const columns = (t: Table) => [{

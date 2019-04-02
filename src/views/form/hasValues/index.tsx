@@ -2,9 +2,10 @@ import { Component, Vue } from 'vue-property-decorator'
 import { BaseForm } from '../baseForm/form';
 import { Title, BaseLayout, CodeWrapper } from '@/components/Container';
 import { getMdStr } from '@/api/md';
+import VC from '@/VC-vue';
 
 @Component({})
-export default class HasValues extends Vue {
+export default class HasValues extends VC {
   codeHtml: any = ''
 
   created() {

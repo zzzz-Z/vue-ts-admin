@@ -1,11 +1,12 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import Permission from './permissions';
 import List from './list';
 import ResourceStore from './store';
 import Breadcrumb from '@/components/Breadcrumb';
+import VC from '@/VC-vue';
 
 @Component({})
-export default class Resource extends Vue {
+export default class Resource extends VC {
   render() {
     return (
       <div onClick={this.click} >

@@ -3,16 +3,15 @@ import GlobalStore from '@/store/global'
 import ModalGenerator from '../Modal'
 import Svg from '../Svg';
 import router from '@/router';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
+import VC from '@/VC-vue';
 
-
+interface Props {
+  collapsed: boolean
+  change?: () => any
+}
 @Component({})
-export default class Header extends Vue {
-
-  readonly Props!: {
-    collapsed: boolean
-    change?: () => any
-  }
+export default class Header extends VC<Props> {
   /** menu是否收起状态 */
   @Prop() collapsed!: boolean
   @Prop() change!: () => any

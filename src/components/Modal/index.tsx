@@ -1,6 +1,8 @@
 import IForm from '@/components/Form';
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import { IFormProps } from '@/types/form';
+import VC from '@/VC-vue';
+import { IModal } from '@/types/modal';
 interface Props {
   formProps?: IFormProps
   btn?: JSX.Element | string
@@ -10,9 +12,8 @@ interface Props {
   content?: JSX.Element
 }
 @Component({})
-export default class ModalGenerator extends Vue {
+export default class ModalGenerator extends VC<Props> {
 
-  readonly Props!: Props
   @Prop() content!: JSX.Element
   @Prop() tooltip?: string
   @Prop({ default: () => ({}) }) modal!: IModal
@@ -24,29 +25,8 @@ export default class ModalGenerator extends Vue {
   loading: boolean = false
   formRef: any
 
-  // get Footer() {
-  //   const { footer, okText, cancelText, okButtonProps, cancelButtonProps } = this.modal
-  //   const okClcik = (okButtonProps || {on: {}}).on.click
-  //   const cancalClcik = (cancelButtonProps || {on: {}}).on.click
-  //   const footerBtns = [
-  //     <a-button
-  //       {...cancelButtonProps} >
-  //       {cancelText || '取消'}
-  //     </a-button>,
-  //     <a-button
-  //       type='primary'
-  //       loading={this.loading}
-  //       {...okButtonProps}>
-  //       {okText || '提交'}
-  //     </a-button>
-  //   ]
-  //   Array.isArray(footer) && footerBtns.unshift(...footer)
-  //   return footer === 'no' ? null : footerBtns
-  // }
-
   render() {
-    // const {okButtonProps, cancelButtonProps, ...rest} = this.modal
-    // console.log(rest);
+    const footer = this.modal.footer
     const modalProps = {
       on: {
         cancel: this.cancel,
@@ -58,13 +38,12 @@ export default class ModalGenerator extends Vue {
         wrapClassName: 'scoped-modal',
         destroyOnClose: true,
         ... this.modal,
-        // footer: this.Footer,
+        footer: typeof footer === 'function' ? footer(this) : footer,
       }
     }
     const formProps = {
       props: {
         wrappedComponentRef: (formRef: any) => this.formRef = formRef,
-        formItems: [],
         ...this.formProps
       }
     }

@@ -2,21 +2,21 @@ import Breadcrumb from '../Breadcrumb';
 import { Component, Vue } from 'vue-property-decorator';
 import { getMdStr } from '@/api/md';
 
-interface BaseLayout extends JSX.FunctionalComponentCtx {
+interface BaseLayout {
   breadcrumb?: boolean
 }
 
-export const BaseLayout = ({ children, data, props }: BaseLayout) => (
+export const BaseLayout = ({ children, data, props }: FC<BaseLayout>) => (
   <div>
     <Breadcrumb vIf={props.breadcrumb} />
     <div style='background:#fff;padding:20px' {...data}>{children}</div>
   </div>
 )
 
-interface Title extends JSX.FunctionalComponentCtx {
+interface Title {
   description?: string
 }
-export const Title = ({ children, data, props }: Title) => (
+export const Title = ({ children, data, props }: FC<Title>) => (
   <h1 {...data} style='display:flex;align-items:flex-end'>
     {children}
     <span style='font-size:10px;padding:5px 15px;color:rgba(0, 0, 0, 0.45)' >
@@ -26,7 +26,7 @@ export const Title = ({ children, data, props }: Title) => (
 )
 
 
-export const CodeWrapper = ({data, props }: any) => {
+export const CodeWrapper = ({ data, props }: any) => {
   @Component({})
   class CodeWrapper extends Vue {
     readonly Props
@@ -47,6 +47,6 @@ export const CodeWrapper = ({data, props }: any) => {
     }
   }
 
-  return <CodeWrapper {...data}  />
+  return <CodeWrapper {...data} />
 }
 

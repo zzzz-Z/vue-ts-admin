@@ -1,10 +1,11 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import IForm from '@/components/Form';
+import VC from '@/VC-vue';
 
 interface Props { }
 
 @Component({})
-export default class StepForm extends Vue {
+export default class StepForm extends VC {
   readonly Props!: Props
   currentStep = 0
   loading = false
@@ -51,7 +52,7 @@ export default class StepForm extends Vue {
             el: () => <a-textarea placeholder='请输入衡量标准' rows={4} />
           }, {
             wrapperCol: { offset: 6 },
-            el: (form) => (
+            el: () => (
               <div>
                 <a-button
                   loading={this.loading}

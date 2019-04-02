@@ -6,6 +6,7 @@ import { FormRef } from '@/types/form-ref';
 import { IFormItem } from '@/types/form-item';
 import { Table } from '@/types/table';
 import { ITable } from './table';
+import VC from '@/VC-vue';
 
 export interface ITableData {
   dataSource: Array<{}>
@@ -27,9 +28,8 @@ export interface ITableProps {
 
 
 @Component({})
-export default class List extends Vue {
+export default class List extends VC<ITableProps> {
 
-  readonly Props!: ITableProps
   @Prop() columns!: ((t: List) => Column[]) | Column[]
   @Prop() data!: Promise<ITableData> | Array<{}>
   @Prop() query?: (params: {}) => Promise<[]>

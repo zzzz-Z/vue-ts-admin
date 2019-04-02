@@ -1,11 +1,12 @@
 import '../style.less'
-import { Component, Vue } from 'vue-property-decorator'
+import VC from '@/VC-vue';
+import { Component } from 'vue-property-decorator'
 import ModalGenerator from '@/components/Modal';
 import ResourceStore from './store';
 import { projectData } from '@/mock';
 import List from '@/components/List';
 @Component({})
-export default class RList extends Vue {
+export default class RList extends VC {
 
   isNext = true
   get btnText() { return this.isNext ? '下一步' : '提交' }
@@ -94,11 +95,13 @@ export default class RList extends Vue {
                 okText: this.btnText,
                 title: '修改',
                 afterClose: () => { this.isNext = true },
-                // footer: [
-                //   <a-button onClick={() => { this.isNext = !this.isNext }} >
-                //     {this.btnText}
-                //   </a-button>
-                // ],
+                footer: (t) => {
+                 return  [
+                    <a-button onClick={() => { this.isNext = !this.isNext }} >
+                      {this.btnText}
+                    </a-button>
+                  ]
+                },
               }}
               fetch={(params, _form) => this.Axios.get('')}
               formProps={{

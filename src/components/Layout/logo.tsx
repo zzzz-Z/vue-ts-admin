@@ -1,6 +1,6 @@
 // tslint:disable: max-line-length
 
-export const Panda = (ctx: JSX.FunctionalComponentCtx) => {
+export const Panda = (ctx: FC) => {
   const PandaSvg = ({}) => (
     <svg viewBox='0 0 1024 1024' width='1em' height='1em' fill='currentColor'>
       <path d='M99.096 315.634s-82.58-64.032-82.58-132.13c0-66.064 33.032-165.162 148.646-148.646 83.37 11.91 99.096 165.162 99.096 165.162l-165.162 115.614zM924.906 315.634s82.58-64.032 82.58-132.13c0-66.064-33.032-165.162-148.646-148.646-83.37 11.91-99.096 165.162-99.096 165.162l165.162 115.614z' fill='#6B676E' p-id='1143' />
