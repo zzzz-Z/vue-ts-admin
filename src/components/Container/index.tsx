@@ -1,44 +1,48 @@
 import Breadcrumb from '../Breadcrumb';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { getMdStr } from '@/api/md';
+import { VC } from '@/VC-vue';
 
-interface BaseLayout {
-  breadcrumb?: boolean
-}
-
-export const BaseLayout = ({ children, data, props }: FC<BaseLayout>) => (
+export const BaseLayout = (v: FC<{ breadcrumb?: boolean }>) => (
   <div>
-    <Breadcrumb vIf={props.breadcrumb} />
-    <div style='background:#fff;padding:20px' {...data}>{children}</div>
+    <Breadcrumb vIf={v.props.breadcrumb} />
+    <div style='background:#fff;padding:20px' {...v.data}>
+      {v.children}
+    </div>
   </div>
 )
-
-interface Title {
-  description?: string
-}
-export const Title = ({ children, data, props }: FC<Title>) => (
-  <h1 {...data} style='display:flex;align-items:flex-end'>
-    {children}
-    <span style='font-size:10px;padding:5px 15px;color:rgba(0, 0, 0, 0.45)' >
-      {props.description}
-    </span>
-  </h1>
+/**
+ * @description 标题容器
+ */
+export const Title = (v: FC<{ description?: string }>) => (
+  <a-alert
+    style='margin-bottom:20px'
+    message={v.children}
+    description={v.props.description}
+    type='info'
+    showIcon
+  />
 )
-
-
-export const CodeWrapper = ({ data, props }: any) => {
+/**
+ * @description  md 代码容器
+ */
+export const CodeWrapper = (v: FC<{ name: string; hid?: boolean }>) => {
+  const { name, hid } = v.props
+  const data = v.data
   @Component({})
-  class CodeWrapper extends Vue {
-    readonly Props
+  class CodeWrapper extends VC {
     codeHtml: any = null
 
     created() {
-      getMdStr(props.name).then((html) => this.codeHtml = html)
+      getMdStr(name).then((html) => this.codeHtml = html)
     }
 
     render() {
       return (
-        <a-collapse accordion style='margin:20px 0' defaultActiveKey={props.hide ? '0' : '1'}  >
+        <a-collapse
+          accordion
+          style='margin:20px 0'
+          defaultActiveKey={hid ? '0' : '1'}  >
           <a-collapse-panel header='代码演示' key='1'>
             <div v-html={this.codeHtml} />
           </a-collapse-panel>

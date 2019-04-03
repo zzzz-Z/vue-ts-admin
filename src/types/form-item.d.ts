@@ -1,4 +1,4 @@
-import { FormRef } from './form-ref';
+import { FormUtils } from './form-ref';
 
 interface IFormItem {
   style?: string;
@@ -6,7 +6,7 @@ interface IFormItem {
   initialValue?: any;
   rules?: any;
   type?: string;
-  el?: JSX.Element | ((form: FormRef) => JSX.Element)
+  el?: JSX.Element | ((form: FormUtils) => JSX.Element)
   colon?: boolean;
   extra?: any;
   hasFeedback?: boolean;

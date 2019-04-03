@@ -1,11 +1,11 @@
 import { Column } from '@/types/column';
 import Ellipsis from '../Ellipsis';
-import { Table } from '@/types/table';
 import { Component, Vue } from 'vue-property-decorator';
+import { Table } from '@/types/table';
 
-export const ITable = ({ data, props }: FC<Table> ) => {
-
-  const defalutProps = { size: 'middle', rowKey: (r: any, i: any) => i }
+export const ITable = ({ data, props }: FC<Omit<Table, 'rowKey'>> ) => {
+  let key = 0
+  const defalutProps = { size: 'middle', rowKey: () => key++ }
   props = { ...defalutProps, ...props }
   props.columns = (props.columns as Column[]).map((r) => {
     r.align = props.align
@@ -23,13 +23,9 @@ export const ITable = ({ data, props }: FC<Table> ) => {
 
   @Component({})
   class ITable extends Vue {
-
     render() {
-      return (
-        <a-table {...data}/>
-      )
+      return  <a-table {...data}/>
     }
-
   }
 
   return <ITable/>

@@ -3,7 +3,7 @@ import IForm from '@/components/Form';
 export const BaseForm = ({ props, parent }: any) => {
   function submit(values) {
     parent.$info({
-      title: 'Form content width Json',
+      title: 'Gets the content from the form',
       content: JSON.stringify(values)
     })
 

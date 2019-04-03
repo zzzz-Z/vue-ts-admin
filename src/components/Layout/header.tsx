@@ -1,10 +1,10 @@
 import { Panda } from './logo'
-import GlobalStore from '@/store/global'
+import {GlobalStore} from '@/store/global'
 import ModalGenerator from '../Modal'
 import Svg from '../Svg';
 import router from '@/router';
 import { Component, Prop } from 'vue-property-decorator';
-import VC from '@/VC-vue';
+import { VC } from '@/VC-vue';
 
 interface Props {
   collapsed: boolean

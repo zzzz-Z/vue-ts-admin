@@ -1,5 +1,7 @@
 {
-  "data":[{
+  "code":1,
+  "message":"获取数据成功",
+  "result":[{
     "key": 1,
     "name": "John Brown",
     "age": 32,

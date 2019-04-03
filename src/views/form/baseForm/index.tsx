@@ -2,7 +2,8 @@ import { Component } from 'vue-property-decorator'
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
 import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
-import VC from '@/VC-vue';
+import { VC } from '@/VC-vue';
+import { ITable } from '@/components/Table';
 
 @Component({})
 export default class IBaseForm extends VC {
@@ -33,16 +34,14 @@ export default class IBaseForm extends VC {
 
     return (
       <BaseLayout breadcrumb>
-        <Title >
+        <Title description='基础表单' >
           基础表单
          </Title>
         <BaseForm />
         <div style='margin:10px auto;width:90%;'>
           <CodeWrapper name='baseForm' hid />
-          <a-table
-            header='文档说明'
+          <ITable
             columns={columns}
-            rowKey={(r, i) => i}
             size='middle'
             pagination={false}
             dataSource={formDoc}

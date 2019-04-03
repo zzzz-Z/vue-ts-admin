@@ -1,12 +1,12 @@
 import router from '@/router';
-import Axios from 'axios'
+import Axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'ant-design-vue'
 import config from '@/config';
 import { getStorage } from './storage';
 
 
-const request = Axios.create({
-  baseURL: config.baseUrl,
+export const request = Axios.create({
+  baseURL: '/api',
   timeout: 15000
 })
 
@@ -23,7 +23,7 @@ request.interceptors.response.use((res) => {
   // 为避免使用axios[method]返回值类型丢失,so不直接返回res.data
   return res as any
 }, (err) => {
-  if (!config.isProd) {
+  if (config.isDev) {
     err.response
       ? message.error('错误码：' + err.response.status)
       : message.error('请求超时...')
@@ -33,5 +33,8 @@ request.interceptors.response.use((res) => {
 
 
 
-export default request
+export const Api = <T>(config: AxiosRequestConfig) => {
+  return request(config).then(({ data }) => data as T)
+}
+
 

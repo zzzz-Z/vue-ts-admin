@@ -2,8 +2,8 @@ import { Component, Prop } from 'vue-property-decorator'
 import { Form } from 'ant-design-vue';
 import { IFormItem } from '@/types/form-item';
 import { IFormProps } from '@/types/form';
-import VC from '@/VC-vue';
-import { FormRef } from '@/types/form-ref';
+import { VC } from '@/VC-vue';
+import { FormUtils } from '@/types/form-ref';
 
 const props = [
   'layout',
@@ -20,7 +20,7 @@ const props = [
 @Component({ props })
 class Iform extends VC<IFormProps> {
 
-  @Prop() form!: FormRef
+  @Prop() form!: FormUtils
 
   get renderItem() {
     const { labelCol, wrapperCol, initialValues, itemStyle, col, formItems } = this.$props

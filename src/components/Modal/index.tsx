@@ -1,7 +1,7 @@
 import IForm from '@/components/Form';
-import { Component, Prop } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import { IFormProps } from '@/types/form';
-import VC from '@/VC-vue';
+import { VC } from '@/VC-vue';
 import { IModal } from '@/types/modal';
 interface Props {
   formProps?: IFormProps
@@ -11,22 +11,17 @@ interface Props {
   tooltip?: string
   content?: JSX.Element
 }
-@Component({})
+const props = ['formProps', 'btn', 'fetch', 'modal', 'tooltip', 'content']
+@Component({ props })
 export default class ModalGenerator extends VC<Props> {
-
-  @Prop() content!: JSX.Element
-  @Prop() tooltip?: string
-  @Prop({ default: () => ({}) }) modal!: IModal
-  @Prop() formProps?: IFormProps
-  @Prop([Object, String]) btn!: JSX.Element
-  @Prop(Function) fetch!: (...arg: any[]) => Promise<any>
 
   visible: boolean = false
   loading: boolean = false
   formRef: any
 
   render() {
-    const footer = this.modal.footer
+    const { modal, formProps, tooltip, btn, content } = this.$props
+    const footer = modal!.footer
     const modalProps = {
       on: {
         cancel: this.cancel,
@@ -37,14 +32,14 @@ export default class ModalGenerator extends VC<Props> {
         confirmLoading: this.loading,
         wrapClassName: 'scoped-modal',
         destroyOnClose: true,
-        ... this.modal,
+        ...modal,
         footer: typeof footer === 'function' ? footer(this) : footer,
       }
     }
-    const formProps = {
+    const _formProps = {
       props: {
         wrappedComponentRef: (formRef: any) => this.formRef = formRef,
-        ...this.formProps
+        ...formProps
       }
     }
     return (
@@ -52,19 +47,20 @@ export default class ModalGenerator extends VC<Props> {
         <span
           style='cursor: pointer'
           onClick={() => this.visible = true} >
-          <a-tooltip title={this.tooltip} >
-            {this.btn}
+          <a-tooltip title={tooltip} >
+            {typeof btn === 'string' ? <a-button type='primary' v-html={btn} /> : btn}
           </a-tooltip>
         </span>
         <a-modal {...modalProps}>
-          {this.content || <IForm  {...formProps} />}
+          {content || <IForm  {..._formProps} />}
         </a-modal>
       </span>
     )
   }
 
   async submit() {
-    const { formRef: { form }, formProps } = this
+    const { formRef: { form } } = this
+    const { formProps, fetch } = this.$props
 
     if (form) {
       // 如果组件是表单组件 则先进行表单验证 否则 直接执行传入的方法
@@ -72,12 +68,12 @@ export default class ModalGenerator extends VC<Props> {
         if (err) { return }
         try {
           // 合并传进表单的初始值(若存在)与修改后的值
-          params = { ...(formProps as any).initialValues, ...params }
+          params = { ...formProps!.initialValues, ...params }
         } catch (error) {
           // initialValues 不存在不作处理
         }
         this.loading = true
-        const promise = this.fetch(params, form)
+        const promise = fetch!(params, form)
         if (promise.then) {
           promise.then(() => {
             form.resetFields()
@@ -86,7 +82,7 @@ export default class ModalGenerator extends VC<Props> {
         }
       })
     } else {
-      this.fetch(this.cancel)
+      fetch!(this.cancel)
     }
   }
 

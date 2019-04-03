@@ -1,6 +1,6 @@
 import { Component } from 'vue-property-decorator'
 import IForm from '@/components/Form';
-import VC from '@/VC-vue';
+import { VC } from '@/VC-vue';
 
 interface Props { }
 

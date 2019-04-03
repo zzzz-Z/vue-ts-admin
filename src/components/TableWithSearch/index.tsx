@@ -1,85 +1,92 @@
 import './style.less'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import IForm from '@/components/Form';
 import { Column } from '@/types/column';
-import { FormRef } from '@/types/form-ref';
+import { FormUtils } from '@/types/form-ref';
 import { IFormItem } from '@/types/form-item';
+import { ITable } from '@/components/Table';
+import { VC } from '@/VC-vue';
 import { Table } from '@/types/table';
-import { ITable } from './table';
-import VC from '@/VC-vue';
+import { getList } from '@/api/list';
 
 export interface ITableData {
   dataSource: Array<{}>
-  totalSize?: number
-  totalPageCount?: number
+  totalSize: number
+  totalPage: number
 }
 
 export interface ITableProps {
-  columns: (t: List) => Column[]
-  data: Promise<ITableData> | Array<{}>
+  columns: ((t: TableWithSearch) => Column[]) | Column[]
   algin?: string
   searchItems?: IFormItem[]
-  actions?: (t: List) => JSX.Element[]
+  actions?: (t: TableWithSearch) => JSX.Element[]
   customRow?: (...arg: any) => ({})
-  tableProps?: any
+  tableProps?: Omit<Table, 'columns' | 'customRow' | 'dataSource'>
   /** 是否含有面包屑 */
   breadcrumb?: boolean
+  fetch(arg: {}): Promise<ITableData>
 }
 
 
 @Component({})
-export default class List extends VC<ITableProps> {
+export class TableWithSearch extends VC<ITableProps> {
 
-  @Prop() columns!: ((t: List) => Column[]) | Column[]
-  @Prop() data!: Promise<ITableData> | Array<{}>
+  @Prop() columns!: ((t: TableWithSearch) => Column[]) | Column[]
+  @Prop() fetch!: (arg: {}) => Promise<ITableData>
   @Prop() query?: (params: {}) => Promise<[]>
   @Prop() searchItems?: any[]
-  @Prop() actions?: (t: List) => JSX.Element[]
+  @Prop() actions?: (t: TableWithSearch) => JSX.Element[]
   @Prop() tableProps?: any
+  @Prop() customRow?: (...arg: any) => ({})
   @Prop({ default: true }) breadcrumb?: boolean
 
   isUp = false
   totalSize = 0
+  totalPage = 0
   loading = false
-  pagination = {
-    showTotal: (n) => '共' + n + '条',
-    showSizeChanger: true,
-    showQuickJumper: true,
-    defaultPageSize: 10
-  }
+  currentPage = 1
   rowSelection = {}
   dataSource: any[] = []
-
-  created() {
-    this.init()
-  }
-
-  init() {
-    this.loading = true;
-    try {
-      (this.data as Promise<ITableData>)
-        .catch((e) => this.$message.error('获取数据失败'))
-        .finally(() => this.loading = false)
-        .then((res: ITableData) => {
-          this.dataSource = res.dataSource
-        })
-    } catch (error) {
-      this.dataSource = this.data as []
-      this.loading = false
+  get pagination() {
+    return {
+      current: this.currentPage,
+      showTotal: (n) => '共' + n + '条',
+      showSizeChanger: true,
+      showQuickJumper: true,
+      defaultPageSize: 12,
+      onChange: (n) => this.getData(n).then((_) => this.currentPage = n)
     }
   }
 
+  created() {
+    this.getData()
+  }
+
+  async getData(n = 1) {
+    this.loading = true
+    return this.$props.fetch({ num: n })
+      .then((res) => {
+        this.dataSource = res.dataSource
+        this.totalSize = res.totalSize
+        this.totalPage = res.totalPage
+        this.loading = false
+        return true
+      })
+  }
+
   /** 按条件查询 */
-  _query(form: FormRef) {
+  _query(form: FormUtils) {
     const params = form.getFieldsValue()
     this.query && this.query(params).then((v) => {
       this.dataSource = v
     })
   }
   /** 重置列表数据 & 搜索条件 */
-  reload(form: FormRef) {
+  reload(form: FormUtils) {
     form.resetFields()
-    this.init()
+    this.getData().then((r) => {
+      this.currentPage = 1
+    })
   }
   /** 切换查询项展开收起 */
   toggleForm() {
@@ -92,7 +99,7 @@ export default class List extends VC<ITableProps> {
     items.map((r: any) => r.style = 'margin-right:20px')
     const searchItems: any[] = this.isUp ? items : [items[0], items[1]]
     const handle = {
-      el: (form: FormRef) => (
+      el: (form: FormUtils) => (
         <div style='margin-left:30px' >
           <a-button
             style='margin-right:10px'
@@ -119,24 +126,6 @@ export default class List extends VC<ITableProps> {
         col={{ lg: 5, md: 24 }}
         formItems={[...searchItems, handle]} />
     )
-
-  }
-  get Header() {
-    const bodyStyle = {
-      padding: '0 0 15px',
-      borderRadius: 0,
-      minHeight: '70px',
-      border: 0,
-    }
-
-    return (
-      <a-card
-        bodyStyle={bodyStyle}
-        bordered={false} >
-        {this.Search}
-        {this.actions && <div>{this.actions(this)}</div>}
-      </a-card >
-    )
   }
 
   render() {
@@ -147,13 +136,24 @@ export default class List extends VC<ITableProps> {
       loading,
       ...this.tableProps,
     }
+    const bodyStyle = {
+      padding: '0 0 15px',
+      borderRadius: 0,
+      minHeight: '70px',
+      border: 0,
+    }
     return (
       <div style='background:#fff;padding:25px;'>
-        {this.Header}
+        <a-card
+          bodyStyle={bodyStyle}
+          bordered={false} >
+          {this.Search}
+          {this.actions && <div>{this.actions(this)}</div>}
+        </a-card >
         <ITable
-          {...{ props}}
+          {...{ props }}
           dataSource={dataSource}
-          columns={ typeof columns === 'function' ? columns(this) : columns}
+          columns={typeof columns === 'function' ? columns(this) : columns}
         />
       </div>
     )

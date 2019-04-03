@@ -23,6 +23,10 @@ interface Table {
    * @type  boolean
    */
   bordered?: boolean;
+  /**
+   * string|function
+   */
+  rowKey?: any
 
   /**
    * The column contains children to display

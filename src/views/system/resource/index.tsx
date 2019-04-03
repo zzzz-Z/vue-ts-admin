@@ -3,7 +3,7 @@ import Permission from './permissions';
 import List from './list';
 import ResourceStore from './store';
 import Breadcrumb from '@/components/Breadcrumb';
-import VC from '@/VC-vue';
+import { VC } from '@/VC-vue';
 
 @Component({})
 export default class Resource extends VC {

@@ -1,10 +1,10 @@
 import '../style.less'
-import { Component, Vue } from 'vue-property-decorator'
-import GlobalStore from '@/store/global';
+import { Component } from 'vue-property-decorator'
+import {GlobalStore} from '@/store/global';
 import ModalGenerator from '@/components/Modal';
 import ResourceStore from './store';
 import { IFormItem } from '@/types/form-item';
-import VC from '@/VC-vue';
+import { VC } from '@/VC-vue';
 
 @Component({})
 export default class Permission extends VC {

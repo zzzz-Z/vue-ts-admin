@@ -1,15 +1,16 @@
-import request from '@/utils/request';
+import { Api } from '@/utils/request';
 
-export interface LoginRes {
+interface Response<T= any> {
   token: string
-  menus?: Array<{}>
-  code: string
-  msg: string
+  message: string
+  result?: T
+  code: number
 }
 
 
-export const login = async (params: {}) => {
-  const { data } = await request.get('/login', { params })
-  return data as LoginRes
-}
-
+export const login = async (params: {}) =>
+  await Api<Response>({
+    url: '/user.json',
+    method: 'get',
+    params
+  })

@@ -1,10 +1,10 @@
 import '../style.less'
-import VC from '@/VC-vue';
+import { VC } from '@/VC-vue';
 import { Component } from 'vue-property-decorator'
 import ModalGenerator from '@/components/Modal';
 import ResourceStore from './store';
-import { projectData } from '@/mock';
-import List from '@/components/List';
+import { TableWithSearch } from '@/components/TableWithSearch';
+import { getList } from '@/api/list';
 @Component({})
 export default class RList extends VC {
 
@@ -35,11 +35,9 @@ export default class RList extends VC {
   render() {
     return (
       <a-col span={20}>
-        <List
-          data={projectData}
-          tableProps={{
-            customRow: this.customRow,
-          }}
+        <TableWithSearch
+          fetch={getList}
+          customRow={this.customRow}
           columns={this.columns}
           actions={this.actions}
           searchItems={[{
@@ -58,7 +56,6 @@ export default class RList extends VC {
     return {
       on: {
         click: (e) => {
-          console.log(e);
           e.path.forEach((r) => {
             if (r.nodeName === 'TR') {
               r.parentNode.childNodes.forEach((el) => {
@@ -74,7 +71,7 @@ export default class RList extends VC {
     }
   }
 
-  columns(_t: List) {
+  columns(_t: TableWithSearch) {
     return [{
       title: '角色',
       dataIndex: 'name',
@@ -101,7 +98,7 @@ export default class RList extends VC {
                 title: '修改',
                 afterClose: () => { this.isNext = true },
                 footer: (t) => {
-                 return  [
+                  return [
                     <a-button onClick={() => { this.isNext = !this.isNext }} >
                       {this.btnText}
                     </a-button>
@@ -139,9 +136,7 @@ export default class RList extends VC {
           }]
         }}
         btn={<a-button type='primary' v-html='新建' />}
-        fetch={(_params, _form) => {
-          return this.Axios.get('')
-        }}
+        fetch={(_params, _form) => this.Axios.get('')}
       />
     ]
   }

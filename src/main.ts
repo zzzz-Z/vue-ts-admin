@@ -4,9 +4,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index'
 import ViserVue from 'viser-vue'
-import request from '@/utils/request'
+import {request} from '@/utils/request'
 import { getStorage } from './utils/storage';
-import GlobalStore from './store/global';
+import {GlobalStore} from './store/global';
 import '@/directive'
 import './antd/antd.use';
 import 'highlight.js/styles/github.css';

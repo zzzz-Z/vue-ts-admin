@@ -1,5 +1,4 @@
 import Layout from '@/components/Layout';
-import User from '@/views/system/user';
 import Resource from '@/views/system/resource';
 
 
@@ -47,21 +46,22 @@ const routerMap = [{
       keepalive: true,
       title: '基础列表',
     }
+  }, {
+    path: '/table/searchTable',
+    component: () => import('@/views/table/searchTable'),
+    meta: {
+      keepalive: true,
+      title: '复杂列表',
+    }
   }]
 }, {
   path: '/system',
   component: Layout,
   meta: {
     icon: 'user',
-    title: '系统管理',
+    title: '权限管理',
   },
   children: [{
-    path: '/system/user',
-    component: User,
-    meta: {
-      title: '用户',
-    }
-  }, {
     path: '/system/resource',
     component: Resource,
     meta: {
