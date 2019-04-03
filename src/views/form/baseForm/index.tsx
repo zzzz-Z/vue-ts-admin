@@ -1,8 +1,7 @@
-import { Component } from 'vue-property-decorator'
+import { VC , Component } from '@/VC-vue';
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
 import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
-import { VC } from '@/VC-vue';
 import { ITable } from '@/components/Table';
 
 @Component({})
