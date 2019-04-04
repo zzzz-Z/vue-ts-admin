@@ -1,4 +1,5 @@
 import { Column } from './column';
+import { PaginationConfig } from 'ant-design-vue/types/list/list';
 
 interface Table {
 
@@ -23,6 +24,10 @@ interface Table {
    * @type  boolean
    */
   bordered?: boolean;
+  /**
+   * string|function
+   */
+  rowKey?: any
 
   /**
    * The column contains children to display
@@ -118,7 +123,7 @@ interface Table {
    * Pagination config or [Pagination] (/components/pagination/), hide it by setting it to false
    * @type boolean | PaginationConfig
    */
-  // pagination: boolean | PaginationConfig;
+  pagination?: any;
 
   /**
    * Row's className

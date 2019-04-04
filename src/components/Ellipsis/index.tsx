@@ -1,16 +1,17 @@
-interface Props  {
+interface Props {
   length: number
   width?: number
   str?: string
 }
 
-export default ({props, children}: VFC<Props>) => {
+export default ({ props, children }: FC<Props>) => {
+  const {str, length, width } = props!
   const innerText = children && children.map((item) => item.text).join('')
-  const str = innerText || props.str
-  const fullLength = getStrFullLength(str)
-  const cutStr = cutStrByFullLength(str, props.length)
-  const title = props.width ? <div style={`width:${props.width}px`}> {str} </div > : str
-  const text = fullLength >= props.length + 3 ? cutStr + '...' : str;
+  const _str = innerText || str
+  const fullLength = getStrFullLength(_str)
+  const cutStr = cutStrByFullLength(_str, length)
+  const title = width ? <div style={`width:${width}px`}> {_str} </div > : _str
+  const text = fullLength >= length + 3 ? cutStr + '...' : _str;
   return (
     <a-tooltip title={title}>
       {text}

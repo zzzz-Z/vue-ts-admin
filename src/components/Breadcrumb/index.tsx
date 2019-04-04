@@ -10,6 +10,9 @@ export default ({ data, parent }: any) => {
     <a-breadcrumb
       {...data}
       style='background:#fff;padding:20px 25px;border-bottom:1px solid #F0F0F0;margin:-24px -24px 20px'>
+      <a-breadcrumb-item key='/'>
+        <router-link to='/'  >首页</router-link>
+      </a-breadcrumb-item>
       {routes.map((r, i) => (
         <a-breadcrumb-item key={i} >
           {

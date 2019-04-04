@@ -1,5 +1,4 @@
 import Layout from '@/components/Layout';
-import User from '@/views/system/user';
 import Resource from '@/views/system/resource';
 
 
@@ -47,21 +46,77 @@ const routerMap = [{
       keepalive: true,
       title: '基础列表',
     }
+  }, {
+    path: '/table/searchTable',
+    component: () => import('@/views/table/searchTable'),
+    meta: {
+      keepalive: true,
+      title: '复杂列表',
+    }
+  }]
+}, {
+  path: '/modal',
+  component: Layout,
+  meta: {
+    keepalive: true,
+    title: 'modal',
+    icon: 'notification',
+  },
+  children: [{
+    path: '/table/vcmodal',
+    component: () => import('@/views/modal/vc-modal'),
+    meta: {
+      keepalive: true,
+      title: '表单VC-Modal',
+    }
+  }, {
+    path: '/table/fcmodal',
+    component: () => import('@/views/modal/fc-modal'),
+    meta: {
+      keepalive: true,
+      title: '表单FC-modal',
+    }
+  }]
+}, {
+  path: '/svg',
+  component: Layout,
+  meta: {
+    keepalive: true,
+    title: 'Svg',
+    icon: 'bulb',
+  },
+  children: [{
+    path: '/svg',
+    component: () => import('@/views/svg'),
+    meta: {
+      keepalive: true,
+      title: 'Svg',
+    }
+  }]
+}, {
+  path: '/tree',
+  component: Layout,
+  meta: {
+    keepalive: true,
+    title: 'tree',
+    icon: 'slack',
+  },
+  children: [{
+    path: '/tree',
+    component: () => import('@/views/tree/baseTree'),
+    meta: {
+      keepalive: true,
+      title: 'tree',
+    }
   }]
 }, {
   path: '/system',
   component: Layout,
   meta: {
     icon: 'user',
-    title: '系统管理',
+    title: '权限管理',
   },
   children: [{
-    path: '/system/user',
-    component: User,
-    meta: {
-      title: '用户',
-    }
-  }, {
     path: '/system/resource',
     component: Resource,
     meta: {

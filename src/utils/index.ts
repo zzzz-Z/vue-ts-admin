@@ -36,3 +36,7 @@ export async function downloadFile(url: string, params?: {}) {
     navigator.msSaveBlob(blob, fileName)
   }
 }
+
+export function deepClone(data) {
+  return JSON.parse(JSON.stringify(data))
+}

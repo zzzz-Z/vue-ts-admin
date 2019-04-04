@@ -5,7 +5,7 @@ const {
   // Affix,
   Anchor,
   // AutoComplete,
-  // Alert,
+  Alert,
   Avatar,
   // BackTop,
   // Badge,
@@ -74,7 +74,7 @@ Vue.prototype.$confirm = Modal.confirm;
 // Vue.use(Affix);
 Vue.use(Anchor);
 // Vue.use(AutoComplete);
-// Vue.use(Alert);
+Vue.use(Alert);
 Vue.use(Avatar);
 // Vue.use(BackTop);
 // Vue.use(Badge);

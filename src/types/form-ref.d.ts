@@ -2,7 +2,8 @@
 import { FieldDecoratorOptions, Field, FieldValue, ValidateFieldOptions, ValidateCallback } from 'ant-design-vue/types/form/form';
 
 
-interface FormRef extends JSX.Element {
+/** 表单内置方法 */
+interface FormUtils extends JSX.Element {
 
   /**
    * Check whether a field is touched by getFieldDecorator's options.trigger event

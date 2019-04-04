@@ -1,10 +1,11 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { VC, Component } from '@/VC-vue';
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
 import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
+import { ITable } from '@/components/Table';
 
 @Component({})
-export default class IBaseForm extends Vue {
+export default class IBaseForm extends VC {
 
   render() {
     const columns = [{
@@ -29,19 +30,14 @@ export default class IBaseForm extends Vue {
       dataIndex: 'default',
     }]
 
-
     return (
       <BaseLayout breadcrumb>
-        <Title >
-          基础表单
-         </Title>
+        <Title title='基础表单' />
         <BaseForm />
         <div style='margin:10px auto;width:90%;'>
           <CodeWrapper name='baseForm' hid />
-          <a-table
-            header='文档说明'
+          <ITable
             columns={columns}
-            rowKey={(r, i) => i}
             size='middle'
             pagination={false}
             dataSource={formDoc}

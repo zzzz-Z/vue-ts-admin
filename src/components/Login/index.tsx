@@ -1,7 +1,7 @@
 import { Component, Vue } from 'vue-property-decorator';
-import GlobalStore from '@/store/global';
+import {GlobalStore} from '@/store/global';
 import { removeStorage } from '@/utils/storage';
-import { FormRef } from '@/types/form-ref';
+import { FormUtils } from '@/types/form-ref';
 import './style.less'
 
 @Component({})
@@ -16,7 +16,7 @@ export default class Login extends Vue {
       span: 23
     }
   }
-  form!: FormRef
+  form!: FormUtils
   loading: any = false
 
   onEnter(e) {

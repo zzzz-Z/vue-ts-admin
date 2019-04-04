@@ -6,16 +6,11 @@ import { login } from '@/api/user'
 import store from './index'
 import router from '@/router'
 
-interface UserInfo {
-  name?: string
-}
 @Module({ dynamic: true, store, name: 'GlobalStore' })
 class Global extends VuexModule {
   /** 路由表 */
   asyncRoutes: any[] = []
-  userInfo: UserInfo = {
-    name: 'admin'
-  }
+  userInfo: any = { name: 'admin' }
 
   @Mutation
   saveAsyncRoutes(asyncRoutes: any) {
@@ -42,12 +37,12 @@ class Global extends VuexModule {
     const res = await login(payload)
     Number(res.code) ?
       (setStorage('Token', res.token),
-        this.saveAsyncRoutes(res.menus),
+        this.saveAsyncRoutes(res.result),
         router.push('/system/user'))
-      : message.error(res.msg)
+      : message.error(res.message)
   }
 
 }
-/**  Global Vuex */
-const GlobalStore = getModule(Global)
-export default GlobalStore
+/**  Global state */
+
+export const GlobalStore = getModule(Global)

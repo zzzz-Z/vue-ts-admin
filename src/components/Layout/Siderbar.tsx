@@ -1,6 +1,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { RouteConfig } from 'vue-router'
-import GlobalStore from '@/store/global';
+import { GlobalStore } from '@/store/global';
+import { deepClone } from '@/utils';
 
 
 type itemConfig = RouteConfig & { icon: string }
@@ -70,7 +71,7 @@ export default class Siderbar extends Vue {
 
 
   render() {
-    const routerMaps = JSON.parse(JSON.stringify(GlobalStore.asyncRoutes))
+    const routerMaps = deepClone(GlobalStore.asyncRoutes)
     const loop = (arr) => arr.map((r) => {
       if (r.children) {
         // 当子路由同父路由的path相同时,隐藏子路由菜单

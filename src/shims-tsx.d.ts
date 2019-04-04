@@ -1,38 +1,20 @@
-import Vue, { VNode, VNodeData } from 'vue'
-
+import Vue, { VNode, VNodeData, RenderContext } from 'vue'
+interface Fct<P = any> extends Partial<RenderContext<P>> {
+  vPermission?: 'add' | 'dele' | 'edit' | 'check'
+  [key: string]: any
+}
 declare global {
-  interface VFCCpt<P= any> {
-    props?: any
-    children?: VNode[]
-    data?: VNodeData
-    parent?: Vue
-    listeners?: any
-    scopedSlots?: any
-    injections?: any
-    slots?: any
-    vPermission?: 'add' | 'dele' | 'edit' | 'check'
-    [key: string]: any
-  }
-  type VFC<P>= VFCCpt<P> & P
+  /** From A, omit a set of properties whose keys are in the union B */
+  type Omit<A, B extends keyof A> = Pick<A, { [K in keyof A]: Exclude<K, B> }[keyof A]>
+
+  type FC<S= {}> = Fct<S> & S
   namespace JSX {
-    interface FunctionalComponentCtx {
-      props?: any
-      children?: VNode[]
-      data?: VNodeData
-      parent?: Vue
-      listeners?: any
-      scopedSlots?: any
-      injections?: any
-      slots?: any
-      vPermission?: 'add' | 'dele' | 'edit' | 'check'
-      [key: string]: any
-    }
-    // tslint:disable no-empty-interface
+
     interface Element extends VNode { }
-    // tslint:disable no-empty-interface
     interface ElementClass extends Vue { }
+    /** Set which property will be checked */
     interface ElementAttributesProperty {
-      Props: any
+      $props: any
     }
     interface IntrinsicClassAttributes {
       ref?: string
@@ -42,7 +24,6 @@ declare global {
       key?: any
       props?: any
       vPermission?: 'add' | 'dele' | 'edit' | 'check'
-
     }
     interface IntrinsicElements {
       [elem: string]: any

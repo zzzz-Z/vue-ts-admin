@@ -1,5 +1,5 @@
 import { IFormItem } from './form-item';
-import { FormRef } from './form-ref';
+import { FormUtils } from './form-ref';
 
 interface IFormProps {
   /** 表单布局 */
@@ -16,7 +16,5 @@ interface IFormProps {
   itemStyle?: string
   /** item col 配置 */
   col?: ICol
-  /** 表单实例 用于调用表单的内置方法 */
-  form?: FormRef
 }
 

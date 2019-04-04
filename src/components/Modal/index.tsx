@@ -1,119 +1,100 @@
 import IForm from '@/components/Form';
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import { IFormProps } from '@/types/form';
+import { VC } from '@/VC-vue';
+import { FormUtils } from '@/types/form-ref';
+
+interface Params {
+  params?: {}
+  form?: FormUtils
+  close?(): void
+}
 interface Props {
-  formProps?: IFormProps
   btn?: JSX.Element | string
-  fetch?: (...arg: any[]) => Promise<any>
-  modal?: IModal
+  fetch?: (v: Params) => Promise<any>
   tooltip?: string
   content?: JSX.Element
 }
-@Component({})
-export default class ModalGenerator extends Vue {
 
-  readonly Props!: Props
-  @Prop() content!: JSX.Element
-  @Prop() tooltip?: string
-  @Prop({ default: () => ({}) }) modal!: IModal
-  @Prop() formProps?: IFormProps
-  @Prop([Object, String]) btn!: JSX.Element
-  @Prop(Function) fetch!: (...arg: any[]) => Promise<any>
+export type ModalGeneratorProps = Props & IModal & IFormProps
 
-  visible: boolean = false
-  loading: boolean = false
-  formRef: any
+export const ModalGenerator = ({ data, props }: FC<ModalGeneratorProps>): any => {
 
-  // get Footer() {
-  //   const { footer, okText, cancelText, okButtonProps, cancelButtonProps } = this.modal
-  //   const okClcik = (okButtonProps || {on: {}}).on.click
-  //   const cancalClcik = (cancelButtonProps || {on: {}}).on.click
-  //   const footerBtns = [
-  //     <a-button
-  //       {...cancelButtonProps} >
-  //       {cancelText || '取消'}
-  //     </a-button>,
-  //     <a-button
-  //       type='primary'
-  //       loading={this.loading}
-  //       {...okButtonProps}>
-  //       {okText || '提交'}
-  //     </a-button>
-  //   ]
-  //   Array.isArray(footer) && footerBtns.unshift(...footer)
-  //   return footer === 'no' ? null : footerBtns
-  // }
+  @Component({})
+  class ModalGenerator extends VC {
 
-  render() {
-    // const {okButtonProps, cancelButtonProps, ...rest} = this.modal
-    // console.log(rest);
-    const modalProps = {
-      on: {
-        cancel: this.cancel,
-        ok: this.submit
-      },
-      props: {
-        visible: this.visible,
-        confirmLoading: this.loading,
-        wrapClassName: 'scoped-modal',
-        destroyOnClose: true,
-        ... this.modal,
-        // footer: this.Footer,
+    visible: boolean = false
+    loading: boolean = false
+    form!: FormUtils
+
+    render() {
+      const { tooltip, btn, content, footer } = props!
+
+      const modalProps = {
+        props: {
+          ...props,
+          visible: this.visible,
+          confirmLoading: this.loading,
+          wrapClassName: 'scoped-modal',
+          destroyOnClose: true,
+          footer: typeof footer === 'function' ? footer(this) : footer,
+        },
+        on: { cancel: this.cancel, ok: this.submit }
       }
-    }
-    const formProps = {
-      props: {
-        wrappedComponentRef: (formRef: any) => this.formRef = formRef,
-        formItems: [],
-        ...this.formProps
-      }
-    }
-    return (
-      <span>
-        <span
-          style='cursor: pointer'
-          onClick={() => this.visible = true} >
-          <a-tooltip title={this.tooltip} >
-            {this.btn}
-          </a-tooltip>
+
+      return (
+        <span>
+          <span
+            vIf={btn}
+            style='cursor: pointer'
+            onClick={this.open} >
+            <a-tooltip title={tooltip} >
+              {typeof btn === 'string' ? <a-button type='primary' v-html={btn} /> : btn}
+            </a-tooltip>
+          </span>
+          <a-modal  {...modalProps}>
+            {content || <IForm  {...{ props }} ref='form' wrappedComponentRef={this.save} />}
+          </a-modal>
         </span>
-        <a-modal {...modalProps}>
-          {this.content || <IForm  {...formProps} />}
-        </a-modal>
-      </span>
-    )
-  }
+      )
+    }
 
-  async submit() {
-    const { formRef: { form }, formProps } = this
+    submit() {
+      const { form } = this
+      const { initialValues, fetch } = props!
+      if (!form) { fetch!({ close: this.cancel }) }
+      if (form) {
+        form.validateFields((e, params) => {
+          if (!e) {
+            // 合并传进表单的初始值(若存在)与修改后的值
+            params = { ...initialValues || {}, ...params }
+            this.loading = true
+            fetch!({ params, form })
+              .then(() => { form.resetFields(); this.cancel() })
+              .finally(() => this.loading = false)
+          }
+        })
+      }
+    }
 
-    if (form) {
-      // 如果组件是表单组件 则先进行表单验证 否则 直接执行传入的方法
-      form.validateFields((err, params: {}) => {
-        if (err) { return }
-        try {
-          // 合并传进表单的初始值(若存在)与修改后的值
-          params = { ...(formProps as any).initialValues, ...params }
-        } catch (error) {
-          // initialValues 不存在不作处理
-        }
-        this.loading = true
-        const promise = this.fetch(params, form)
-        if (promise.then) {
-          promise.then(() => {
-            form.resetFields()
-            this.cancel()
-          })
-        }
-      })
-    } else {
-      this.fetch(this.cancel)
+    /** 保存form */
+    save(formRef) {
+      if (formRef) {
+        this.form = formRef.form
+      }
+    }
+
+    /** 打开弹窗 */
+    open() {
+      this.visible = true
+    }
+
+    /**  关闭 弹窗model  */
+    cancel() {
+      this.loading = false
+      this.visible = false
     }
   }
 
-  /**  关闭 弹窗model  */
-  cancel() {
-    this.loading = false
-    this.visible = false
-  }
+  return <ModalGenerator {...data} />
 }

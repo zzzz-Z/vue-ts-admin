@@ -5501,6 +5501,10 @@ loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.3:
     emojis-list "^2.0.0"
     json5 "^1.0.1"
 
+loadsh@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/loadsh/-/loadsh-0.0.4.tgz#5314babd12bb13315dde024a4ca70758c5489d2d"
+
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/locate-path/download/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -6216,6 +6220,10 @@ omit.js@^1.0.0:
   resolved "http://registry.npm.taobao.org/omit.js/download/omit.js-1.0.0.tgz#e013cb86a7517b9cf6f7cfb0ddb4297256a99288"
   dependencies:
     babel-runtime "^6.23.0"
+
+omit@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/omit/-/omit-1.0.1.tgz#058a01b4b6db1287b36ecb58dfa8e18778958017"
 
 on-finished@~2.3.0:
   version "2.3.0"

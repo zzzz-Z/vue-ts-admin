@@ -1,9 +1,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Siderbar from './siderbar'
 import Header from './header'
-import Svg from '../Svg'
 import './style.less'
-
+import { Logo } from './logo';
 
 @Component({})
 export default class Layout extends Vue {
@@ -26,9 +25,7 @@ export default class Layout extends Vue {
           trigger={null}
           v-model={collapsed}
           width={256}>
-          <div class='logo'>
-            <Svg name='sunny' />
-          </div>
+          <Logo />
           <Siderbar reload={this.reloadView} collapsed={collapsed} />
         </a-layout-sider>
         <a-layout>

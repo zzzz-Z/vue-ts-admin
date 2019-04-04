@@ -1,24 +1,24 @@
-import { Component, Vue } from 'vue-property-decorator'
-import { ITable } from '@/components/List/table';
-import { Title, BaseLayout } from '@/components/Container';
-
-interface Props { }
+import { Component } from 'vue-property-decorator'
+import { ITable } from '@/components/Table';
+import { Title, BaseLayout, CodeWrapper } from '@/components/Container';
+import { VC } from '@/VC-vue';
+import { createFormModal } from '@/components/Modal/createModal';
 
 @Component({})
-export default class BaseTable extends Vue {
-  readonly Props!: Props
+export default class BaseTable extends VC {
 
-  typeRender(...arg) {
-    return <span style='color:rgb(196, 29, 127)'> arg[0]</span>
+  typeRender(text) {
+    return <span style='color:rgb(196, 29, 127)'> {text}</span>
   }
 
   render() {
     return (
       <BaseLayout breadcrumb>
-        <Title description='洒洒水' >
-          基础列表
+        <Title title='基础列表'  >
+          对antd官方Table进行hack,使通用属性传递更方便。
         </Title>
         <ITable
+          pagination={false}
           align='center'
           tooptip={35}
           dataSource={dataSource}
@@ -36,6 +36,7 @@ export default class BaseTable extends Vue {
             title: '默认值',
             dataIndex: 'default',
           }]} />
+        <CodeWrapper name='baseTable' />
       </BaseLayout>
     )
   }
@@ -52,6 +53,11 @@ const dataSource = [{
   description: '隐藏超出( tooptip规定字数)文字，tooptip显示',
   type: 'number',
   default: '-',
+}, {
+  field: 'rowKey',
+  description: '每一行的key,自动设置自增key,不再用手动设置',
+  type: 'string| ()=>string|number',
+  default: 'k=0 ; ()=> k++',
 }, {
   field: '其他',
   description: '除上述字段外其他props',

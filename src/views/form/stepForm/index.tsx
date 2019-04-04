@@ -1,22 +1,15 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
 import StepForm from './form';
-import { getMdStr } from '@/api/md';
+import { VC } from '@/VC-vue';
 
 
 @Component({})
-export default class IStepForm extends Vue {
-  codeHtml: any = ''
-
-  created() {
-    getMdStr('stepForm').then((html) => this.codeHtml = html)
-  }
+export default class IStepForm extends VC {
   render() {
     return (
       <BaseLayout breadcrumb>
-        <Title >
-          分步表单
-        </Title>
+        <Title title='分步表单' />
         <StepForm />
         <CodeWrapper name='stepForm' hid />
       </BaseLayout>

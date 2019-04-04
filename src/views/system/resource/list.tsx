@@ -1,11 +1,12 @@
 import '../style.less'
-import { Component, Vue } from 'vue-property-decorator'
-import ModalGenerator from '@/components/Modal';
+import { VC } from '@/VC-vue';
+import { Component } from 'vue-property-decorator'
+import { ModalGenerator } from '@/components/Modal';
 import ResourceStore from './store';
-import { projectData } from '@/mock';
-import List from '@/components/List';
+import { TableWithSearch } from '@/components/TableWithSearch';
+import { getList } from '@/api/list';
 @Component({})
-export default class RList extends Vue {
+export default class RList extends VC {
 
   isNext = true
   get btnText() { return this.isNext ? '下一步' : '提交' }
@@ -34,18 +35,13 @@ export default class RList extends Vue {
   render() {
     return (
       <a-col span={20}>
-        <List
-          data={projectData}
+        <TableWithSearch
+          fetch={getList}
+          tableProps={{tooptip: 10}}
           customRow={this.customRow}
           columns={this.columns}
           actions={this.actions}
-          searchItems={[{
-            label: '角色',
-            field: 'zzzz',
-          }, {
-            label: 'role',
-            field: 'cccccc',
-          }]}
+          searchItems={[{ label: '角色', field: 'role', }, { label: '名称', field: 'name', }]}
         />
       </a-col>
     )
@@ -70,11 +66,10 @@ export default class RList extends Vue {
     }
   }
 
-  columns(_t: List) {
+  columns(_t: TableWithSearch) {
     return [{
       title: '角色',
       dataIndex: 'name',
-      onFilter: (value, record) => record.name.includes(value),
     }, {
       title: '权限',
       dataIndex: 'role',
@@ -89,24 +84,15 @@ export default class RList extends Vue {
           <a>
             <ModalGenerator
               btn={<a-icon type='edit' />}
-              modal={{
-                okButtonProps: { on: { click: () => { this.isNext = !this.isNext } } },
-                okText: this.btnText,
-                title: '修改',
-                afterClose: () => { this.isNext = true },
-                // footer: [
-                //   <a-button onClick={() => { this.isNext = !this.isNext }} >
-                //     {this.btnText}
-                //   </a-button>
-                // ],
-              }}
-              fetch={(params, _form) => this.Axios.get('')}
-              formProps={{
-                labelCol: { span: 5 },
-                wrapperCol: { span: 15 },
-                formItems: this.editForm,
-                initialValues: arg[1]
-              }}
+              // okButtonProps={{ on: { click: () => { this.isNext = !this.isNext } } }}
+              // okText={this.btnText}
+              title='修改'
+              // afterClose={() => { this.isNext = true }}
+              fetch={({form}) =>  this.Axios.get('')}
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 15 }}
+              formItems={this.editForm}
+              initialValues={arg[1]}
             />
             <a-divider type='vertical' />
             <a-icon type='delete' />
@@ -120,20 +106,16 @@ export default class RList extends Vue {
   actions() {
     return [
       <ModalGenerator
-        modal={{ title: '新建' }}
-        formProps={{
-          formItems: [{
-            label: '角色',
-            field: 'zzzz',
-          }, {
-            label: 'role',
-            field: 'cccccc',
-          }]
-        }}
-        btn={<a-button type='primary' v-html='新建' />}
-        fetch={(_params, _form) => {
-          return this.Axios.get('')
-        }}
+        title='新建'
+        btn='新建'
+        fetch={() => this.Axios.get('')}
+        formItems={[{
+          label: '角色',
+          field: 'zzzz',
+        }, {
+          label: 'role',
+          field: 'cccccc',
+        }]}
       />
     ]
   }

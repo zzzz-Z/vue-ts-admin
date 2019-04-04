@@ -53,7 +53,6 @@ export function removeStorage(key?: string | string[]) {
 
   if (!key) {
     return localStorage.clear()
-
   }
 
   Array.isArray(key) ?

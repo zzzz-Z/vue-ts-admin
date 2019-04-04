@@ -52,7 +52,7 @@ interface IModal {
    * @default OK and Cancel buttons
    * @type any (string | slot)
    */
-  footer?: JSX.Element[] | 'no'
+  footer?: JSX.Element[] | ((t: any) => JSX.Element[]) | null
 
   /**
    * Return the mount node for Modal
