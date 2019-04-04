@@ -6,15 +6,8 @@ export interface TrendProps {
   reverseColor?: boolean;
 }
 
-const Trend = ({
-  data,
-  children,
-  props: {
-    colorful = true,
-    flag,
-    reverseColor
-  }
-}: FC<TrendProps>) => {
+const Trend = ({ data, children, props }: FC<TrendProps>) => {
+  const { colorful, reverseColor, flag } = props!
   const class1 = !colorful ? 'trendItemGrey' : ''
   const class2 = colorful && reverseColor ? 'reverseColor' : ''
   return (

@@ -129,11 +129,12 @@ export class TableWithSearch extends VC<ITableProps> {
   }
 
   render() {
-    const { columns, pagination, dataSource, rowSelection, loading } = this
+    const { columns, pagination, dataSource, rowSelection, loading, customRow } = this
     const props = {
       pagination,
       rowSelection,
       loading,
+      customRow,
       ...this.tableProps,
     }
     const bodyStyle = {

@@ -1,4 +1,4 @@
-import { VC , Component } from '@/VC-vue';
+import { VC, Component } from '@/VC-vue';
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
 import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
@@ -30,12 +30,9 @@ export default class IBaseForm extends VC {
       dataIndex: 'default',
     }]
 
-
     return (
       <BaseLayout breadcrumb>
-        <Title description='基础表单' >
-          基础表单
-         </Title>
+        <Title title='基础表单' />
         <BaseForm />
         <div style='margin:10px auto;width:90%;'>
           <CodeWrapper name='baseForm' hid />

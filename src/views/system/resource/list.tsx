@@ -1,7 +1,7 @@
 import '../style.less'
 import { VC } from '@/VC-vue';
 import { Component } from 'vue-property-decorator'
-import ModalGenerator from '@/components/Modal';
+import { ModalGenerator } from '@/components/Modal';
 import ResourceStore from './store';
 import { TableWithSearch } from '@/components/TableWithSearch';
 import { getList } from '@/api/list';
@@ -37,16 +37,11 @@ export default class RList extends VC {
       <a-col span={20}>
         <TableWithSearch
           fetch={getList}
+          tableProps={{tooptip: 10}}
           customRow={this.customRow}
           columns={this.columns}
           actions={this.actions}
-          searchItems={[{
-            label: '角色',
-            field: 'zzzz',
-          }, {
-            label: 'role',
-            field: 'cccccc',
-          }]}
+          searchItems={[{ label: '角色', field: 'role', }, { label: '名称', field: 'name', }]}
         />
       </a-col>
     )
@@ -75,11 +70,8 @@ export default class RList extends VC {
     return [{
       title: '角色',
       dataIndex: 'name',
-      width: 100,
-      onFilter: (value, record) => record.name.includes(value),
     }, {
       title: '权限',
-      width: 200,
       dataIndex: 'role',
     }, {
       title: '描述',
@@ -92,26 +84,15 @@ export default class RList extends VC {
           <a>
             <ModalGenerator
               btn={<a-icon type='edit' />}
-              modal={{
-                okButtonProps: { on: { click: () => { this.isNext = !this.isNext } } },
-                okText: this.btnText,
-                title: '修改',
-                afterClose: () => { this.isNext = true },
-                footer: (t) => {
-                  return [
-                    <a-button onClick={() => { this.isNext = !this.isNext }} >
-                      {this.btnText}
-                    </a-button>
-                  ]
-                },
-              }}
-              fetch={(params, _form) => this.Axios.get('')}
-              formProps={{
-                labelCol: { span: 5 },
-                wrapperCol: { span: 15 },
-                formItems: this.editForm,
-                initialValues: arg[1]
-              }}
+              // okButtonProps={{ on: { click: () => { this.isNext = !this.isNext } } }}
+              // okText={this.btnText}
+              title='修改'
+              // afterClose={() => { this.isNext = true }}
+              fetch={({form}) =>  this.Axios.get('')}
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 15 }}
+              formItems={this.editForm}
+              initialValues={arg[1]}
             />
             <a-divider type='vertical' />
             <a-icon type='delete' />
@@ -125,18 +106,16 @@ export default class RList extends VC {
   actions() {
     return [
       <ModalGenerator
-        modal={{ title: '新建' }}
-        formProps={{
-          formItems: [{
-            label: '角色',
-            field: 'zzzz',
-          }, {
-            label: 'role',
-            field: 'cccccc',
-          }]
-        }}
-        btn={<a-button type='primary' v-html='新建' />}
-        fetch={(_params, _form) => this.Axios.get('')}
+        title='新建'
+        btn='新建'
+        fetch={() => this.Axios.get('')}
+        formItems={[{
+          label: '角色',
+          field: 'zzzz',
+        }, {
+          label: 'role',
+          field: 'cccccc',
+        }]}
       />
     ]
   }

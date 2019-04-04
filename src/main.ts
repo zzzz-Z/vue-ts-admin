@@ -1,3 +1,4 @@
+import { createFormModal } from '@/components/Modal/createModal';
 import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App.vue'
@@ -25,6 +26,7 @@ Vue.use(ViserVue)
 Vue.prototype.Axios = request // 全局请求函数
 // Vue.prototype.validator = validator // 全局表单验证
 Vue.prototype.moment = moment
+Vue.prototype.$createFormModal = createFormModal
 
 Vue.config.productionTip = false
 

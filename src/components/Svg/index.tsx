@@ -3,6 +3,6 @@ interface SvgProps {
   name: string
 }
 export default ({ data, props }: FC<SvgProps>) => (
-  <a-icon {...data} component={require(`@/assets/iconfont/${props.name}.svg`).default} />
+  <a-icon {...data} component={require(`@/assets/iconfont/${props!.name}.svg`).default} />
 )
 

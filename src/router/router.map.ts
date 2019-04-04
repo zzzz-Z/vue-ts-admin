@@ -55,6 +55,61 @@ const routerMap = [{
     }
   }]
 }, {
+  path: '/modal',
+  component: Layout,
+  meta: {
+    keepalive: true,
+    title: 'modal',
+    icon: 'notification',
+  },
+  children: [{
+    path: '/table/vcmodal',
+    component: () => import('@/views/modal/vc-modal'),
+    meta: {
+      keepalive: true,
+      title: '表单VC-Modal',
+    }
+  }, {
+    path: '/table/fcmodal',
+    component: () => import('@/views/modal/fc-modal'),
+    meta: {
+      keepalive: true,
+      title: '表单FC-modal',
+    }
+  }]
+}, {
+  path: '/svg',
+  component: Layout,
+  meta: {
+    keepalive: true,
+    title: 'Svg',
+    icon: 'bulb',
+  },
+  children: [{
+    path: '/svg',
+    component: () => import('@/views/svg'),
+    meta: {
+      keepalive: true,
+      title: 'Svg',
+    }
+  }]
+}, {
+  path: '/tree',
+  component: Layout,
+  meta: {
+    keepalive: true,
+    title: 'tree',
+    icon: 'slack',
+  },
+  children: [{
+    path: '/tree',
+    component: () => import('@/views/tree/baseTree'),
+    meta: {
+      keepalive: true,
+      title: 'tree',
+    }
+  }]
+}, {
   path: '/system',
   component: Layout,
   meta: {

@@ -1,7 +1,8 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import { ITable } from '@/components/Table';
 import { Title, BaseLayout, CodeWrapper } from '@/components/Container';
 import { VC } from '@/VC-vue';
+import { createFormModal } from '@/components/Modal/createModal';
 
 @Component({})
 export default class BaseTable extends VC {
@@ -13,10 +14,11 @@ export default class BaseTable extends VC {
   render() {
     return (
       <BaseLayout breadcrumb>
-        <Title description='对antd官方Table进行hack,使通用属性传递更方便。' >
-          基础列表
+        <Title title='基础列表'  >
+          对antd官方Table进行hack,使通用属性传递更方便。
         </Title>
         <ITable
+          pagination={false}
           align='center'
           tooptip={35}
           dataSource={dataSource}
@@ -34,7 +36,7 @@ export default class BaseTable extends VC {
             title: '默认值',
             dataIndex: 'default',
           }]} />
-          <CodeWrapper name='baseTable' />
+        <CodeWrapper name='baseTable' />
       </BaseLayout>
     )
   }

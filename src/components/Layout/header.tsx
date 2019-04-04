@@ -1,10 +1,9 @@
-import { Panda } from './logo'
-import {GlobalStore} from '@/store/global'
-import ModalGenerator from '../Modal'
-import Svg from '../Svg';
-import router from '@/router';
 import { Component, Prop } from 'vue-property-decorator';
 import { VC } from '@/VC-vue';
+import { GlobalStore } from '@/store/global'
+import { ModalGenerator } from '../Modal'
+import Svg from '../Svg';
+import router from '@/router';
 
 interface Props {
   collapsed: boolean
@@ -20,19 +19,17 @@ export default class Header extends VC<Props> {
     return (
       <span>
         <ModalGenerator
-          modal={{ title: '修改密码' }}
+          title='修改密码'
           btn={<a v-text='修改密码' />}
-          formProps={{
-            labelCol: { span: 5 },
-            wrapperCol: { span: 15 },
-            formItems: [{
-              label: '密码',
-              field: 'oldpasssword'
-            }, {
-              label: '新密码',
-              field: 'passsword'
-            }]
-          }}
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 16 }}
+          formItems={[{
+            label: '密码',
+            field: 'oldpasssword'
+          }, {
+            label: '新密码',
+            field: 'passsword'
+          }]}
         />
       </span>
     )
@@ -46,12 +43,9 @@ export default class Header extends VC<Props> {
           type={this.collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={this.change} />
         <div class='right'>
-          <a-tooltip title='专题图'>
-            <Svg name='map' class='svgmap' onClick={() => router.push('/overView')} />
-          </a-tooltip>
           <a-dropdown placement='bottomLeft' class='header-dropdown'>
             <span class='user'>
-              <a-avatar class='avatar'> <Panda /> </a-avatar>
+              <a-avatar class='avatar'><Svg name='admin' /> </a-avatar>
               <span class='username'>{GlobalStore.userInfo.name}</span>
             </span>
             <a-menu slot='overlay'>

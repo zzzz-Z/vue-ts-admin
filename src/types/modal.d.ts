@@ -1,5 +1,3 @@
-import ModalGenerator from '@/components/Modal';
-
 interface IModal {
   /**
    * Specify a function that will be called when modal is closed completely.
@@ -54,7 +52,7 @@ interface IModal {
    * @default OK and Cancel buttons
    * @type any (string | slot)
    */
-  footer?: JSX.Element[] | ((t: ModalGenerator) => JSX.Element[]) | null
+  footer?: JSX.Element[] | ((t: any) => JSX.Element[]) | null
 
   /**
    * Return the mount node for Modal

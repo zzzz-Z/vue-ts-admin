@@ -5,7 +5,7 @@ import { VC } from '@/VC-vue';
 
 export const BaseLayout = (v: FC<{ breadcrumb?: boolean }>) => (
   <div>
-    <Breadcrumb vIf={v.props.breadcrumb} />
+    <Breadcrumb vIf={v.props!.breadcrumb} />
     <div style='background:#fff;padding:20px' {...v.data}>
       {v.children}
     </div>
@@ -14,11 +14,11 @@ export const BaseLayout = (v: FC<{ breadcrumb?: boolean }>) => (
 /**
  * @description 标题容器
  */
-export const Title = (v: FC<{ description?: string }>) => (
+export const Title = (v: FC<{ title?: string | JSX.Element }>) => (
   <a-alert
     style='margin-bottom:20px'
-    message={v.children}
-    description={v.props.description}
+    message={v.props!.title}
+    description={v.children}
     type='info'
     showIcon
   />
@@ -27,7 +27,7 @@ export const Title = (v: FC<{ description?: string }>) => (
  * @description  md 代码容器
  */
 export const CodeWrapper = (v: FC<{ name: string; hid?: boolean }>) => {
-  const { name, hid } = v.props
+  const { name, hid } = v.props!
   const data = v.data
   @Component({})
   class CodeWrapper extends VC {

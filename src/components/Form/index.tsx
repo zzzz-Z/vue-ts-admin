@@ -1,6 +1,5 @@
 import { Component, Prop } from 'vue-property-decorator'
 import { Form } from 'ant-design-vue';
-import { IFormItem } from '@/types/form-item';
 import { IFormProps } from '@/types/form';
 import { VC } from '@/VC-vue';
 import { FormUtils } from '@/types/form-ref';
@@ -26,7 +25,7 @@ class Iform extends VC<IFormProps> {
     const { labelCol, wrapperCol, initialValues, itemStyle, col, formItems } = this.$props
     const form = this.form
 
-    return (formItems as IFormItem[]).map((props) => {
+    return (formItems || []).map((props) => {
       // tslint:disable-next-line:prefer-const
       let { field, rules, initialValue, el } = props
 

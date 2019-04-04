@@ -9,7 +9,7 @@ class Resource extends VuexModule {
   checkable = false
   showDropdown = false
   currentRowInfo = {}
-  selectedKeys: string[] = []
+  selectedKeys: string[] = ['/table']
 
   /** 设置tree是否显示节点的Checkbox 复选框	 */
   @Mutation

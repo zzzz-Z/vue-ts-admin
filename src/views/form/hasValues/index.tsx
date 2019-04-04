@@ -8,9 +8,7 @@ export default class HasValues extends VC {
   render() {
     return (
       <BaseLayout breadcrumb>
-        <Title description='有初始值的表单' >
-          有初始值的表单
-        </Title>
+        <Title title='有初始值的表单'/>
         <BaseForm
           initialValues={{
             title: '标题',

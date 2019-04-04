@@ -2,93 +2,99 @@ import IForm from '@/components/Form';
 import { Component } from 'vue-property-decorator'
 import { IFormProps } from '@/types/form';
 import { VC } from '@/VC-vue';
-import { IModal } from '@/types/modal';
+import { FormUtils } from '@/types/form-ref';
+
+interface Params {
+  params?: {}
+  form?: FormUtils
+  close?(): void
+}
 interface Props {
-  formProps?: IFormProps
   btn?: JSX.Element | string
-  fetch?: (...arg: any[]) => Promise<any>
-  modal?: IModal
+  fetch?: (v: Params) => Promise<any>
   tooltip?: string
   content?: JSX.Element
 }
-const props = ['formProps', 'btn', 'fetch', 'modal', 'tooltip', 'content']
-@Component({ props })
-export default class ModalGenerator extends VC<Props> {
 
-  visible: boolean = false
-  loading: boolean = false
-  formRef: any
+export type ModalGeneratorProps = Props & IModal & IFormProps
 
-  render() {
-    const { modal, formProps, tooltip, btn, content } = this.$props
-    const footer = modal!.footer
-    const modalProps = {
-      on: {
-        cancel: this.cancel,
-        ok: this.submit
-      },
-      props: {
-        visible: this.visible,
-        confirmLoading: this.loading,
-        wrapClassName: 'scoped-modal',
-        destroyOnClose: true,
-        ...modal,
-        footer: typeof footer === 'function' ? footer(this) : footer,
+export const ModalGenerator = ({ data, props }: FC<ModalGeneratorProps>): any => {
+
+  @Component({})
+  class ModalGenerator extends VC {
+
+    visible: boolean = false
+    loading: boolean = false
+    form!: FormUtils
+
+    render() {
+      const { tooltip, btn, content, footer } = props!
+
+      const modalProps = {
+        props: {
+          ...props,
+          visible: this.visible,
+          confirmLoading: this.loading,
+          wrapClassName: 'scoped-modal',
+          destroyOnClose: true,
+          footer: typeof footer === 'function' ? footer(this) : footer,
+        },
+        on: { cancel: this.cancel, ok: this.submit }
       }
-    }
-    const _formProps = {
-      props: {
-        wrappedComponentRef: (formRef: any) => this.formRef = formRef,
-        ...formProps
-      }
-    }
-    return (
-      <span>
-        <span
-          style='cursor: pointer'
-          onClick={() => this.visible = true} >
-          <a-tooltip title={tooltip} >
-            {typeof btn === 'string' ? <a-button type='primary' v-html={btn} /> : btn}
-          </a-tooltip>
+
+      return (
+        <span>
+          <span
+            vIf={btn}
+            style='cursor: pointer'
+            onClick={this.open} >
+            <a-tooltip title={tooltip} >
+              {typeof btn === 'string' ? <a-button type='primary' v-html={btn} /> : btn}
+            </a-tooltip>
+          </span>
+          <a-modal  {...modalProps}>
+            {content || <IForm  {...{ props }} ref='form' wrappedComponentRef={this.save} />}
+          </a-modal>
         </span>
-        <a-modal {...modalProps}>
-          {content || <IForm  {..._formProps} />}
-        </a-modal>
-      </span>
-    )
-  }
+      )
+    }
 
-  async submit() {
-    const { formRef: { form } } = this
-    const { formProps, fetch } = this.$props
+    submit() {
+      const { form } = this
+      const { initialValues, fetch } = props!
+      if (!form) { fetch!({ close: this.cancel }) }
+      if (form) {
+        form.validateFields((e, params) => {
+          if (!e) {
+            // 合并传进表单的初始值(若存在)与修改后的值
+            params = { ...initialValues || {}, ...params }
+            this.loading = true
+            fetch!({ params, form })
+              .then(() => { form.resetFields(); this.cancel() })
+              .finally(() => this.loading = false)
+          }
+        })
+      }
+    }
 
-    if (form) {
-      // 如果组件是表单组件 则先进行表单验证 否则 直接执行传入的方法
-      form.validateFields((err, params: {}) => {
-        if (err) { return }
-        try {
-          // 合并传进表单的初始值(若存在)与修改后的值
-          params = { ...formProps!.initialValues, ...params }
-        } catch (error) {
-          // initialValues 不存在不作处理
-        }
-        this.loading = true
-        const promise = fetch!(params, form)
-        if (promise.then) {
-          promise.then(() => {
-            form.resetFields()
-            this.cancel()
-          })
-        }
-      })
-    } else {
-      fetch!(this.cancel)
+    /** 保存form */
+    save(formRef) {
+      if (formRef) {
+        this.form = formRef.form
+      }
+    }
+
+    /** 打开弹窗 */
+    open() {
+      this.visible = true
+    }
+
+    /**  关闭 弹窗model  */
+    cancel() {
+      this.loading = false
+      this.visible = false
     }
   }
 
-  /**  关闭 弹窗model  */
-  cancel() {
-    this.loading = false
-    this.visible = false
-  }
+  return <ModalGenerator {...data} />
 }
