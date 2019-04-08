@@ -13,11 +13,9 @@ const Trend = ({ data, children, props }: FC<TrendProps>) => {
   return (
     <div {...data} class={`trendItem ${class1} ${class2}`} >
       <span>{children}</span>
-      {flag && (
-        <span class={flag}>
+        <span vIf={flag} class={flag}>
           <a-icon type={`caret-${flag}`} />
         </span>
-      )}
     </div>
   );
 };

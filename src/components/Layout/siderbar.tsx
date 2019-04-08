@@ -1,18 +1,18 @@
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Prop, Watch } from 'vue-property-decorator'
 import { RouteConfig } from 'vue-router'
 import { GlobalStore } from '@/store/global';
 import { deepClone } from '@/utils';
+import { VC } from '@/VC-vue';
 
 
 type itemConfig = RouteConfig & { icon: string }
+interface Props {
+  reload: () => void
+  collapsed: boolean
+}
 
 @Component({})
-export default class Siderbar extends Vue {
-
-  readonly Props!: {
-    reload: () => void
-    collapsed: boolean
-  }
+export default class Siderbar extends VC<Props> {
 
   /** menu是否收起状态 */
   @Prop() collapsed!: boolean
