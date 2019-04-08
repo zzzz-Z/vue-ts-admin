@@ -1,8 +1,9 @@
 import { VC, Component } from '@/VC-vue';
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
-import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
 import { ITable } from '@/components/Table';
+import { BaseLayout, Title } from '@/components/Container';
+import { CodeWrapper } from '@/components/Container/codeWrapper';
 
 @Component({})
 export default class IBaseForm extends VC {
@@ -35,7 +36,7 @@ export default class IBaseForm extends VC {
         <Title title='基础表单' />
         <BaseForm />
         <div style='margin:10px auto;width:90%;'>
-          <CodeWrapper name='baseForm' hid />
+          <CodeWrapper name='baseForm' />
           <ITable
             columns={columns}
             size='middle'

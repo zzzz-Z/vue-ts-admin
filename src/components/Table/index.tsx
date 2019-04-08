@@ -1,5 +1,6 @@
 import Ellipsis from '../Ellipsis';
 import { Table } from '@/types/table';
+import pick from 'lodash/pick';
 
 export const ITable = ({ data, props }: FC<Table>) => {
   let key = 0
@@ -16,6 +17,7 @@ export const ITable = ({ data, props }: FC<Table>) => {
     }
     return r
   })
-  data = { ...data, props }
+  data!.attrs = pick(data!.attrs, ['id'])
+  data!.props = props
   return <a-table {...data} />
 }

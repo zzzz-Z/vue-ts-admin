@@ -1,7 +1,7 @@
-import { Component } from 'vue-property-decorator'
-import { Title, BaseLayout, CodeWrapper } from '@/components/Container';
-import { VC } from '@/VC-vue';
+import { VC, Component } from '@/VC-vue';
 import Svg from '@/components/Svg';
+import { BaseLayout, Title } from '@/components/Container';
+import { CodeWrapper } from '@/components/Container/codeWrapper';
 
 @Component({})
 export default class SvgEx extends VC {

@@ -1,8 +1,7 @@
 import '../style.less'
-import { VC } from '@/VC-vue';
-import { Component } from 'vue-property-decorator'
+import { VC, Component } from '@/VC-vue';
 import { ModalGenerator } from '@/components/Modal';
-import ResourceStore from './store';
+import { ResourceStore } from './store';
 import { TableWithSearch } from '@/components/TableWithSearch';
 import { getList } from '@/api/list';
 @Component({})
@@ -37,7 +36,7 @@ export default class RList extends VC {
       <a-col span={20}>
         <TableWithSearch
           fetch={getList}
-          tableProps={{tooptip: 10}}
+          tableProps={{ tooptip: 10 }}
           customRow={this.customRow}
           columns={this.columns}
           actions={this.actions}
@@ -88,7 +87,7 @@ export default class RList extends VC {
               // okText={this.btnText}
               title='修改'
               // afterClose={() => { this.isNext = true }}
-              fetch={({form}) =>  this.Axios.get('')}
+              fetch={({ form }) => this.Axios.get('')}
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 15 }}
               formItems={this.editForm}

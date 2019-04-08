@@ -1,7 +1,8 @@
-import { Component } from 'vue-property-decorator'
-import { Title, BaseLayout, CodeWrapper } from '@/components/Container';
-import { VC } from '@/VC-vue';
+import { VC, Component } from '@/VC-vue';
+import { Title, BaseLayout } from '@/components/Container';
 import { createFormModal } from '@/components/Modal/createModal';
+import { CodeWrapper } from '@/components/Container/codeWrapper';
+
 
 @Component({})
 export default class FcModal extends VC {

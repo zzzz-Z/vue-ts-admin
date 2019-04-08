@@ -1,6 +1,4 @@
-import { Component } from 'vue-property-decorator'
-import { VC } from '@/VC-vue'
-import _ from 'lodash';
+import pick from 'lodash/pick';
 import { Tree } from 'ant-design-vue';
 
 interface Props extends Partial<Tree> {
@@ -9,42 +7,33 @@ interface Props extends Partial<Tree> {
   /** 递归的节点字段 默认为children */
   nextLevelKey?: string
   titleRender?(v: any): JSX.Element | string
-  iconRender?(v: any): JSX.Element | undefined
-
+  iconRender?(v: any): JSX.Element
 }
 
 export const ITree = ({ props, data }: FC<Props>) => {
 
-  const { titleRender, iconRender, treeData, nodeKey, nextLevelKey, showIcon } = props!
+  const { titleRender, iconRender, treeData, nodeKey, nextLevelKey, ...restProps } = props!
   const child = nextLevelKey || 'children'
-  const icon = (r) => showIcon && iconRender && iconRender(r)
+  const icon = (r) => props!.showIcon && iconRender && iconRender(r)
   const title = (r) => titleRender ? titleRender(r) : r.title
-  @Component({})
-  class VcTree extends VC {
-    get TreeNodes() {
-      const renderNode = (arr: any[]) =>
-        arr.map((r) => (
-          <a-tree-node
-            {...r}
-            key={r[nodeKey || 'key']}
-            title={title(r)}
-            icon={icon(r)} >
-            {r[child] && renderNode(r[child])}
-          </a-tree-node>
-        ))
-      return renderNode(treeData!)
-    }
+  const renderNode = (arr: any[]) =>
+    arr.map((r) => (
+      <a-tree-node
+        {...r}
+        key={r[nodeKey || 'key']}
+        title={title(r)}
+        icon={icon(r)} >
+        {r[child] && renderNode(r[child])}
+      </a-tree-node>
+    ))
 
-    render() {
-      props = _.omit(props, 'treeData')
-      return (
-        <a-tree {...{ on: data!.on, props }}   >
-          {this.TreeNodes}
-        </a-tree>
-      )
-    }
-  }
-
-  return <VcTree />
+  data!.props = restProps
+  // attrs上的属性也会被当做props传递给组件，所以把data的attrs属性剔除掉
+  data!.attrs = pick(data!.attrs, ['id'])
+  return (
+    <a-tree {...data}  >
+      {renderNode(treeData!)}
+    </a-tree>
+  )
 
 }

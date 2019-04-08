@@ -39,5 +39,4 @@ class Resource extends VuexModule {
 
 }
 
-const ResourceStore = getModule(Resource)
-export default ResourceStore
+export const ResourceStore = getModule(Resource)

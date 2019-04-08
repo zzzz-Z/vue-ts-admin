@@ -1,9 +1,9 @@
-import { Component } from 'vue-property-decorator'
+import { VC, Component } from '@/VC-vue';
 import Permission from './permissions';
 import List from './list';
-import ResourceStore from './store';
+import { ResourceStore } from './store';
 import Breadcrumb from '@/components/Breadcrumb';
-import { VC } from '@/VC-vue';
+
 
 @Component({})
 export default class Resource extends VC {
@@ -20,8 +20,8 @@ export default class Resource extends VC {
   }
   click(e) {
     if (e.target.className !== 'itree-title') {
-      ResourceStore.setDropdown(false)
-      ResourceStore.setSelectedKeys([])
+      // ResourceStore.setDropdown(false)
+      // ResourceStore.setSelectedKeys([])
     }
   }
 }

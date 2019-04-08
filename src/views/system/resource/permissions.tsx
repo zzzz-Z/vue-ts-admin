@@ -1,10 +1,9 @@
 import '../style.less'
-import { Component } from 'vue-property-decorator'
+import { VC, Component, Vue } from '@/VC-vue';
 import { GlobalStore } from '@/store/global';
 import { ModalGenerator } from '@/components/Modal';
-import ResourceStore from './store';
+import { ResourceStore } from './store';
 import { IFormItem } from '@/types/form-item';
-import { VC } from '@/VC-vue';
 import { ITree } from '@/components/Tree';
 
 @Component({})
@@ -16,6 +15,9 @@ export default class Permission extends VC {
   showSearchClose = false
   checkable = false
   expandedKeys: string[] = []
+  get TreeNodes() {
+    return (this.$refs.tree as Vue).$vnode.componentOptions!.children
+  }
 
   render() {
     return (
@@ -24,7 +26,7 @@ export default class Permission extends VC {
           suffix={
             <a-icon
               theme='filled'
-              style='color:rgba(0, 0, 0, 0.3);cursor:pointer;padding-bottom:5px'
+              style='color:rgba(0, 0, 0, 0.2);cursor:pointer;padding-bottom:5px'
               type='close-circle'
               vShow={this.showSearchClose}
               onClick={() => {
@@ -43,18 +45,15 @@ export default class Permission extends VC {
           style='padding:0 7px 5px;margin-left:-7px'
         />
 
-        <div
-          id='tree-box'
-          onClick={this.treeboxClick}
-          style='background:#fff;margin-right:15px;height:79vh;padding:25px 0;overflow:auto' >
+        <div id='tree-box' onClick={this.treeboxClick}  >
           <a-button
+            v-html='提交'
             vShow={ResourceStore.checkable}
             type='primary'
             style='margin-left:10px'
-            onClick={() => { this.checkedKeys = ['/system', '/system/user'] }} >
-            提交
-            </a-button>
+            onClick={() => { this.checkedKeys = ['/system', '/system/user'] }} />
           <ITree
+            ref='tree'
             treeData={GlobalStore.asyncRoutes}
             nodeKey='path'
             onSelect={this.onSelect}
@@ -69,59 +68,57 @@ export default class Permission extends VC {
             showIcon
           />
         </div>
-
       </a-col>
     )
   }
 
   Dropdown(r) {
     if (this.currentKey === r.path && ResourceStore.showDropdown) {
-      return (
-        <a-dropdown
-          visible={ResourceStore.showDropdown}
-          overlayClassName='system-dropdown'
-          style='margin-left:10px;font-size:10px'>
-          <a-icon type='down' />
-          <a-menu slot='overlay'>
-            <a-menu-item vShow={ResourceStore.checkable}>
-              {this.EditAction(r)}
-            </a-menu-item>
-            <a-menu-item vShow={!ResourceStore.checkable}>
-              <ModalGenerator
-                modal={{ title: '修改模块' }}
-                tooltip='修改模块'
-                btn={<a-icon type='edit' />}
-                formProps={{
-                  formItems: this.treeForm(r),
-                  labelCol: { span: 5 },
-                  wrapperCol: { span: 16 }
-                }}
-              />
-            </a-menu-item>
-            <a-menu-item vShow={!ResourceStore.checkable}>
-              <ModalGenerator
-                title='添加模块'
-                tooltip='添加模块'
-                formItems={this.treeForm(r)}
-                labelCol={{ span: 5 }}
-                wrapperCol={{ span: 16 }}
-                btn={<a-icon type='plus' />}
-              />
-            </a-menu-item>
-            <a-menu-item vShow={!ResourceStore.checkable}>
-              <a-popconfirm
-                placement='right'
-                title='Are you sure？'
-                okText='Yes'
-                cancelText='No'>
-                <a-tooltip title='删除模块'>
-                  <a-icon type='delete' />
-                </a-tooltip>
-              </a-popconfirm>
-            </a-menu-item>
-          </a-menu>
-        </a-dropdown>
-      )
+
+      return ResourceStore.checkable ?
+        this.EditAction(r) :
+        (
+          <a-dropdown
+            visible={ResourceStore.showDropdown}
+            overlayClassName='system-dropdown'
+            style='float:right;font-size:10px'>
+            <a>操作</a>
+            <a-menu slot='overlay'>
+              <a-menu-item vShow={ResourceStore.checkable}>
+                {this.EditAction(r)}
+              </a-menu-item>
+              <a-menu-item vShow={!ResourceStore.checkable}>
+                <ModalGenerator
+                  title='修改模块'
+                  tooltip='修改模块'
+                  btn={<a-icon type='edit' />}
+                  formItems={this.treeForm(r)}
+                  labelCol={{ span: 5 }}
+                  wrapperCol={{ span: 15 }} />
+              </a-menu-item>
+              <a-menu-item vShow={!ResourceStore.checkable}>
+                <ModalGenerator
+                  title='添加模块'
+                  tooltip='添加模块'
+                  formItems={this.treeForm(r)}
+                  labelCol={{ span: 5 }}
+                  wrapperCol={{ span: 16 }}
+                  btn={<a-icon type='plus' />} />
+              </a-menu-item>
+              <a-menu-item vShow={!ResourceStore.checkable}>
+                <a-popconfirm
+                  placement='right'
+                  title='Are you sure？'
+                  okText='Yes'
+                  cancelText='No'>
+                  <a-tooltip title='删除模块'>
+                    <a-icon type='delete' />
+                  </a-tooltip>
+                </a-popconfirm>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+        )
     }
   }
 
@@ -133,26 +130,16 @@ export default class Permission extends VC {
     if (name.indexOf(this.searchValue) > -1) {
       const startText = name.substr(0, name.indexOf(searchValue))
       const endText = name.substr(name.indexOf(searchValue) + searchValue.length)
-      title = <span class='itree-title'>
-        {startText}<a style='color:#1DA57A' >{searchValue}</a>{endText}{Dropdown(r)}
-      </span>
+      title = (
+        <span class='itree-title'>
+          {startText}
+          <a style='color:#1DA57A' > {searchValue} </a>
+          {endText}
+          {Dropdown(r)}
+        </span>
+      )
     }
     return title
-  }
-
-  get TreeNodes() {
-    const renderNode = (arr: any[]) =>
-      arr.map((r) => (
-        <a-tree-node
-          {...r}
-          key={r.path}
-          title={this.TreeNodeTitle(r)}
-          icon={<a-icon type='folder' />} >
-          {r.children && renderNode(r.children)}
-        </a-tree-node>
-      ))
-
-    return renderNode(GlobalStore.asyncRoutes)
   }
 
   onExpand(expandedKeys: string[]) {
@@ -161,14 +148,21 @@ export default class Permission extends VC {
 
   /**
    *
-   * @param arr  需要迭代的treeNode
+   * @param vNodeList  需要迭代的treeNodes
    * @param title 查询的节点title
    * @param father 父节点的vNode
    * @param selectedKeys 所有符合条件的节点key值
    * @param expandedKeys 所有符合条件的节点的父节点的key值
    */
   // tslint:disable-next-line: max-line-length
-  onSearch(arr: JSX.Element[], title: string, father: JSX.Element | undefined, selectedKeys: string[] = [], expandedKeys: string[] = []) {
+  onSearch(
+    vNodeList: JSX.Element[] | undefined,
+    title: string,
+    father: JSX.Element | undefined,
+    selectedKeys: string[] = [],
+    expandedKeys: string[] = []
+  ) {
+    if (!vNodeList) { return }
     if (ResourceStore.showDropdown) {
       ResourceStore.setDropdown(false)
     }
@@ -177,15 +171,16 @@ export default class Permission extends VC {
       this.expandedKeys = []
       return
     }
-    arr.forEach((r: JSX.Element) => {
-      const { data, componentOptions }: any = r
+    vNodeList.forEach((child: JSX.Element) => {
+      const { data, componentOptions }: any = child
       if (data.meta.title.indexOf(title) > -1) {
         if (father) {
-          (expandedKeys.push((father as any).key), this.expandedKeys = expandedKeys)
+          expandedKeys.push((father as any).key)
+          this.expandedKeys = expandedKeys
         }
       }
       if (componentOptions.children) {
-        this.onSearch(componentOptions.children, title, r, selectedKeys, expandedKeys)
+        this.onSearch(componentOptions.children, title, child, selectedKeys, expandedKeys)
       }
     })
   }
@@ -203,12 +198,13 @@ export default class Permission extends VC {
   EditAction(r: any) {
     return (
       <ModalGenerator
+        style='float:right;font-size:10px'
         title='操作权限'
-        btn={
+        btn={(
           <a-tooltip placement='right' title='操作权限'>
-            <a-icon type='setting' />
+            <a > <a-icon type='setting' />  </a>
           </a-tooltip>
-        }
+        )}
         formItems={[{
           field: 'actions',
           label: '拥有权限',
@@ -251,7 +247,7 @@ export default class Permission extends VC {
 
   treeboxClick({ target }) {
     if (target.id === 'tree-box' && ResourceStore.checkable) {
-      ResourceStore.setCheckable(false)
+      // ResourceStore.setCheckable(false)
     }
   }
 
