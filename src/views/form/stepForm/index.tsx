@@ -1,8 +1,7 @@
-import { Component } from 'vue-property-decorator'
-import { BaseLayout, Title, CodeWrapper } from '@/components/Container';
 import StepForm from './form';
-import { VC } from '@/VC-vue';
-
+import { VC, Component } from '@/VC-vue';
+import { BaseLayout, Title } from '@/components/Container';
+import { Md } from '@/components/Container/md';
 
 @Component({})
 export default class IStepForm extends VC {
@@ -11,7 +10,7 @@ export default class IStepForm extends VC {
       <BaseLayout breadcrumb>
         <Title title='分步表单' />
         <StepForm />
-        <CodeWrapper name='stepForm' hid />
+        <Md name='stepForm' />
       </BaseLayout>
     )
   }

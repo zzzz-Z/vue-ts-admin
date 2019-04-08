@@ -1,7 +1,7 @@
 import { VC, Component } from '@/VC-vue';
 import { BaseLayout, Title } from '@/components/Container';
 import { ModalGenerator } from '@/components/Modal';
-import { CodeWrapper } from '@/components/Container/codeWrapper';
+import { Md } from '@/components/Container/md';
 
 @Component({})
 export default class VcModal extends VC {
@@ -32,7 +32,7 @@ export default class VcModal extends VC {
             label: '年龄'
           }]}
         />
-        <CodeWrapper name='vc-modal' />
+        <Md name='vc-modal' />
       </BaseLayout>
     )
   }

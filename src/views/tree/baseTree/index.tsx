@@ -1,8 +1,8 @@
-import { Component } from 'vue-property-decorator'
-import { Title, BaseLayout, CodeWrapper } from '@/components/Container';
-import { VC } from '@/VC-vue';
+import { VC, Component } from '@/VC-vue';
 import { ITree } from '@/components/Tree';
 import Svg from '@/components/Svg';
+import { BaseLayout, Title } from '@/components/Container';
+import { Md } from '@/components/Container/md';
 
 @Component({})
 export default class FcModal extends VC {
@@ -36,7 +36,7 @@ export default class FcModal extends VC {
             }
           }}
         />
-        <CodeWrapper name='baseTree' />
+        <Md name='baseTree' />
       </BaseLayout>
     )
   }

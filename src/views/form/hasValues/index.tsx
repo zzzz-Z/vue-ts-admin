@@ -1,14 +1,18 @@
-import { Component } from 'vue-property-decorator'
 import { BaseForm } from '../baseForm/form';
-import { Title, BaseLayout, CodeWrapper } from '@/components/Container';
-import { VC } from '@/VC-vue';
+import { VC, Component } from '@/VC-vue';
+import { BaseLayout, Title } from '@/components/Container';
+import { Md } from '@/components/Container/md';
 
+interface Props { }
 @Component({})
 export default class HasValues extends VC {
+
+  readonly $props!: Props
+
   render() {
     return (
       <BaseLayout breadcrumb>
-        <Title title='有初始值的表单'/>
+        <Title title='有初始值的表单' />
         <BaseForm
           initialValues={{
             title: '标题',
@@ -19,7 +23,7 @@ export default class HasValues extends VC {
             qz: '权重',
             time: this.moment('2015/01/01', 'YYYY/MM/DD')
           }} />
-        <CodeWrapper name='hasValues' hid />
+        <Md name='hasValues' />
       </BaseLayout>
     )
   }

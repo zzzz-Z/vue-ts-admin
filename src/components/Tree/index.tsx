@@ -1,7 +1,8 @@
 import pick from 'lodash/pick';
 import { Tree } from 'ant-design-vue';
 
-interface Props extends Partial<Tree> {
+interface Props extends Partial<Omit<Tree, 'treeData'>> {
+  treeData: any[]
   /** 节点key字段(唯一值) 默认为key */
   nodeKey?: string
   /** 递归的节点字段 默认为children */

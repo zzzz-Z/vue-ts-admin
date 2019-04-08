@@ -1,7 +1,7 @@
 import { VC, Component } from '@/VC-vue';
 import { Title, BaseLayout } from '@/components/Container';
 import { createFormModal } from '@/components/Modal/createModal';
-import { CodeWrapper } from '@/components/Container/codeWrapper';
+import { Md } from '@/components/Container/md';
 
 
 @Component({})
@@ -40,7 +40,7 @@ export default class FcModal extends VC {
            方法接收一个对象,结构与<b>IModal props</b> 相同  。
         </Title>
         <a-button onClick={this.initModal} vHtml='创建弹窗' type='primary' />
-        <CodeWrapper name='fc-modal' />
+        <Md name='fc-modal' />
       </BaseLayout>
     )
   }

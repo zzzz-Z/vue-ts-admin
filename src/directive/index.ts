@@ -19,7 +19,7 @@ Vue.directive('html', (el, { value }) => { el.innerHTML = value })
 Vue.directive('text', (el, { value }) => { el.innerText = value })
 
 Vue.directive('focus', {
-  inserted(el, { value }) {
+  bind(el) {
     el.focus()
   }
 })

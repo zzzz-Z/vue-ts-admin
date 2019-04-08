@@ -1,7 +1,7 @@
 import { VC, Component } from '@/VC-vue';
 import Svg from '@/components/Svg';
 import { BaseLayout, Title } from '@/components/Container';
-import { CodeWrapper } from '@/components/Container/codeWrapper';
+import { Md } from '@/components/Container/md';
 
 @Component({})
 export default class SvgEx extends VC {
@@ -21,7 +21,7 @@ export default class SvgEx extends VC {
           <Svg name='sunny' style={svgStyle} />
           <Svg name='tiger' style={svgStyle} />
         </h1>
-        <CodeWrapper name='svg' />
+        <Md name='svg' />
       </BaseLayout>
     )
   }

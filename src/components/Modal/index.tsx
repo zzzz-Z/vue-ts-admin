@@ -18,7 +18,7 @@ interface Props {
 
 export type ModalGeneratorProps = Props & IModal & IFormProps
 
-export const ModalGenerator = ({ data, props }: FC<ModalGeneratorProps>): any => {
+export const ModalGenerator = ({ data, props }: FC<ModalGeneratorProps>) => {
 
   @Component({})
   class ModalGenerator extends VC {

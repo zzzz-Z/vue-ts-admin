@@ -1,7 +1,4 @@
 import Breadcrumb from '../Breadcrumb';
-import { Component } from 'vue-property-decorator';
-import { getMdStr } from '@/api/md';
-import { VC } from '@/VC-vue';
 
 export const BaseLayout = (v: FC<{ breadcrumb?: boolean }>) => (
   <div>

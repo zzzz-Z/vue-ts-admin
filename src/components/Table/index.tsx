@@ -19,5 +19,6 @@ export const ITable = ({ data, props }: FC<Table>) => {
   })
   data!.attrs = pick(data!.attrs, ['id'])
   data!.props = props
+
   return <a-table {...data} />
 }
