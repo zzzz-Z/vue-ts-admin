@@ -10,7 +10,9 @@ import { ITree } from '@/components/Tree';
 export default class Permission extends VC {
 
   checkedKeys: string[] = []
+  /** 当前选中的节点key */
   currentKey = ''
+  /** 树搜索时的值 */
   searchValue = ''
   showSearchClose = false
   checkable = false
@@ -21,7 +23,7 @@ export default class Permission extends VC {
 
   render() {
     return (
-      <a-col span={4} >
+      <a-col span={4} id='permissions'>
         <a-input
           suffix={
             <a-icon
@@ -45,7 +47,7 @@ export default class Permission extends VC {
           style='padding:0 7px 5px;margin-left:-7px'
         />
 
-        <div id='tree-box' onClick={this.treeboxClick}  >
+        <div class='tree' onClick={this.treeboxClick}  >
           <a-button
             v-html='提交'
             vShow={ResourceStore.checkable}
@@ -72,75 +74,6 @@ export default class Permission extends VC {
     )
   }
 
-  Dropdown(r) {
-    if (this.currentKey === r.path && ResourceStore.showDropdown) {
-
-      return ResourceStore.checkable ?
-        this.EditAction(r) :
-        (
-          <a-dropdown
-            visible={ResourceStore.showDropdown}
-            overlayClassName='system-dropdown'
-            style='float:right;font-size:10px'>
-            <a>操作</a>
-            <a-menu slot='overlay'>
-              <a-menu-item vShow={ResourceStore.checkable}>
-                {this.EditAction(r)}
-              </a-menu-item>
-              <a-menu-item vShow={!ResourceStore.checkable}>
-                <ModalGenerator
-                  title='修改模块'
-                  tooltip='修改模块'
-                  btn={<a-icon type='edit' />}
-                  formItems={this.treeForm(r)}
-                  labelCol={{ span: 5 }}
-                  wrapperCol={{ span: 15 }} />
-              </a-menu-item>
-              <a-menu-item vShow={!ResourceStore.checkable}>
-                <ModalGenerator
-                  title='添加模块'
-                  tooltip='添加模块'
-                  formItems={this.treeForm(r)}
-                  labelCol={{ span: 5 }}
-                  wrapperCol={{ span: 16 }}
-                  btn={<a-icon type='plus' />} />
-              </a-menu-item>
-              <a-menu-item vShow={!ResourceStore.checkable}>
-                <a-popconfirm
-                  placement='right'
-                  title='Are you sure？'
-                  okText='Yes'
-                  cancelText='No'>
-                  <a-tooltip title='删除模块'>
-                    <a-icon type='delete' />
-                  </a-tooltip>
-                </a-popconfirm>
-              </a-menu-item>
-            </a-menu>
-          </a-dropdown>
-        )
-    }
-  }
-
-  TreeNodeTitle(r) {
-    const { searchValue, Dropdown } = this
-    const name = r.meta.title
-
-    let title = <span class='itree-title' >{name}{Dropdown(r)}</span>
-    if (name.indexOf(this.searchValue) > -1) {
-      const startText = name.substr(0, name.indexOf(searchValue))
-      const endText = name.substr(name.indexOf(searchValue) + searchValue.length)
-      title = (
-        <span class='itree-title'>
-          {startText}
-          <a style='color:#1DA57A' > {searchValue} </a>
-          {endText}
-          {Dropdown(r)}
-        </span>
-      )
-    }
-    return title
-  }
 
   onExpand(expandedKeys: string[]) {
     this.expandedKeys = expandedKeys
@@ -189,45 +122,106 @@ export default class Permission extends VC {
     this.checkedKeys = keys
   }
 
-  onSelect(key: string[]) {
-    this.currentKey = key[0]
-    ResourceStore.setSelectedKeys(key)
+  onSelect(key: string[], { node: { eventKey } }) {
+    this.currentKey = eventKey
+    ResourceStore.setSelectedKeys([eventKey])
     ResourceStore.setDropdown(true)
   }
 
-  EditAction(r: any) {
+  EditActionMenus(r: any) {
+    const props = {
+      title: '操作权限',
+      formItems: [{
+        field: 'actions',
+        label: '拥有权限',
+        labelCol: { span: 5 },
+        wrapperCol: { span: 16 },
+        initialValue: [1, 2],
+        el: () => (
+          <a-select mode='multiple' placeholder='请选择操作权限'  >
+            {[{ id: 1, name: 'add' },
+            { id: 2, name: 'delete' },
+            { id: 3, name: 'update' },
+            { id: 4, name: 'check' }]
+              .map((r) => (
+                <a-select-option key={r.id}>
+                  {r.name}
+                </a-select-option>))
+            }
+          </a-select>
+        )
+      }
+      ]
+    }
     return (
-      <ModalGenerator
-        style='float:right;font-size:10px'
-        title='操作权限'
-        btn={(
-          <a-tooltip placement='right' title='操作权限'>
-            <a > <a-icon type='setting' />  </a>
-          </a-tooltip>
-        )}
-        formItems={[{
-          field: 'actions',
-          label: '拥有权限',
-          labelCol: { span: 5 },
-          wrapperCol: { span: 16 },
-          initialValue: [1, 2],
-          el: () => (
-            <a-select mode='multiple' placeholder='请选择操作权限'  >
-              {[{ id: 1, name: 'add' },
-              { id: 2, name: 'delete' },
-              { id: 3, name: 'update' },
-              { id: 4, name: 'check' }]
-                .map((r) => (
-                  <a-select-option key={r.id}>
-                    {r.name}
-                  </a-select-option>))
-              }
-            </a-select>
-          )
-        }
-        ]}
-      />
+      <a
+        style='float:right;'
+        v-html='操作'
+        onClick={() => this.$createFormModal(props)} />
     )
+  }
+  Handle(r) {
+    if (this.currentKey === r.path && ResourceStore.showDropdown) {
+      return ResourceStore.checkable ? this.EditActionMenus(r) : (
+        <a-dropdown
+          visible={ResourceStore.showDropdown}
+          overlayClassName='system-dropdown'
+          style='float:right;'>
+          <a>操作</a>
+          <a-menu slot='overlay'>
+            <a-menu-item >
+              <ModalGenerator
+                title='修改模块'
+                tooltip='修改模块'
+                btn={<a-icon type='edit' />}
+                formItems={this.treeForm(r)}
+                labelCol={{ span: 5 }}
+                wrapperCol={{ span: 15 }} />
+            </a-menu-item>
+            <a-menu-item >
+              <ModalGenerator
+                title='添加模块'
+                tooltip='添加模块'
+                formItems={this.treeForm(r)}
+                labelCol={{ span: 5 }}
+                wrapperCol={{ span: 16 }}
+                btn={<a-icon type='plus' />} />
+            </a-menu-item>
+            <a-menu-item >
+              <a-popconfirm
+                placement='right'
+                title='Are you sure？'
+                okText='Yes'
+                cancelText='No'>
+                <a-tooltip title='删除模块'>
+                  <a-icon type='delete' />
+                </a-tooltip>
+              </a-popconfirm>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
+      )
+    }
+  }
+
+  TreeNodeTitle(r) {
+    const { searchValue, Handle } = this
+    const name = r.meta.title
+
+    let title = <span class='itree-title' >{name}{Handle(r)}</span>
+    if (name.indexOf(this.searchValue) > -1) {
+      const startText = name.substr(0, name.indexOf(searchValue))
+      const endText = name.substr(name.indexOf(searchValue) + searchValue.length)
+      title = (
+        <span class='itree-title'>
+          {startText}
+          <a style='color:#1DA57A' > {searchValue} </a>
+          {endText}
+          {Handle(r)}
+        </span>
+      )
+    }
+    return title
   }
 
   treeForm(r: { meta: any; }): IFormItem[] {
@@ -244,11 +238,12 @@ export default class Permission extends VC {
       field: 'icon'
     }]
   }
-
+  /** 点击tree空白处时  */
   treeboxClick({ target }) {
-    if (target.id === 'tree-box' && ResourceStore.checkable) {
-      // ResourceStore.setCheckable(false)
+    if (target.className === 'tree') {
+      ResourceStore.setCheckable(false)
+      ResourceStore.setDropdown(false)
+      ResourceStore.setSelectedKeys([])
     }
   }
-
 }

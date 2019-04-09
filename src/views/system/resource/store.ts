@@ -16,7 +16,7 @@ class Resource extends VuexModule {
   setCheckable(expect: boolean) {
     this.checkable = expect
   }
-  /** 设置dropdwon isShow */
+  /** 设置dropdwon 是否显示 */
   @Mutation
   setDropdown(expect: boolean) {
     this.showDropdown = expect

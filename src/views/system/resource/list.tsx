@@ -33,7 +33,7 @@ export default class RList extends VC {
 
   render() {
     return (
-      <a-col span={20}>
+      <a-col span={18}>
         <TableWithSearch
           fetch={getList}
           tableProps={{ tooptip: 10 }}

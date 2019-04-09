@@ -1,28 +1,20 @@
 import { VC, Component } from '@/VC-vue';
 import Permission from './permissions';
 import List from './list';
-import { ResourceStore } from './store';
-import Breadcrumb from '@/components/Breadcrumb';
+import { BaseLayout } from '@/components/Container';
 
 
 @Component({})
 export default class Resource extends VC {
   render() {
     return (
-      <div onClick={this.click} >
-        <Breadcrumb />
+      <BaseLayout breadcrumb >
         <a-row>
           <Permission />
           <List />
         </a-row>
-      </div>
+      </BaseLayout>
     )
-  }
-  click(e) {
-    if (e.target.className !== 'itree-title') {
-      // ResourceStore.setDropdown(false)
-      // ResourceStore.setSelectedKeys([])
-    }
   }
 }
 
