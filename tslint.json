@@ -16,6 +16,7 @@
     "no-console": false,
     "no-shadowed-variable":false,
     "trailing-comma": false,
+    "max-classes-per-file":false,
     "member-access": false,
     "semicolon": [
       false,

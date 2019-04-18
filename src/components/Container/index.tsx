@@ -1,4 +1,5 @@
 import Breadcrumb from '../Breadcrumb';
+import _ from 'lodash';
 
 export const BaseLayout = (v: FC<{ breadcrumb?: boolean }>) => (
   <div>
@@ -13,6 +14,7 @@ export const BaseLayout = (v: FC<{ breadcrumb?: boolean }>) => (
  */
 export const Title = (v: FC<{ title?: string | JSX.Element }>) => (
   <a-alert
+    {..._.omit(v.data, 'attrs')}
     style='margin-bottom:20px'
     message={v.props!.title}
     description={v.children}
@@ -20,5 +22,3 @@ export const Title = (v: FC<{ title?: string | JSX.Element }>) => (
     showIcon
   />
 )
-
-

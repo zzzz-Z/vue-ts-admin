@@ -1,11 +1,11 @@
 import router from '@/router';
-import Axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'ant-design-vue'
 import config from '@/config';
 import { getStorage } from './storage';
 
 
-export const request = Axios.create({
+export const request = axios.create({
   baseURL: '/api',
   timeout: 15000
 })
@@ -32,9 +32,5 @@ request.interceptors.response.use((res) => {
 })
 
 
-
-export const Api = <T>(config: AxiosRequestConfig) => {
-  return request(config).then(({ data }) => data as T)
-}
-
+export const Api = <T>(config: AxiosRequestConfig) => request(config).then(({ data }) => data as T)
 

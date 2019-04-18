@@ -1,10 +1,10 @@
-import { VC, Component } from '@/VC-vue';
+import { VC, Component, Props } from '@/VC-vue';
 import { formDoc } from '@/docs/form';
 import { BaseForm } from './form';
 import { ITable } from '@/components/Table';
 import { BaseLayout, Title } from '@/components/Container';
 import { Md } from '@/components/Container/md';
-
+import model from '../model';
 @Component({})
 export default class IBaseForm extends VC {
 
@@ -30,9 +30,11 @@ export default class IBaseForm extends VC {
       title: '默认值',
       dataIndex: 'default',
     }]
-
+    console.log(model);
     return (
       <BaseLayout breadcrumb>
+        {model.age}
+        <a-button onClick={model.add} >++</a-button>
         <Title title='基础表单' />
         <BaseForm />
         <div style='margin:10px auto;width:90%;'>

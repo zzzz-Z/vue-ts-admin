@@ -3,12 +3,8 @@ import { VC, Component } from '@/VC-vue';
 import { BaseLayout, Title } from '@/components/Container';
 import { Md } from '@/components/Container/md';
 
-interface Props { }
 @Component({})
 export default class HasValues extends VC {
-
-  readonly $props!: Props
-
   render() {
     return (
       <BaseLayout breadcrumb>

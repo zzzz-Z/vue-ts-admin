@@ -14,7 +14,7 @@ interface Table {
 
   /**
    * 是否对超出长度的文字进行隐藏 用tooptip显示
-   *  参数接收一个数字 表示临界数字
+   *  参数接收一个数字 表示长度临界值
    */
   tooptip?: number
 

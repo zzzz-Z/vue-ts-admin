@@ -1,11 +1,10 @@
 import { VC, Component } from '@/VC-vue';
 import axios from 'axios'
 import marked from 'marked'
-import hljs from 'highlight.js'
 
 marked.setOptions({
   renderer: new marked.Renderer(),
-  highlight: (code) => hljs.highlightAuto(code).value,
+  highlight: (code) => (window as any).hljs.highlightAuto(code).value,
   pedantic: false,
   gfm: true,
   tables: true,
@@ -38,9 +37,11 @@ export class Md extends VC<{ name: string }> {
 
   render() {
     return (
-      <a-collapse accordion style='margin:20px 0'  >
+      <a-collapse accordion style='margin:20px 0;'  >
         <a-collapse-panel header='代码演示' key='0'>
-          <div v-html={this.codeHtml} />
+          <div
+            style='background: #282c34; color: rgba(255,255,255,.5);margin:-16px;padding:7px'
+            v-html={this.codeHtml} />
         </a-collapse-panel>
       </a-collapse>
     )

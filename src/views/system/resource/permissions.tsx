@@ -37,10 +37,7 @@ export default class Permission extends VC {
                 this.showSearchClose = false
               }} />
           }
-          onFocus={() => {
-            ResourceStore.setCheckable(false)
-            this.showSearchClose = true
-          }}
+          onFocus={() => { this.showSearchClose = true }}
           v-model={this.searchValue}
           onChange={({ target: { value } }) => this.onSearch(this.TreeNodes, value, undefined)}
           placeholder='菜单名...'

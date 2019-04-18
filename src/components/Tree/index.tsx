@@ -36,5 +36,4 @@ export const ITree = ({ props, data }: FC<Props>) => {
       {renderNode(treeData!)}
     </a-tree>
   )
-
 }

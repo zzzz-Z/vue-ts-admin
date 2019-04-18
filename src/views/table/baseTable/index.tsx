@@ -1,9 +1,7 @@
 import { ITable } from '@/components/Table';
 import { VC, Component } from '@/VC-vue';
-import { createFormModal } from '@/components/Modal/createModal';
 import { BaseLayout, Title } from '@/components/Container';
 import { Md } from '@/components/Container/md';
-
 @Component({})
 export default class BaseTable extends VC {
 
@@ -14,7 +12,7 @@ export default class BaseTable extends VC {
   render() {
     return (
       <BaseLayout breadcrumb>
-        <Title title='基础列表'  >
+        <Title title='基础列表'>
           对antd官方Table进行hack,使通用属性传递更方便。
         </Title>
         <ITable

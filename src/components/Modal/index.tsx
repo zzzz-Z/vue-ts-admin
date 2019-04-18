@@ -1,5 +1,5 @@
 import IForm from '@/components/Form';
-import { Component, Watch } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import { IFormProps } from '@/types/form';
 import { VC } from '@/VC-vue';
 import { FormUtils } from '@/types/form-ref';

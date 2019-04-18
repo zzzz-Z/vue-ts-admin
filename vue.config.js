@@ -8,7 +8,7 @@ module.exports = {
   // 基本路径
   publicPath: '/',
   // 输出文件目录
-  outputDir: process.env.VUE_APP_my || 'html',
+  outputDir: 'dist',
   // eslint-loader 是否在保存的时候检查
   lintOnSave: false,
   productionSourceMap: false,
@@ -18,10 +18,13 @@ module.exports = {
     config.devtool = 'source-map' // 调试 时需要开启
     if (isProduction) {
       config.externals = {
-        // 'vue': 'Vue',
-        // 'viser-vue': 'ViserVue',
-        // 'ant-design-vue': 'antd',
-        // 'moment': 'moment'
+        'vue': 'Vue',
+        'viser-vue': 'ViserVue',
+        'ant-design-vue': 'antd',
+        // 'moment': 'moment',
+        // 'zhCN': 'zhCN',
+        'axios': 'axios',
+        'lodash': '_'
       }
       config.plugins.push(new BundleAnalyzerPlugin()) // 打包显示模块依赖关系
       config.plugins.push(new CompressionWebpackPlugin({
@@ -33,7 +36,7 @@ module.exports = {
     }
   },
   devServer: {
-    port: 8080,
+    port: 3001,
     // 设置代理
     proxy: {
       '/rest': {

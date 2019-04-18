@@ -1,11 +1,10 @@
 import './style.less'
-import { Component, Prop } from 'vue-property-decorator'
+import { VC, Component, Prop } from '@/VC-vue';
 import IForm from '@/components/Form';
 import { Column } from '@/types/column';
 import { FormUtils } from '@/types/form-ref';
 import { IFormItem } from '@/types/form-item';
 import { ITable } from '@/components/Table';
-import { VC } from '@/VC-vue';
 import { Table } from '@/types/table';
 import { getList } from '@/api/list';
 
@@ -22,8 +21,6 @@ export interface ITableProps {
   actions?: (t: TableWithSearch) => JSX.Element[]
   customRow?: (...arg: any) => ({})
   tableProps?: Omit<Table, 'columns' | 'customRow' | 'dataSource'>
-  /** 是否含有面包屑 */
-  breadcrumb?: boolean
   fetch(arg: {}): Promise<ITableData>
 }
 
@@ -38,7 +35,6 @@ export class TableWithSearch extends VC<ITableProps> {
   @Prop() actions?: (t: TableWithSearch) => JSX.Element[]
   @Prop() tableProps?: any
   @Prop() customRow?: (...arg: any) => ({})
-  @Prop({ default: true }) breadcrumb?: boolean
 
   isUp = false
   totalSize = 0

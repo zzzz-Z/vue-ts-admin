@@ -19,7 +19,12 @@ Vue.directive('html', (el, { value }) => { el.innerHTML = value })
 Vue.directive('text', (el, { value }) => { el.innerText = value })
 
 Vue.directive('focus', {
-  bind(el) {
-    el.focus()
+  bind(el) { el.focus() }
+})
+
+Vue.directive('autoHeight', {
+  inserted: (el) => {
+    el.style.height = parseInt(getComputedStyle(el).height!, 10) * 2 + 'px'
+    console.log(el);
   }
 })
