@@ -30,11 +30,8 @@ export default class IBaseForm extends VC {
       title: '默认值',
       dataIndex: 'default',
     }]
-    console.log(model);
     return (
       <BaseLayout breadcrumb>
-        {model.age}
-        <a-button onClick={model.add} >++</a-button>
         <Title title='基础表单' />
         <BaseForm />
         <div style='margin:10px auto;width:90%;'>

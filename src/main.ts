@@ -3,9 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index'
 import ViserVue from 'viser-vue'
-import antd from 'ant-design-vue';
-import moment from 'moment'
-import 'moment/locale/zh-cn'
+
 
 import 'ant-design-vue/dist/antd.css'
 
@@ -15,9 +13,11 @@ import { getStorage } from './utils/storage';
 import { GlobalStore } from './store/global';
 import { createFormModal } from '@/components/Modal/createModal';
 import '@/directive'
-
-
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
+
+import antd from 'ant-design-vue';
 Vue.use(antd)
 
 

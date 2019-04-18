@@ -16,18 +16,17 @@
     <script class="cdn-js"  src="https://unpkg.com/axios/dist/axios.min.js" ></script>
     <script class="cdn-js"  src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" ></script>
     <script>
-      if("<%= NODE_ENV %>"!="production"){
-        var script=document.getElementsByClassName('cdn-js')
-        var cdns = Array.from(script)
-        var head=document.getElementsByTagName('head')[0]
-        cdns.forEach(function() { head.removeChild(elm)  });
-       
-        window.Vue=null
-        window.axios=null
-        window.moment=null
-        window.antd=null
-        window.viser=null
-      }
+      if ("<%= NODE_ENV %>" != "production") {
+          var script = document.getElementsByClassName('cdn-js')
+          var cdns = Array.from(script)
+          var head = document.getElementsByTagName('head')[0]
+          cdns.forEach(function (elm) { head.removeChild(elm) });
+          window.Vue = null
+          window.axios = null
+          window.moment = null
+          window.antd = null
+          window.viser = null
+        }
     </script>
   </head>
   <body>
