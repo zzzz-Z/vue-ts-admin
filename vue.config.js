@@ -21,8 +21,7 @@ module.exports = {
         'vue': 'Vue',
         'viser-vue': 'ViserVue',
         'ant-design-vue': 'antd',
-        // 'moment': 'moment',
-        // 'zhCN': 'zhCN',
+        'moment': 'moment',
         'axios': 'axios',
         'lodash': '_'
       }
