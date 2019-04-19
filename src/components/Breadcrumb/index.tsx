@@ -1,9 +1,9 @@
 export default ({ data, parent }: any) => {
-  let routes = parent ? parent.$route.matched : []
+  let routes = parent ? parent.$route.matched : [];
 
   if (routes.length > 1) {
     if (routes[0].path === routes[1].path) {
-      routes = [routes[0]]
+      routes = [routes[0]];
     }
   }
   return (
@@ -23,5 +23,5 @@ export default ({ data, parent }: any) => {
         </a-breadcrumb-item>
       ))}
     </a-breadcrumb>
-  )
-}
+  );
+};

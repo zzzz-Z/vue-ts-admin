@@ -1,4 +1,4 @@
-import '../style.less'
+import '../style.less';
 import { VC, Component, Vue } from '@/VC-vue';
 import { GlobalStore } from '@/store/global';
 import { ModalGenerator } from '@/components/Modal';
@@ -9,16 +9,16 @@ import { ITree } from '@/components/Tree';
 @Component({})
 export default class Permission extends VC {
 
-  checkedKeys: string[] = []
+  checkedKeys: string[] = [];
   /** 当前选中的节点key */
-  currentKey = ''
+  currentKey = '';
   /** 树搜索时的值 */
-  searchValue = ''
-  showSearchClose = false
-  checkable = false
-  expandedKeys: string[] = []
+  searchValue = '';
+  showSearchClose = false;
+  checkable = false;
+  expandedKeys: string[] = [];
   get TreeNodes() {
-    return (this.$refs.tree as Vue).$vnode.componentOptions!.children
+    return (this.$refs.tree as Vue).$vnode.componentOptions!.children;
   }
 
   render() {
@@ -32,12 +32,12 @@ export default class Permission extends VC {
               type='close-circle'
               vShow={this.showSearchClose}
               onClick={() => {
-                this.searchValue = ''
-                this.onSearch(this.TreeNodes, '', undefined)
-                this.showSearchClose = false
+                this.searchValue = '';
+                this.onSearch(this.TreeNodes, '', undefined);
+                this.showSearchClose = false;
               }} />
           }
-          onFocus={() => { this.showSearchClose = true }}
+          onFocus={() => { this.showSearchClose = true; }}
           v-model={this.searchValue}
           onChange={({ target: { value } }) => this.onSearch(this.TreeNodes, value, undefined)}
           placeholder='菜单名...'
@@ -50,7 +50,7 @@ export default class Permission extends VC {
             vShow={ResourceStore.checkable}
             type='primary'
             style='margin-left:10px'
-            onClick={() => { this.checkedKeys = ['/system', '/system/user'] }} />
+            onClick={() => { this.checkedKeys = ['/system', '/system/user']; }} />
           <ITree
             ref='tree'
             treeData={GlobalStore.asyncRoutes}
@@ -68,12 +68,12 @@ export default class Permission extends VC {
           />
         </div>
       </a-col>
-    )
+    );
   }
 
 
   onExpand(expandedKeys: string[]) {
-    this.expandedKeys = expandedKeys
+    this.expandedKeys = expandedKeys;
   }
 
   /**
@@ -92,37 +92,37 @@ export default class Permission extends VC {
     selectedKeys: string[] = [],
     expandedKeys: string[] = []
   ) {
-    if (!vNodeList) { return }
+    if (!vNodeList) { return; }
     if (ResourceStore.showDropdown) {
-      ResourceStore.setDropdown(false)
+      ResourceStore.setDropdown(false);
     }
     if (title === '') {
-      ResourceStore.setSelectedKeys([])
-      this.expandedKeys = []
-      return
+      ResourceStore.setSelectedKeys([]);
+      this.expandedKeys = [];
+      return;
     }
     vNodeList.forEach((child: JSX.Element) => {
-      const { data, componentOptions }: any = child
+      const { data, componentOptions }: any = child;
       if (data.meta.title.indexOf(title) > -1) {
         if (father) {
-          expandedKeys.push((father as any).key)
-          this.expandedKeys = expandedKeys
+          expandedKeys.push((father as any).key);
+          this.expandedKeys = expandedKeys;
         }
       }
       if (componentOptions.children) {
-        this.onSearch(componentOptions.children, title, child, selectedKeys, expandedKeys)
+        this.onSearch(componentOptions.children, title, child, selectedKeys, expandedKeys);
       }
-    })
+    });
   }
 
   onCheck(keys) {
-    this.checkedKeys = keys
+    this.checkedKeys = keys;
   }
 
   onSelect(key: string[], { node: { eventKey } }) {
-    this.currentKey = eventKey
-    ResourceStore.setSelectedKeys([eventKey])
-    ResourceStore.setDropdown(true)
+    this.currentKey = eventKey;
+    ResourceStore.setSelectedKeys([eventKey]);
+    ResourceStore.setDropdown(true);
   }
 
   EditActionMenus(r: any) {
@@ -149,13 +149,13 @@ export default class Permission extends VC {
         )
       }
       ]
-    }
+    };
     return (
       <a
         style='float:right;'
         v-html='操作'
         onClick={() => this.$createFormModal(props)} />
-    )
+    );
   }
   Handle(r) {
     if (this.currentKey === r.path && ResourceStore.showDropdown) {
@@ -197,18 +197,18 @@ export default class Permission extends VC {
             </a-menu-item>
           </a-menu>
         </a-dropdown>
-      )
+      );
     }
   }
 
   TreeNodeTitle(r) {
-    const { searchValue, Handle } = this
-    const name = r.meta.title
+    const { searchValue, Handle } = this;
+    const name = r.meta.title;
 
-    let title = <span class='itree-title' >{name}{Handle(r)}</span>
+    let title = <span class='itree-title' >{name}{Handle(r)}</span>;
     if (name.indexOf(this.searchValue) > -1) {
-      const startText = name.substr(0, name.indexOf(searchValue))
-      const endText = name.substr(name.indexOf(searchValue) + searchValue.length)
+      const startText = name.substr(0, name.indexOf(searchValue));
+      const endText = name.substr(name.indexOf(searchValue) + searchValue.length);
       title = (
         <span class='itree-title'>
           {startText}
@@ -216,9 +216,9 @@ export default class Permission extends VC {
           {endText}
           {Handle(r)}
         </span>
-      )
+      );
     }
-    return title
+    return title;
   }
 
   treeForm(r: { meta: any; }): IFormItem[] {
@@ -233,14 +233,14 @@ export default class Permission extends VC {
     }, {
       label: '图标',
       field: 'icon'
-    }]
+    }];
   }
   /** 点击tree空白处时  */
   treeboxClick({ target }) {
     if (target.className === 'tree') {
-      ResourceStore.setCheckable(false)
-      ResourceStore.setDropdown(false)
-      ResourceStore.setSelectedKeys([])
+      ResourceStore.setCheckable(false);
+      ResourceStore.setDropdown(false);
+      ResourceStore.setSelectedKeys([]);
     }
   }
 }

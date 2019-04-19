@@ -125,5 +125,5 @@ const routerMap = [{
     }
   }]
 }
-]
-export default routerMap
+];
+export default routerMap;

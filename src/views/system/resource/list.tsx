@@ -1,17 +1,17 @@
-import '../style.less'
+import '../style.less';
 import { VC, Component } from '@/VC-vue';
 import { ModalGenerator } from '@/components/Modal';
 import { ResourceStore } from './store';
 import { TableWithSearch } from '@/components/TableWithSearch';
-import { getList } from '@/api/list';
+import { getList } from '@/services/list';
 @Component({})
 export default class RList extends VC {
 
-  isNext = true
-  get btnText() { return this.isNext ? '下一步' : '提交' }
+  isNext = true;
+  get btnText() { return this.isNext ? '下一步' : '提交'; }
   get editForm() {
-    const stepOne = this.isNext ? 'display:block' : 'display:none'
-    const stepTwo = !this.isNext ? 'display:block' : 'display:none'
+    const stepOne = this.isNext ? 'display:block' : 'display:none';
+    const stepTwo = !this.isNext ? 'display:block' : 'display:none';
     return [{
       label: '角色',
       field: 'name',
@@ -28,7 +28,7 @@ export default class RList extends VC {
       label: 'bb',
       field: 'bb',
       style: stepTwo
-    }]
+    }];
   }
 
   render() {
@@ -43,7 +43,7 @@ export default class RList extends VC {
           searchItems={[{ label: '角色', field: 'role', }, { label: '名称', field: 'name', }]}
         />
       </a-col>
-    )
+    );
   }
 
   customRow(data) {
@@ -53,16 +53,16 @@ export default class RList extends VC {
           e.path.forEach((r) => {
             if (r.nodeName === 'TR') {
               r.parentNode.childNodes.forEach((el) => {
-                el.style.backgroundColor = 'transparent'
-              })
-              r.style.backgroundColor = '#d8e6df'
+                el.style.backgroundColor = 'transparent';
+              });
+              r.style.backgroundColor = '#d8e6df';
             }
-          })
-          ResourceStore.setCheckable(true)
-          ResourceStore.saveCurrentRowInfo(data)
+          });
+          ResourceStore.setCheckable(true);
+          ResourceStore.saveCurrentRowInfo(data);
         }
       }
-    }
+    };
   }
 
   columns(_t: TableWithSearch) {
@@ -96,9 +96,9 @@ export default class RList extends VC {
             <a-divider type='vertical' />
             <a-icon type='delete' />
           </a>
-        )
+        );
       }
-    }]
+    }];
 
   }
 
@@ -116,7 +116,7 @@ export default class RList extends VC {
           field: 'cccccc',
         }]}
       />
-    ]
+    ];
   }
 }
 

@@ -4,9 +4,14 @@ import { BaseForm } from './form';
 import { ITable } from '@/components/Table';
 import { BaseLayout, Title } from '@/components/Container';
 import { Md } from '@/components/Container/md';
-import model from '../model';
+class Iprops {
+   aaa ?: string;
+   age: any = undefined;
+   xxx = undefined;
+}
+@Props(Iprops)
 @Component({})
-export default class IBaseForm extends VC {
+export default class IBaseForm extends VC<Iprops> {
 
   render() {
     const columns = [{
@@ -21,15 +26,15 @@ export default class IBaseForm extends VC {
       customRender: (r) => {
         switch (r) {
           case 'Col':
-            return <a target='blank' href='https://ant-design-vue.gitee.io/components/grid-cn/#Col' >{r}</a>
+            return <a target='blank' href='https://ant-design-vue.gitee.io/components/grid-cn/#Col' >{r}</a>;
           default:
-            return <span style='color:#c41d7f'>{r}</span>
+            return <span style='color:#c41d7f'>{r}</span>;
         }
       }
     }, {
       title: '默认值',
       dataIndex: 'default',
-    }]
+    }];
     return (
       <BaseLayout breadcrumb>
         <Title title='基础表单' />
@@ -44,6 +49,6 @@ export default class IBaseForm extends VC {
           />
         </div>
       </BaseLayout>
-    )
+    );
   }
 }

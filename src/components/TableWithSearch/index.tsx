@@ -1,4 +1,4 @@
-import './style.less'
+import './style.less';
 import { VC, Component, Prop } from '@/VC-vue';
 import IForm from '@/components/Form';
 import { Column } from '@/types/column';
@@ -6,43 +6,42 @@ import { FormUtils } from '@/types/form-ref';
 import { IFormItem } from '@/types/form-item';
 import { ITable } from '@/components/Table';
 import { Table } from '@/types/table';
-import { getList } from '@/api/list';
 
 export interface ITableData {
-  dataSource: Array<{}>
-  totalSize: number
-  totalPage: number
+  dataSource: Array<{}>;
+  totalSize: number;
+  totalPage: number;
 }
 
 export interface ITableProps {
-  columns: ((t: TableWithSearch) => Column[]) | Column[]
-  algin?: string
-  searchItems?: IFormItem[]
-  actions?: (t: TableWithSearch) => JSX.Element[]
-  customRow?: (...arg: any) => ({})
-  tableProps?: Omit<Table, 'columns' | 'customRow' | 'dataSource'>
-  fetch(arg: {}): Promise<ITableData>
+  columns: ((t: TableWithSearch) => Column[]) | Column[];
+  algin?: string;
+  searchItems?: IFormItem[];
+  actions?: (t: TableWithSearch) => JSX.Element[];
+  customRow?: (...arg: any) => ({});
+  tableProps?: Omit<Table, 'columns' | 'customRow' | 'dataSource'>;
+  fetch(arg: {}): Promise<ITableData>;
 }
 
 
 @Component({})
 export class TableWithSearch extends VC<ITableProps> {
 
-  @Prop() columns!: ((t: TableWithSearch) => Column[]) | Column[]
-  @Prop() fetch!: (arg: {}) => Promise<ITableData>
-  @Prop() query?: (params: {}) => Promise<[]>
-  @Prop() searchItems?: any[]
-  @Prop() actions?: (t: TableWithSearch) => JSX.Element[]
-  @Prop() tableProps?: any
-  @Prop() customRow?: (...arg: any) => ({})
+  @Prop() columns!: ((t: TableWithSearch) => Column[]) | Column[];
+  @Prop() fetch!: (arg: {}) => Promise<ITableData>;
+  @Prop() query?: (params: {}) => Promise<[]>;
+  @Prop() searchItems?: any[];
+  @Prop() actions?: (t: TableWithSearch) => JSX.Element[];
+  @Prop() tableProps?: any;
+  @Prop() customRow?: (...arg: any) => ({});
 
-  isUp = false
-  totalSize = 0
-  totalPage = 0
-  loading = false
-  currentPage = 1
-  rowSelection = {}
-  dataSource: any[] = []
+  isUp = false;
+  totalSize = 0;
+  totalPage = 0;
+  loading = false;
+  currentPage = 1;
+  rowSelection = {};
+  dataSource: any[] = [];
   get pagination() {
     return {
       current: this.currentPage,
@@ -51,49 +50,49 @@ export class TableWithSearch extends VC<ITableProps> {
       showQuickJumper: true,
       defaultPageSize: 12,
       onChange: (n) => this.getData(n).then((_) => this.currentPage = n)
-    }
+    };
   }
 
   created() {
-    this.getData()
+    this.getData();
   }
 
   async getData(n = 1) {
-    this.loading = true
+    this.loading = true;
     return this.$props.fetch({ num: n })
       .then((res) => {
-        this.dataSource = res.dataSource
-        this.totalSize = res.totalSize
-        this.totalPage = res.totalPage
-        this.loading = false
-        return true
-      })
+        this.dataSource = res.dataSource;
+        this.totalSize = res.totalSize;
+        this.totalPage = res.totalPage;
+        this.loading = false;
+        return true;
+      });
   }
 
   /** 按条件查询 */
   _query(form: FormUtils) {
-    const params = form.getFieldsValue()
+    const params = form.getFieldsValue();
     this.query && this.query(params).then((v) => {
-      this.dataSource = v
-    })
+      this.dataSource = v;
+    });
   }
   /** 重置列表数据 & 搜索条件 */
   reload(form: FormUtils) {
-    form.resetFields()
+    form.resetFields();
     this.getData().then((r) => {
-      this.currentPage = 1
-    })
+      this.currentPage = 1;
+    });
   }
   /** 切换查询项展开收起 */
   toggleForm() {
-    this.isUp = !this.isUp
+    this.isUp = !this.isUp;
   }
 
   get Search() {
-    const items = this.searchItems
-    if (!items) { return }
-    items.map((r: any) => r.style = 'margin-right:20px')
-    const searchItems: any[] = this.isUp ? items : [items[0], items[1]]
+    const items = this.searchItems;
+    if (!items) { return; }
+    items.map((r: any) => r.style = 'margin-right:20px');
+    const searchItems: any[] = this.isUp ? items : [items[0], items[1]];
     const handle = {
       el: (form: FormUtils) => (
         <div style='margin-left:30px' >
@@ -114,31 +113,31 @@ export class TableWithSearch extends VC<ITableProps> {
           </a>
         </div>
       )
-    }
+    };
     return (
       <IForm
         layout='inline'
         id='header-search'
         col={{ lg: 5, md: 24 }}
         formItems={[...searchItems, handle]} />
-    )
+    );
   }
 
   render() {
-    const { columns, pagination, dataSource, rowSelection, loading, customRow } = this
+    const { columns, pagination, dataSource, rowSelection, loading, customRow } = this;
     const props = {
       pagination,
       rowSelection,
       loading,
       customRow,
       ...this.tableProps,
-    }
+    };
     const bodyStyle = {
       padding: '0 0 15px',
       borderRadius: 0,
       minHeight: '70px',
       border: 0,
-    }
+    };
     return (
       <div style='background:#fff;padding:25px;'>
         <a-card
@@ -153,6 +152,6 @@ export class TableWithSearch extends VC<ITableProps> {
           columns={typeof columns === 'function' ? columns(this) : columns}
         />
       </div>
-    )
+    );
   }
 }

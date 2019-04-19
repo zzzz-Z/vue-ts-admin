@@ -1,4 +1,4 @@
-import { Component, Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator';
 import { Form } from 'ant-design-vue';
 import { IFormProps } from '@/types/form';
 import { VC } from '@/VC-vue';
@@ -13,36 +13,36 @@ const props = [
   'wrapperCol',
   'itemStyle',
   'initialValues'
-]
+];
 
 
 @Component({ props })
 class Iform extends VC<IFormProps> {
 
-  @Prop() form!: FormUtils
+  @Prop() form!: FormUtils;
 
   get renderItem() {
-    const { labelCol, wrapperCol, initialValues, itemStyle, col, formItems } = this.$props
-    const form = this.form
+    const { labelCol, wrapperCol, initialValues, itemStyle, col, formItems } = this.$props;
+    const form = this.form;
 
     return (formItems || []).map((props) => {
       // tslint:disable-next-line:prefer-const
-      let { field, rules, initialValue, el } = props
+      let { field, rules, initialValue, el } = props;
 
-      let element = <a-input type={props.type} placeholder={props.placeholder} />
+      let element = <a-input type={props.type} placeholder={props.placeholder} />;
 
-      el && (element = typeof el === 'function' ? el(form) : el)
+      el && (element = typeof el === 'function' ? el(form) : el);
 
-      typeof rules === 'function' && (rules = rules(form))
+      typeof rules === 'function' && (rules = rules(form));
 
       if (field) {
-        initialValues && Object.keys(initialValues).includes(field) && (initialValue = initialValues[field])
-        element = form.getFieldDecorator(field, { rules, initialValue })(element)
+        initialValues && Object.keys(initialValues).includes(field) && (initialValue = initialValues[field]);
+        element = form.getFieldDecorator(field, { rules, initialValue })(element);
       }
 
-      const formItemProps = { props: { labelCol, wrapperCol, ...props } }
-      const colProps = { props: col }
-      const style = props.style || itemStyle
+      const formItemProps = { props: { labelCol, wrapperCol, ...props } };
+      const colProps = { props: col };
+      const style = props.style || itemStyle;
 
       return (
         <a-col {...colProps} style={style} >
@@ -50,8 +50,8 @@ class Iform extends VC<IFormProps> {
             {element}
           </a-form-item>
         </a-col>
-      )
-    })
+      );
+    });
   }
 
   render() {
@@ -61,12 +61,12 @@ class Iform extends VC<IFormProps> {
           {this.renderItem}
         </a-form>
       </a-row>
-    )
+    );
   }
 }
 
 
-const MForm = Form.create({ props })(Iform)
-const IForm = ({ data }: FC<IFormProps>) => <MForm {...data} />
+const MForm = Form.create({ props })(Iform);
+const IForm = ({ data }: FC<IFormProps>) => <MForm {...data} />;
 
-export default IForm
+export default IForm;

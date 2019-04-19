@@ -1,8 +1,8 @@
 import { VC } from '@/VC-vue';
-import { Component } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator';
 import { ModalGenerator } from '@/components/Modal';
 import { TableWithSearch } from '@/components/TableWithSearch';
-import { getList } from '@/api/list';
+import { getList } from '@/services/list';
 import { BaseLayout, Title } from '@/components/Container';
 
 @Component({})
@@ -38,13 +38,10 @@ export default class SearchTable extends VC {
           }]}
         />
       </BaseLayout>
-    )
+    );
   }
 
-  /**
-   * 操作按钮数组VNode
-   * @param v TableWithSearch 组件实例 通过v调用 组件内部所有属性
-   */
+  /** 操作按钮数组VNode  */
   actions(v: TableWithSearch) {
     return [
       <ModalGenerator
@@ -53,6 +50,6 @@ export default class SearchTable extends VC {
         fetch={() => this.Axios.get('')}
         formItems={[{ label: '搜索1', field: 's1', }, { label: '搜索2', field: 's2' }]}
       />
-    ]
+    ];
   }
 }

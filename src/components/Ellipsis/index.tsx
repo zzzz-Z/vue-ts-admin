@@ -1,23 +1,23 @@
 interface Props {
-  length: number
-  width?: number
-  str?: string
+  length: number;
+  width?: number;
+  str?: string;
 }
 
 export default ({ props, children }: FC<Props>) => {
-  const {str, length, width } = props!
-  const innerText = children && children.map((item) => item.text).join('')
-  const _str = innerText || str
-  const fullLength = getStrFullLength(_str)
-  const cutStr = cutStrByFullLength(_str, length)
-  const title = width ? <div style={`width:${width}px`}> {_str} </div > : _str
+  const {str, length, width } = props!;
+  const innerText = children && children.map((item) => item.text).join('');
+  const _str = innerText || str;
+  const fullLength = getStrFullLength(_str);
+  const cutStr = cutStrByFullLength(_str, length);
+  const title = width ? <div style={`width:${width}px`}> {_str} </div > : _str;
   const text = fullLength >= length + 3 ? cutStr + '...' : _str;
   return (
     <a-tooltip title={title}>
       {text}
     </a-tooltip>
-  )
-}
+  );
+};
 
 
 export const getStrFullLength = (str = '') =>

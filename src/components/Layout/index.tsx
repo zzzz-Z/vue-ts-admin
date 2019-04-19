@@ -1,23 +1,24 @@
-import { Component, Vue } from 'vue-property-decorator'
-import Siderbar from './siderbar'
-import Header from './header'
-import './style.less'
+import { Component, Vue, Provide } from 'vue-property-decorator';
+import Siderbar from './siderbar';
+import Header from './header';
+import './style.less';
 import { Logo } from './logo';
 
 @Component({})
 export default class Layout extends Vue {
 
-  showView = true
-  collapsed = false
-
+  showView = true;
+  collapsed = false;
+  /** 全局注入 刷新当前路由 */
+  @Provide()
   reloadView() {
-    this.showView = false
-    this.$nextTick(() => this.showView = true)
+    this.showView = false;
+    this.$nextTick(() => this.showView = true);
   }
 
   render() {
-    const { collapsed } = this
-    const headerStyle = collapsed ? 'header-fixed fold' : 'header-fixed unfold'
+    const { collapsed } = this;
+    const headerStyle = collapsed ? 'header-fixed fold' : 'header-fixed unfold';
     return (
       <a-layout id='layout' >
         <a-layout-sider
@@ -26,7 +27,7 @@ export default class Layout extends Vue {
           v-model={collapsed}
           width={256}>
           <Logo />
-          <Siderbar reload={this.reloadView} collapsed={collapsed} />
+          <Siderbar collapsed={collapsed} />
         </a-layout-sider>
         <a-layout>
           <a-layout-header class={headerStyle}>
@@ -42,6 +43,6 @@ export default class Layout extends Vue {
           </a-layout-footer>
         </a-layout>
       </a-layout>
-    )
+    );
   }
 }

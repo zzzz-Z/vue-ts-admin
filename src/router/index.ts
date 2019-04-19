@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 import Login from '@/components/Login';
 
 Vue.use(Router);
@@ -20,9 +20,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, form, next) => {
-  NProgress.start()
-  next()
-})
-router.afterEach(() => NProgress.done())
+  NProgress.start();
+  next();
+});
+router.afterEach(() => NProgress.done());
 
-export default router
+export default router;

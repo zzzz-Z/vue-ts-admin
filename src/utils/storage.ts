@@ -1,7 +1,7 @@
-import config from '@/config';
+import { Storage_tag } from '@/config';
 
-const tag = config.storage_tag
-type S = object | string | number | any[]
+const tag = Storage_tag;
+type S = object | string | number | any[];
 
 /**
  *
@@ -15,9 +15,9 @@ export function setStorage(key: string, value: S, expires?: number) {
     value = JSON.stringify({
       [key]: value,
       expires: expires ? Date.now() + expires * 1000 : null
-    })
+    });
   }
-  localStorage.setItem(tag + key, value)
+  localStorage.setItem(tag + key, value);
 }
 
 
@@ -28,19 +28,19 @@ export function setStorage(key: string, value: S, expires?: number) {
  */
 export function getStorage(key: string) {
 
-  const value = localStorage.getItem(tag + key)
+  const value = localStorage.getItem(tag + key);
   try {
     if (value) {
-      const v = JSON.parse(value)
+      const v = JSON.parse(value);
       if (v.expires && v.expires < Date.now()) {
-        removeStorage(key)
+        removeStorage(key);
         console.error('已过期字段:' + key);
-        return undefined
+        return undefined;
       }
-      return v[key]
+      return v[key];
     }
   } catch (error) {
-    return value
+    return value;
   }
 
 }
@@ -52,10 +52,10 @@ export function getStorage(key: string) {
 export function removeStorage(key?: string | string[]) {
 
   if (!key) {
-    return localStorage.clear()
+    return localStorage.clear();
   }
 
   Array.isArray(key) ?
     key.forEach((k) => localStorage.removeItem(tag + k)) :
-    localStorage.removeItem(tag + key)
+    localStorage.removeItem(tag + key);
 }

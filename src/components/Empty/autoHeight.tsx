@@ -1,16 +1,16 @@
 export const AutoHeight = ({ children, props }) => {
 
-  const Child = children![0]
-  Child.data = Child.data || {}
+  const Child = children![0];
+  Child.data = Child.data || {};
   Child.data.hook = {
     insert(node: JSX.Element) {
       if (!props.height) {
         props.heigh = getAutoHeight(node);
       }
     }
-  }
-  return Child || <div />
-}
+  };
+  return Child || <div />;
+};
 
 function computeHeight(node) {
   const totalHeight = parseInt(getComputedStyle(node).height as string, 10);
