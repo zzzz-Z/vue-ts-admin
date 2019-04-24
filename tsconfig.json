@@ -18,9 +18,8 @@
       "jest"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": [ "src/*" ],
+      "@c/*": [ "src/components/*" ],
     },
     "lib": [
       "esnext",

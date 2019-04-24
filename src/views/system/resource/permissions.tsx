@@ -53,8 +53,8 @@ export default class Permission extends VC {
             onClick={() => { this.checkedKeys = ['/system', '/system/user']; }} />
           <ITree
             ref='tree'
+            showIcon
             treeData={GlobalStore.asyncRoutes}
-            nodeKey='path'
             onSelect={this.onSelect}
             onExpand={this.onExpand}
             checkedKeys={this.checkedKeys}
@@ -62,9 +62,11 @@ export default class Permission extends VC {
             checkable={ResourceStore.checkable}
             expandedKeys={this.expandedKeys}
             selectedKeys={ResourceStore.selectedKeys}
-            titleRender={(v) => this.TreeNodeTitle(v)}
-            iconRender={(v) => <a-icon type='folder' />}
-            showIcon
+            treeNodeProps={(v) => ({
+              key: v.path,
+              title: this.TreeNodeTitle(v),
+              icon: <a-icon type='folder' />
+            })}
           />
         </div>
       </a-col>

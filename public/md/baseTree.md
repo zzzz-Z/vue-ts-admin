@@ -12,23 +12,18 @@ export default class BaseTree extends VC {
       <ITree
         showIcon
         treeData={treeData}
-        nodeKey='path'
-        nextLevelKey='son'
-        titleRender={(v) => <span> {v.title} <Svg name='boy' /> </span>}
-        iconRender={(v) => {
-          switch (v.path) {
-            case '0-0':
-              return <Svg name='sunny' />
-              break;
-            case '0-2':
-              return <Svg name='admin' />
-              break;
-            default:
-              return <a-icon type='file' />
-              break;
-          }
-        }}
-      />
+        treeNodeProps={(v) => ({
+          key: 'path',
+          child: 'son',
+          title: () => <span> {v.title} <Svg name='boy' /> </span>,
+          icon: () => {
+            switch (v.path) {
+              case '0-0': return <Svg name='sunny' />;
+              case '0-2': return <Svg name='admin' />;
+              default: return <a-icon type='file' />;
+            }
+          }})}
+        />
     )
   }
 }

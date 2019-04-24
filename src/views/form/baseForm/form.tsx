@@ -3,7 +3,7 @@ import { VC, Props } from '@/VC-vue';
 import { Component } from 'vue-property-decorator';
 
 class Fprops {
-  initialValues?: {} = {}
+  initialValues?: {} = {};
 }
 @Props(Fprops)
 @Component({})
@@ -13,7 +13,7 @@ export class BaseForm extends VC<Fprops> {
     this.$info({
       title: 'Gets the content from the form',
       content: JSON.stringify(values)
-    })
+    });
   }
 
   render() {
@@ -33,11 +33,11 @@ export class BaseForm extends VC<Fprops> {
         }, {
           field: 'doc',
           label: '目标描述',
-          el: () => <a-textarea placeholder='Basic usage' rows={4} />
+          el: <a-textarea placeholder='Basic usage' rows={4} />
         }, {
           field: 'norm',
           label: '衡量标准',
-          el: () => <a-textarea placeholder='请输入衡量标准' rows={4} />
+          el: <a-textarea placeholder='请输入衡量标准' rows={4} />
         }, {
           field: 'user',
           placeholder: '请描述你服务的客户, name',
@@ -80,7 +80,7 @@ export class BaseForm extends VC<Fprops> {
             </div>
           )
         }]} />
-    )
+    );
   }
 }
 

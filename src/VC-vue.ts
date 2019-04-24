@@ -10,11 +10,11 @@ export function Props(props: new () => any) {
   return (target: VueClass<Vue>) => {
     const _props = new props();
     const newProps = {};
-    Object.keys(_props).map((key) => {
+    Object.keys(_props).forEach((key) => {
       const value = _props[key];
       newProps[key] = {};
       getType(value) && (newProps[key].type = getType(value));
-      getValue(value) && (newProps[key].type = getValue(value));
+      getValue(value) && (newProps[key].default = getValue(value));
     });
     const oldProps = target.prototype.constructor.options.props;
     target.prototype.constructor.options.props = { ...oldProps, ...newProps };
