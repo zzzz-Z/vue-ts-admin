@@ -5,4 +5,4 @@ export const Logo = () => (
     <Svg name='boy' />
     <h1><span>Virgo gold saint</span></h1>
   </div>
-)
+);

@@ -1,19 +1,19 @@
 import { Component, Prop } from 'vue-property-decorator';
 import { VC } from '@/VC-vue';
-import { GlobalStore } from '@/store/global'
-import { ModalGenerator } from '../Modal'
+import { GlobalStore } from '@/store/global';
+import { ModalGenerator } from '../Modal';
 import Svg from '../Svg';
 import router from '@/router';
 
 interface Props {
-  collapsed: boolean
-  change?: () => any
+  collapsed: boolean;
+  change?: () => any;
 }
 @Component({})
 export default class Header extends VC<Props> {
   /** menu是否收起状态 */
-  @Prop() collapsed!: boolean
-  @Prop() change!: () => any
+  @Prop() collapsed!: boolean;
+  @Prop() change!: () => any;
 
   get ChangePassWord() {
     return (
@@ -32,7 +32,7 @@ export default class Header extends VC<Props> {
           }]}
         />
       </span>
-    )
+    );
   }
 
   render() {
@@ -63,7 +63,7 @@ export default class Header extends VC<Props> {
           </a-dropdown>
         </div>
       </div>
-    )
+    );
   }
 }
 
