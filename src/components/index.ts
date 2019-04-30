@@ -4,6 +4,6 @@ const IC = [Empty];
 
 export default {
   install: (Vue) => {
-    IC.map((component) => { Vue.use(component);});
+    IC.map((component) => { Vue.use(component); });
   }
 };

@@ -1,8 +1,8 @@
 interface SvgProps {
-  /** svg文件名 : src/assets/iconfont/${name}.svg */
+  /** svg文件名 : src/assets/svgIcon/${name}.svg */
   name: string;
 }
 export default ({ data, props }: FC<SvgProps>) => (
-  <a-icon {...data} component={require(`@/assets/iconfont/${props!.name}.svg`).default} />
+  <a-icon {...data} component={require(`@/assets/svgIcon/${props!.name}.svg`).default} />
 );
 

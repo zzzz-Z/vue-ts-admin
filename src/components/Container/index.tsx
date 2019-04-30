@@ -8,7 +8,7 @@ export const BaseLayout = (v: FC<{ breadcrumb?: boolean }>) => (
       {v.children}
     </div>
   </div>
-)
+);
 /**
  * @description 标题容器
  */
@@ -21,4 +21,4 @@ export const Title = (v: FC<{ title?: string | JSX.Element }>) => (
     type='info'
     showIcon
   />
-)
+);

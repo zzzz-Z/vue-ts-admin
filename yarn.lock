@@ -8638,6 +8638,10 @@ vue-class-component@^7.0.1:
   version "7.0.1"
   resolved "http://registry.npm.taobao.org/vue-class-component/download/vue-class-component-7.0.1.tgz#7af2225c600667c7042b60712eefdf41dfc6de63"
 
+vue-hooks@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/vue-hooks/-/vue-hooks-0.3.2.tgz#60feb7401811758fdf0aa63dc8da1771dc8ded5c"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"

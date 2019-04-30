@@ -6,7 +6,7 @@ import { Md } from '@/components/Container/md';
 export default class BaseTable extends VC {
 
   typeRender(text) {
-    return <span style='color:rgb(196, 29, 127)'> {text}</span>
+    return <span style='color:rgb(196, 29, 127)'> {text}</span>;
   }
 
   render() {
@@ -36,7 +36,7 @@ export default class BaseTable extends VC {
           }]} />
         <Md name='baseTable' />
       </BaseLayout>
-    )
+    );
   }
 }
 
@@ -61,4 +61,4 @@ const dataSource = [{
   description: '除上述字段外其他props',
   type: '同官方一致',
   default: '-',
-}]
+}];

@@ -13,9 +13,9 @@ import moment from 'moment';
 import antd from 'ant-design-vue';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
-
 // openlayers
 import ol from 'ol';
+
 
 Vue.use(antd);
 Vue.use(ViserVue);

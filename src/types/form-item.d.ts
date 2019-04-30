@@ -6,7 +6,7 @@ interface IFormItem {
   initialValue?: any;
   rules?: any;
   type?: string;
-  el?: JSX.Element | ((form: FormUtils) => JSX.Element)
+  el?: JSX.Element | ((form: FormUtils) => JSX.Element | JSX.Element[]);
   colon?: boolean;
   extra?: any;
   hasFeedback?: boolean;
@@ -16,5 +16,5 @@ interface IFormItem {
   wrapperCol?: ICol;
   required?: boolean;
   validateStatus?: '' | 'success' | 'warning' | 'error' | 'validating';
-  placeholder?: string
+  placeholder?: string;
 }

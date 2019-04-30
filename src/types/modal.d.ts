@@ -52,7 +52,7 @@ interface IModal {
    * @default OK and Cancel buttons
    * @type any (string | slot)
    */
-  footer?: JSX.Element[] | ((t: any) => JSX.Element[]) | null
+  footer?: JSX.Element[] | ((t: any) => JSX.Element[]) | null;
 
   /**
    * Return the mount node for Modal
@@ -100,13 +100,13 @@ interface IModal {
    * The ok button props, follow jsx rules
    * @type object
    */
-  okButtonProps?: any/*  { props: Button; on: {} }; */
+  okButtonProps?: any; /*  { props: Button; on: {} }; */
 
   /**
    * The cancel button props, follow jsx rules
    * @type object
    */
-  cancelButtonProps?: any/*  { props: Button; on: {} }; */
+  cancelButtonProps?: any; /*  { props: Button; on: {} }; */
 
   /**
    * The modal dialog's title

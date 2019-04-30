@@ -1,6 +1,6 @@
 import { VC, Component } from '@/VC-vue';
-import axios from 'axios'
-import marked from 'marked'
+import axios from 'axios';
+import marked from 'marked';
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -13,13 +13,13 @@ marked.setOptions({
   smartLists: true,
   smartypants: false,
   xhtml: false
-})
+});
 
 export async function getMdStr(name: string): Promise<string> {
-  const { data } = await axios.get(`/md/${name}.md`)
+  const { data } = await axios.get(`/md/${name}.md`);
   return new Promise((resolve) => {
-    marked(data, (err, codeString) => resolve(codeString))
-  })
+    marked(data, (err, codeString) => resolve(codeString));
+  });
 }
 
 /**
@@ -27,12 +27,12 @@ export async function getMdStr(name: string): Promise<string> {
  */
 @Component({ props: ['name'] })
 export class Md extends VC<{ name: string }> {
-  codeHtml: any = null
+  codeHtml: any = null;
 
   created() {
     getMdStr(this.$props.name).then((html) => {
-      this.codeHtml = html
-    })
+      this.codeHtml = html;
+    });
   }
 
   render() {
@@ -44,6 +44,6 @@ export class Md extends VC<{ name: string }> {
             v-html={this.codeHtml} />
         </a-collapse-panel>
       </a-collapse>
-    )
+    );
   }
 }

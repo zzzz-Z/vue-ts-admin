@@ -1,6 +1,6 @@
-import { Storage_tag } from '@/config';
+import { PRO_INFO } from '@/config';
 
-const tag = Storage_tag;
+const tag = PRO_INFO;
 type S = object | string | number | any[];
 
 /**

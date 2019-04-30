@@ -2,7 +2,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { GlobalStore } from '@/store/global';
 import { removeStorage } from '@/utils/storage';
 import { FormUtils } from '@/types/form-ref';
-import './style.less'
+import './style.less';
 
 @Component({})
 export default class Login extends Vue {
@@ -15,28 +15,28 @@ export default class Login extends Vue {
     wrapperCol: {
       span: 23
     }
-  }
-  form!: FormUtils
-  loading: any = false
+  };
+  form!: FormUtils;
+  loading: any = false;
 
   onEnter(e) {
     if (e.keyCode !== 13) {
-      return
+      return;
     }
-    this.login()
+    this.login();
   }
 
   login() {
-    this.loading = true
+    this.loading = true;
     this.form.validateFields((err, params) => {
-      GlobalStore.login(params).finally(() => this.loading = false)
-      this.$router.push('/form/baseForm')
-    })
+      GlobalStore.login(params).finally(() => this.loading = false);
+      this.$router.push('/form/baseForm');
+    });
   }
 
   beforeCreate() {
-    removeStorage()
-    this.form = this.$form.createForm(this)
+    removeStorage();
+    this.form = this.$form.createForm(this);
   }
 
   render() {
@@ -67,6 +67,6 @@ export default class Login extends Vue {
           </a-form>
         </a-col>
       </a-row>
-    )
+    );
   }
 }

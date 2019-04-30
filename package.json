@@ -18,6 +18,7 @@
     "viser-vue": "^2.4.5",
     "vue": "^2.5.17",
     "vue-class-component": "^7.0.1",
+    "vue-hooks": "^0.3.2",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
     "vue-svg-loader": "^0.12.0",

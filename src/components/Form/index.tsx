@@ -29,7 +29,7 @@ class Iform extends VC<IFormProps> {
       // tslint:disable-next-line:prefer-const
       let { field, rules, initialValue, el } = props;
 
-      let element = <a-input type={props.type} placeholder={props.placeholder} />;
+      let element: any = <a-input type={props.type} placeholder={props.placeholder} />;
 
       el && (element = typeof el === 'function' ? el(form) : el);
 
