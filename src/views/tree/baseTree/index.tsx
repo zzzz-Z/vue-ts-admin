@@ -21,7 +21,7 @@ export default class FcModal extends VC {
           treeData={treeData}
           childKey='son'
           treeNodeProps={(v) => ({
-            key: 'path',
+            key: v.path ,
             title: <span> {v.title} <Svg name='boy' /> </span>,
             icon: () => {
               switch (v.path) {

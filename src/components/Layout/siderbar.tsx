@@ -1,8 +1,10 @@
+import Layout from '.';
+import Svg from '../Svg';
 import { RouteConfig } from 'vue-router';
 import { GlobalStore } from '@/store/global';
 import { deepClone } from '@/utils';
 import { VC, Props, Component, Watch, Inject } from '@/VC-vue';
-import Layout from '.';
+
 
 
 type ItemConfig = RouteConfig & { icon: string };
@@ -22,6 +24,19 @@ export default class Siderbar extends VC<SiderbarProps> {
 
   get currnetRoute() {
     return [this.$route.matched[0].path];
+  }
+  get routerMaps() {
+    const routerMaps = deepClone(GlobalStore.asyncRoutes);
+    const loop = (arr) => arr.map((r) => {
+      if (r.children) {
+        // 当子路由同父路由的path相同时,隐藏子路由菜单
+        r.children[0].path === r.path ?
+          r.children = undefined :
+          loop(r.children);
+      }
+    });
+    loop(routerMaps);
+    return routerMaps;
   }
 
   @Watch('collapsed') _collapsed(v) {
@@ -55,11 +70,7 @@ export default class Siderbar extends VC<SiderbarProps> {
       <a-sub-menu
         key={r.path}
         onTitleClick={this.titleClick}
-      >
-        <span slot='title'>
-          <a-icon type={r.meta.icon} />
-          <span class='padding-left'>{r.meta.title}</span>
-        </span>
+        title={[<a-icon type={r.meta.icon} />, <span class='padding-left' v-text={r.meta.title} />]}>
         {(r.children as ItemConfig[]).map((i) => this.menuItem(i))}
       </a-sub-menu>
     );
@@ -67,31 +78,31 @@ export default class Siderbar extends VC<SiderbarProps> {
 
 
   render() {
-    const routerMaps = deepClone(GlobalStore.asyncRoutes);
-    const loop = (arr) => arr.map((r) => {
-      if (r.children) {
-        // 当子路由同父路由的path相同时,隐藏子路由菜单
-        r.children[0].path === r.path ?
-          r.children = undefined :
-          loop(r.children);
-      }
-    });
-    loop(routerMaps);
-
     return (
-      <a-menu
-        onClick={this.menuClick}
-        defaultSelectedKeys={[this.$route.path]}
-        openKeys={this.openkeys}
-        mode='inline'
-        theme='dark'
-        style='padding:16px 0' >
-        {routerMaps.map((r: ItemConfig) => (
-          r.children && r.children.length > 0
-            ? this.subItem(r)
-            : this.menuItem(r)
-        ))}
-      </a-menu>
+      <a-layout-sider
+        collapsible
+        trigger={null}
+        v-model={this.$props.collapsed}
+        width={256}>
+        <div class='logo'>
+          <Svg name='boy' />
+          <h1><span>Virgo gold saint</span></h1>
+        </div>
+        <a-menu
+          onClick={this.menuClick}
+          defaultSelectedKeys={[this.$route.path]}
+          openKeys={this.openkeys}
+          mode='inline'
+          theme='dark'
+          style='padding:16px 0' >
+          {this.routerMaps.map((r: ItemConfig) => (
+            r.children && r.children.length > 0
+              ? this.subItem(r)
+              : this.menuItem(r)
+          ))}
+        </a-menu>
+      </a-layout-sider>
+
     );
   }
 }

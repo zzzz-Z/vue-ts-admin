@@ -1,8 +1,7 @@
+import './style.less';
 import { Component, Vue, Provide } from 'vue-property-decorator';
 import Siderbar from './siderbar';
 import Header from './header';
-import './style.less';
-import { Logo } from './logo';
 
 @Component({})
 export default class Layout extends Vue {
@@ -15,29 +14,26 @@ export default class Layout extends Vue {
     this.showView = false;
     this.$nextTick(() => this.showView = true);
   }
+  toggleCollapsed() {
+    this.collapsed = !this.collapsed;
+  }
+
+  get Content() {
+    const view = this.$route.meta.keepalive
+      ? (<keep-alive>  <router-view />  </keep-alive>)
+      : <router-view />;
+    console.log(view);
+    return this.showView && <a-layout-content>{view}</a-layout-content>;
+  }
 
   render() {
-    const { collapsed } = this;
-    const headerStyle = collapsed ? 'header-fixed fold' : 'header-fixed unfold';
+    const { collapsed, toggleCollapsed, Content } = this;
     return (
       <a-layout id='layout' >
-        <a-layout-sider
-          collapsible
-          trigger={null}
-          v-model={collapsed}
-          width={256}>
-          <Logo />
-          <Siderbar collapsed={collapsed} />
-        </a-layout-sider>
+        <Siderbar collapsed={collapsed} />
         <a-layout>
-          <a-layout-header class={headerStyle}>
-            <Header
-              collapsed={collapsed}
-              change={() => this.collapsed = !this.collapsed} />
-          </a-layout-header>
-          <a-layout-content>
-            {this.showView && <router-view />}
-          </a-layout-content>
+          <Header collapsed={collapsed} change={toggleCollapsed} />
+          {Content}
           <a-layout-footer class='footer'>
             Copyright <a-icon type='copyright' />   2019 地下空间技术部出品
           </a-layout-footer>

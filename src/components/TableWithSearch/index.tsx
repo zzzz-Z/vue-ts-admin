@@ -79,9 +79,7 @@ export class TableWithSearch extends VC<ITableProps> {
   /** 重置列表数据 & 搜索条件 */
   reload(form: FormUtils) {
     form.resetFields();
-    this.getData().then((r) => {
-      this.currentPage = 1;
-    });
+    this.getData().then((r) => { this.currentPage = 1; });
   }
   /** 切换查询项展开收起 */
   toggleForm() {

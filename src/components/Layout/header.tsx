@@ -15,6 +15,11 @@ export default class Header extends VC<Props> {
   @Prop() collapsed!: boolean;
   @Prop() change!: () => any;
 
+  get headerStyle() {
+    const { collapsed } = this;
+    const headerStyle = collapsed ? 'header-fixed fold' : 'header-fixed unfold';
+    return headerStyle;
+  }
   get ChangePassWord() {
     return (
       <span>
@@ -37,7 +42,7 @@ export default class Header extends VC<Props> {
 
   render() {
     return (
-      <div>
+      <a-layout-header class={this.headerStyle}>
         <a-icon
           class='trigger'
           type={this.collapsed ? 'menu-unfold' : 'menu-fold'}
@@ -62,7 +67,8 @@ export default class Header extends VC<Props> {
             </a-menu>
           </a-dropdown>
         </div>
-      </div>
+      </a-layout-header>
+
     );
   }
 }
