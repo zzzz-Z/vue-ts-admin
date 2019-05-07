@@ -14,10 +14,10 @@ export interface ITableData {
 }
 
 export interface ITableProps {
-  columns: ((t: TableWithSearch) => Column[]) | Column[];
+  columns: ((t: ListPage) => Column[]) | Column[];
   algin?: string;
   searchItems?: IFormItem[];
-  actions?: (t: TableWithSearch) => JSX.Element[];
+  actions?: (t: ListPage) => JSX.Element[];
   customRow?: (...arg: any) => ({});
   tableProps?: Omit<Table, 'columns' | 'customRow' | 'dataSource'>;
   fetch(arg: {}): Promise<ITableData>;
@@ -25,13 +25,13 @@ export interface ITableProps {
 
 
 @Component({})
-export class TableWithSearch extends VC<ITableProps> {
+export class ListPage extends VC<ITableProps> {
 
-  @Prop() columns!: ((t: TableWithSearch) => Column[]) | Column[];
+  @Prop() columns!: ((t: ListPage) => Column[]) | Column[];
   @Prop() fetch!: (arg: {}) => Promise<ITableData>;
   @Prop() query?: (params: {}) => Promise<[]>;
   @Prop() searchItems?: any[];
-  @Prop() actions?: (t: TableWithSearch) => JSX.Element[];
+  @Prop() actions?: (t: ListPage) => JSX.Element[];
   @Prop() tableProps?: any;
   @Prop() customRow?: (...arg: any) => ({});
 

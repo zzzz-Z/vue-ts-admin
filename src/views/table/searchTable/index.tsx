@@ -1,7 +1,7 @@
 import { VC } from '@/VC-vue';
 import { Component } from 'vue-property-decorator';
 import { ModalGenerator } from '@/components/Modal';
-import { TableWithSearch } from '@/components/TableWithSearch';
+import { ListPage } from '@/components/ListPage';
 import { getList } from '@/services/list';
 import { BaseLayout, Title } from '@/components/Container';
 
@@ -12,7 +12,7 @@ export default class SearchTable extends VC {
     return (
       <BaseLayout breadcrumb>
         <Title title='复杂列表' />
-        <TableWithSearch
+        <ListPage
           fetch={getList}
           actions={this.actions}
           searchItems={[{ label: '搜索1', field: 's1', }, { label: '搜索2', field: 's2' }, { label: '搜索3', field: 's3' }]}
@@ -42,7 +42,7 @@ export default class SearchTable extends VC {
   }
 
   /** 操作按钮数组VNode  */
-  actions(v: TableWithSearch) {
+  actions(v: ListPage) {
     return [
       <ModalGenerator
         title='新建'

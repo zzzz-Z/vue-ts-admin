@@ -1,12 +1,12 @@
-#loading-init {
+#Apploading {
   position: relative;
   width: 2.5em;
   height: 2.5em;
   transform: rotate(165deg);
 }
 
-#loading-init:before,
-#loading-init:after {
+#Apploading:before,
+#Apploading:after {
   content: '';
   position: absolute;
   top: 50%;
@@ -18,11 +18,11 @@
   transform: translate(-50%, -50%);
 }
 
-#loading-init:before {
+#Apploading:before {
   animation: before 2s infinite;
 }
 
-#loading-init:after {
+#Apploading:after {
   animation: after 2s infinite;
 }
 
@@ -73,7 +73,7 @@ body {
   height: 100%;
 }
 
-#loading-init {
+#Apploading {
   position: absolute;
   top: calc(50% - 1.25em);
   left: calc(50% - 1.25em);

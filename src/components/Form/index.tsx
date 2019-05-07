@@ -36,7 +36,9 @@ class Iform extends VC<IFormProps> {
       typeof rules === 'function' && (rules = rules(form));
 
       if (field) {
-        initialValues && Object.keys(initialValues).includes(field) && (initialValue = initialValues[field]);
+        initialValues &&
+        Object.keys(initialValues).includes(field) &&
+        (initialValue = initialValues[field]);
         element = form.getFieldDecorator(field, { rules, initialValue })(element);
       }
 

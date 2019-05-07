@@ -47,7 +47,7 @@ export default class Login extends Vue {
           <a-form  class='login-form'  >
             <a-form-item  {...{ props: this.formItemLayout }} >
               {this.form.getFieldDecorator('username', {})(
-                <a-input placeholder='请输入用户名' prefix={<a-icon type='user' />} />
+                <a-input v-focus placeholder='请输入用户名' prefix={<a-icon type='user' />} />
               )}
             </a-form-item>
             <a-form-item {...{ props: this.formItemLayout }} >

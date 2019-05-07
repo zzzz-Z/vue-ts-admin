@@ -2,7 +2,7 @@ import '../style.less';
 import { VC, Component } from '@/VC-vue';
 import { ModalGenerator } from '@/components/Modal';
 import { ResourceStore } from './store';
-import { TableWithSearch } from '@/components/TableWithSearch';
+import { ListPage } from '@/components/ListPage';
 import { getList } from '@/services/list';
 @Component({})
 export default class RList extends VC {
@@ -34,7 +34,7 @@ export default class RList extends VC {
   render() {
     return (
       <a-col span={18}>
-        <TableWithSearch
+        <ListPage
           fetch={getList}
           tableProps={{ tooptip: 10 }}
           customRow={this.customRow}
@@ -65,7 +65,7 @@ export default class RList extends VC {
     };
   }
 
-  columns(_t: TableWithSearch) {
+  columns(_t: ListPage) {
     return [{
       title: '角色',
       dataIndex: 'name',

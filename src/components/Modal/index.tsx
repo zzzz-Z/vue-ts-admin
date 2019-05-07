@@ -18,7 +18,7 @@ interface Props {
 
 export type ModalGeneratorProps = Props & IFormProps & IModal;
 
-export const ModalGenerator = ({ data, props }: FC<ModalGeneratorProps>) => {
+export const ModalGenerator = ({ data, props = {} }: FC<ModalGeneratorProps>) => {
 
   @Component({})
   class ModalGenerator extends VC {
@@ -28,7 +28,7 @@ export const ModalGenerator = ({ data, props }: FC<ModalGeneratorProps>) => {
     form!: FormUtils;
 
     render() {
-      const { tooltip, btn, content, footer } = props!;
+      const { tooltip, btn, content, footer } = props;
 
       const modalProps = {
         props: {
@@ -61,8 +61,7 @@ export const ModalGenerator = ({ data, props }: FC<ModalGeneratorProps>) => {
 
     submit() {
       const { form, cancel } = this;
-      const { initialValues, fetch } = props!;
-      console.log(props);
+      const { initialValues, fetch } = props;
       !form ? fetch!({ cancel }) : form.validateFields((err, params) => {
         if (!err) {
           // 合并传进表单的初始值(若存在)与修改后的值
@@ -80,9 +79,7 @@ export const ModalGenerator = ({ data, props }: FC<ModalGeneratorProps>) => {
 
     /** 保存form */
     save(formRef) {
-      if (formRef) {
-        this.form = formRef.form;
-      }
+      this.form = formRef ? formRef.form : null;
     }
 
     /** 打开弹窗 */

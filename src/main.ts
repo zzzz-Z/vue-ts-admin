@@ -35,10 +35,7 @@ new Vue({
   el: '#App',
   router,
   store,
-  render: (h) => h(App),
-  mounted() {
-    const loading = document.getElementById('Apploading');
-    document.body.removeChild(loading!);
-  },
+  render: (h) => h(App)
 });
+
 

@@ -7,7 +7,7 @@ declare global {
   /** From A, omit a set of properties whose keys are in the union B */
   type Omit<A, B extends keyof A> = Pick<A, { [K in keyof A]: Exclude<K, B> }[keyof A]>;
 
-  type FC<S= {}> = Fct<S> & S;
+  type FC<S = {}> = Fct<S> & S;
   namespace JSX {
 
     interface Element extends VNode { }
