@@ -53,3 +53,41 @@ function warning(obj: any, key: string) {
     );
   }
 }
+
+import Vue, { VNode, CreateElement } from 'vue'
+
+type options<Props> = {
+  props?: any,
+  inheritAttrs?: boolean,
+  setup: (
+    this: Vue & { $props: Props, $attrs: Props },
+    state: typeof Vue.observable
+  ) => (h:CreateElement) => VNode | object | undefined
+}
+
+let vm: any = null
+
+export function useCreate(fn: () => void) {
+  vm.$options.created = [fn]
+}
+
+export function useMounted(fn: () => void) {
+  vm.$options.mounted = [fn.bind(null, vm.$refs)]
+}
+
+
+export function createVc<props>(options: options<props>): (props: props) => VNode {
+
+  return {
+    ...options,
+    beforeCreate() {
+      if (!options.props) {
+        options.inheritAttrs = false
+      }
+      vm = this
+      this.$options.render = options.setup.call(this, Vue.observable)
+      vm = null
+    }
+  } as any
+}
+
