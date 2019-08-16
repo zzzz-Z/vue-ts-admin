@@ -54,40 +54,62 @@ function warning(obj: any, key: string) {
   }
 }
 
-import Vue, { VNode, CreateElement } from 'vue'
+import Vue, { VNode, CreateElement } from 'vue';
+let vm: any = null;
+let _uid: number = 0;
 
-type options<Props> = {
-  props?: any,
-  inheritAttrs?: boolean,
-  setup: (
-    this: Vue & { $props: Props, $attrs: Props },
-    state: typeof Vue.observable
-  ) => (h:CreateElement) => VNode | object | undefined
+export const state = Vue.observable;
+export const onCreated = (fn: () => void) => registerHooks('created', fn);
+export const onMounted = (fn: (refs: any) => void) => registerHooks('created', fn.bind(null, vm.$refs));
+
+interface Api {
+  computed: typeof computed;
+  state: typeof Vue.observable ;
+  onCreated: typeof onCreated;
+  onMounted: typeof onMounted;
 }
 
-let vm: any = null
+type CurrentVm<T> = Vue & Readonly<T> & { $props: Readonly<T>, $attrs: Readonly<T> };
 
-export function useCreate(fn: () => void) {
-  vm.$options.created = [fn]
+interface Options<Props> {
+  watch?: any;
+  computed?: any;
+  props?: string[] | object;
+  inheritAttrs?: boolean;
+  setup: (this: CurrentVm<Props>, api: Api) => (h: CreateElement) => VNode | object | undefined;
 }
 
-export function useMounted(fn: () => void) {
-  vm.$options.mounted = [fn.bind(null, vm.$refs)]
-}
+type Tsc<P = {}, E = {}> = (props: P & Partial<E>) => VNode;
 
-
-export function createVc<props>(options: options<props>): (props: props) => VNode {
-
+export function createVc<Props, Event>(options: Options<Props>)
+  : Tsc<Props, Event> {
   return {
     ...options,
     beforeCreate() {
-      if (!options.props) {
-        options.inheritAttrs = false
-      }
-      vm = this
-      this.$options.render = options.setup.call(this, Vue.observable)
-      vm = null
+      vm = this;
+      options.inheritAttrs = !!options.props;
+      this.$options.render = options.setup.call(this, {
+        state,
+        onCreated,
+        onMounted,
+        computed
+      });
+      vm = null;
+      _uid = 0;
     }
-  } as any
+  } as any;
 }
 
+function registerHooks(name: string, fn: () => void) {
+  vm.$options[name] = vm.$options[name] || [];
+  vm.$options[name].push(fn);
+}
+
+function computed<O>(options: O): O {
+  const field = '__' + _uid;
+  if (field in vm) {
+    throw new Error(field + '已存在！');
+  }
+  vm.$options.computed = options;
+  return vm;
+}
