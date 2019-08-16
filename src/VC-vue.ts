@@ -55,49 +55,35 @@ function warning(obj: any, key: string) {
 }
 
 import Vue, { VNode, CreateElement } from 'vue';
+
 let vm: any = null;
-let _uid: number = 0;
 
-export const state = Vue.observable;
-export const onCreated = (fn: () => void) => registerHooks('created', fn);
-export const onMounted = (fn: (refs: any) => void) => registerHooks('created', fn.bind(null, vm.$refs));
-
+type ComputedOptions = { [key: string]: (...args: any) => any }
+type Computed = typeof computed
+type State = typeof Vue.observable
+type This<T> = Vue & Readonly<T> & { $props: Readonly<T>, $attrs: Readonly<T> };
+type TsComponent<P = {}, E = {}> = (props: P & Partial<E>) => VNode;
 interface Api {
-  computed: typeof computed;
-  state: typeof Vue.observable ;
+  watch(o: object): void;
+  state: State;
+  computed: Computed;
   onCreated: typeof onCreated;
   onMounted: typeof onMounted;
 }
 
-type CurrentVm<T> = Vue & Readonly<T> & { $props: Readonly<T>, $attrs: Readonly<T> };
-
-interface Options<Props> {
-  watch?: any;
+type componentOptions<P> = {
   computed?: any;
   props?: string[] | object;
   inheritAttrs?: boolean;
-  setup: (this: CurrentVm<Props>, api: Api) => (h: CreateElement) => VNode | object | undefined;
+  setup: (this: This<P>, api: Api) => (h: CreateElement) => VNode
+} | ((api: Api & { vm: This<P> }) => (h: CreateElement) => VNode)
+
+function computed<O extends ComputedOptions>(options: O) {
+  vm.$options.computed = options
+  return vm as { [key in keyof O]: Readonly<ReturnType<O[key]>> };
 }
-
-type Tsc<P = {}, E = {}> = (props: P & Partial<E>) => VNode;
-
-export function createVc<Props, Event>(options: Options<Props>)
-  : Tsc<Props, Event> {
-  return {
-    ...options,
-    beforeCreate() {
-      vm = this;
-      options.inheritAttrs = !!options.props;
-      this.$options.render = options.setup.call(this, {
-        state,
-        onCreated,
-        onMounted,
-        computed
-      });
-      vm = null;
-      _uid = 0;
-    }
-  } as any;
+function watch(options: object) {
+  vm.$options.watch = options
 }
 
 function registerHooks(name: string, fn: () => void) {
@@ -105,11 +91,31 @@ function registerHooks(name: string, fn: () => void) {
   vm.$options[name].push(fn);
 }
 
-function computed<O>(options: O): O {
-  const field = '__' + _uid;
-  if (field in vm) {
-    throw new Error(field + '已存在！');
+export const state = Vue.observable;
+export const onCreated = (fn: () => void) => registerHooks('created', fn);
+export const onMounted = (fn: (refs: any) => void) => registerHooks('created', fn.bind(null, vm.$refs));
+
+export function createComponent<Props = {}, Event = {}>(options: componentOptions<Props>)
+  : TsComponent<Props, Event> {
+  const o = {
+    watch,
+    state,
+    onCreated,
+    onMounted,
+    computed
   }
-  vm.$options.computed = options;
-  return vm;
+  return {
+    ...options,
+    beforeCreate() {
+      vm = this;
+      if (typeof options === 'function') {
+        this.$options.inheritAttrs = false
+        this.$options.render = options({ vm: this, ...o });
+      } else {
+        this.$options.inheritAttrs = !!options.props;
+        this.$options.render = options.setup.call(this, o);
+      }
+      vm = null;
+    }
+  } as any;
 }
